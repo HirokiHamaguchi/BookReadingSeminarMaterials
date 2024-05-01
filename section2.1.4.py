@@ -36,8 +36,8 @@ def main():
         labelbottom=False,
     )
     secax = ax.secondary_xaxis("top")
-    secax.set_xlabel("$k$", fontsize=20)
-    plt.ylabel("$i$", fontsize=20)
+    secax.set_xlabel("$k$-th iteration", fontsize=20)
+    plt.ylabel("index $i$", fontsize=20)
     plt.title(
         "Possible upper bound for $x_k \in \mathbb{R}^{k,\infty}$",
         fontsize=20,

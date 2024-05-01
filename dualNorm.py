@@ -16,6 +16,16 @@ ax.contour(X, Y, Z, levels=[1], colors="k")
 
 # g
 ax.arrow(0, 0, 1.5, 0.75, head_width=0.1, head_length=0.1, fc="r", ec="r")
+ax.annotate(
+    "$g$",
+    (1.5, 0.75),
+    textcoords="offset points",
+    xytext=(10, 10),
+    ha="center",
+    fontsize=20,
+    color="r",
+)
+
 
 # maximize 2x+y subject to x^2-0.5xy+y^2=1
 ax.arrow(
@@ -27,6 +37,15 @@ ax.arrow(
     head_length=0.1,
     fc="g",
     ec="g",
+)
+ax.annotate(
+    "$x$",
+    (0.9 * 0.948683, 0.9 * 0.632456),
+    textcoords="offset points",
+    xytext=(10, 10),
+    ha="center",
+    fontsize=20,
+    color="g",
 )
 
 ax.set_title(

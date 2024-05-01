@@ -94,8 +94,8 @@ def main():
         labelbottom=False,
     )
     secax = ax.secondary_xaxis("top")
-    secax.set_xlabel("$k$", fontsize=20)
-    plt.ylabel("$i$", fontsize=20)
+    secax.set_xlabel("$k$-th iteration", fontsize=20)
+    plt.ylabel("index $i$", fontsize=20)
     plt.title(
         "Best solutions $\\overline{x}_k$ for $f_k(x)$ with $n=12$\n"
         + "$f_k(x) = \\frac{L}{4} \\left( \\frac{1}{2} \\left[ x_1^2 + \\Sigma_{i=1}^{k-1}(x_i - x_{i+1})^2 + x_k^2 \\right] - x_1 \\right)$",

@@ -48,6 +48,24 @@ plt.plot(
 )
 plt.plot(x, fx, "ro")
 plt.plot(y, fy, "ro")
+ax.annotate(
+    "$x$",
+    (x, fx),
+    textcoords="offset points",
+    xytext=(0, 10),
+    ha="center",
+    fontsize=20,
+    color="r",
+)
+ax.annotate(
+    "$y$",
+    (y, fy),
+    textcoords="offset points",
+    xytext=(0, 10),
+    ha="center",
+    fontsize=20,
+    color="r",
+)
 
 plt.legend(fontsize=10)
 plt.title("$f(x)=\\frac{1}{20}(x^4+12x^2), L=4$", fontsize=30)
