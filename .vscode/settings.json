@@ -14,11 +14,21 @@
         "mgrid",
         "mplot",
         "nabla",
+        "Nonsmooth",
         "textcoords",
         "toolkits",
         "xlim",
         "xytext",
         "ylim",
         "zorder"
-    ]
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "ptex2pdf*2",
+            "tools": [
+                "ptex2pdf",
+                "ptex2pdf",
+            ]
+        }
+    ],
 }
