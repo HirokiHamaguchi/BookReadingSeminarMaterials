@@ -139,27 +139,13 @@
 
         \begin{figure}[htbp]
             \centering
-            \begin{minipage}{0.2\columnwidth}
-                \includegraphics[width=\columnwidth]{../BookReadingSeminarQR.png}
-            \end{minipage}
-            \begin{minipage}{0.2\columnwidth}
-                \includegraphics[width=\columnwidth]{../BookQR.png}
-            \end{minipage}
+            \includegraphics[width=0.2\columnwidth]{../BookQR.png}
         \end{figure}
 
     \end{center}
 \end{abstract}
 
 \section*{p.61 Def 2.1.1 / p.139-142 Preliminary}
-
-\begin{gather*}
-    \text{$Q$ is convex} \iff \alpha x + (1 - \alpha) y \in Q\\
-    ( \forall x, y \in Q, \; \forall \alpha \in [0, 1])\\[1em]
-    \mathrm{dom} f = \{ x \in \bbR^n | \abs{f(x)} < \infty \}\\[1em]
-    \text{$f$ is convex} \iff f(\alpha x + (1 - \alpha) y) \leq \alpha f(x) + (1 - \alpha) f(y)\\
-    ( \forall x, y \in \mathrm{dom} f : \text{convex}, \; \forall \alpha \in [0, 1])\\[1em]
-    \text{$f$ is concave} \iff \text{$-f$ is convex}
-\end{gather*}
 
 \begin{figure}[htbp]
     \centering
@@ -368,25 +354,11 @@ subset of closed convex set.
 
 \subsection*{1}\label{lem:3.1.4.1}
 
-I think that Thm 3.1.4.1 is correct but quite confusing.
-Sometimes, the convex function is treated as a continuous function (\href{https://mathlandscape.com/convex-func}{example},\href{lem:3.1.4}{Lem 3.1.4}), but in this book, that is not the case.
+Sometimes, the convex function is treated as a continuous function (\href{https://mathlandscape.com/convex-func}{example}), but in this book, that is not the case.
 
 \IMG{convexIsContinuous.png}{0.8}
 
 This is because the definition is different.
-In this book, the following functions are convex.
-In particular, the function $f_1(x)$ is \textbf{not continuous} at $x=0$ but \textbf{lower semi-continuous} as Thm 3.1.4.1 asserts.
-
-\begin{gather*}
-    f_1(x) = \begin{dcases}
-        1      & (x \geq 0) \\
-        \infty & (x < 0)    \\
-    \end{dcases} \quad \qty(\text{e.g. } f\qty(\frac{-2+1}{2}) = \infty \leq \frac{f(-2)+f(1)}{2} = \infty)\\
-    f_2(x) = \begin{dcases}
-        1/x    & (x > 0)    \\
-        \infty & (x \leq 0) \\
-    \end{dcases} \quad \qty(\text{e.g. } f\qty(\frac{-2+1}{2}) = \infty \leq \frac{f(-2)+f(1)}{2} = \infty)
-\end{gather*}
 
 The lower semi-continuous by wikipedia:
 \IMG{lowerSemiContinuous.png}{0.5}
@@ -400,36 +372,17 @@ See \href{https://mathlandscape.com/limsup-liminf/}{here} for proof.
     \item The assertion above implies that if there are no convergent subsequences, then $\liminf_{k\to\infty} f(x_k) \in \{\pm\infty\}$.
 \end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \def\f(#1){(0.2*#1*#1 + 0.6*#1)} % Define the function f(x)
-
-        \draw[->] (-5,-1.5) -- (4.5,-1.5) node[right] {$x$};
-        \draw[->] (-5,-1.5) -- (-5,6) node[above] {$f(x)=t$};
-
-        \draw[domain=-4.5:3.5, smooth, thick] plot ({\x}, {\f(\x)});
-
-        \foreach \x/\label in {-3/x_1, +2.5/x_2, -2.083/x_3, +1.7361/x_4, -1.4467/x_5, +1.2056/x_6} {
-                \filldraw[red] (\x, {\f(\x)}) circle (3pt);
-            }
-
-        \filldraw[blue] (0, {\f(0)}) circle (5pt) node[below right] {$(x_i \to \overline{x}, f(\overline{x}))$};
-
-        % Draw arrows to indicate convergence
-        \foreach \x in {-3, 2.5, -2.083, 1.7361, -1.4467} {
-                \draw[->, thick, gray] (\x, {\f(\x)}) -- ({-\x/1.2}, {\f(-\x/1.2)});
-            }
-
-    \end{tikzpicture}
-\end{figure}
-
 \IMG{img0.png}{0.8}
 \IMG{img1.png}{0.8}
 \IMG{img2.png}{0.8}
 \IMG{img3.png}{0.8}
 \IMG{img4.png}{0.8}
 \IMG{img5.png}{0.8}
+
+\IMG{psi.png}{0.8}
+
+\IMG{why_interval_1.pdf}{0.8}
+\IMG{why_interval_2.png}{0.8}
 
 \subsection*{2}
 
@@ -506,11 +459,6 @@ whiteboard.
 \subsection*{6}
 
 Please see \href{def:3.1.2}{def 3.1.2}.
-
-\section*{Let's have a break!}
-
-5 or 10 minutes break.
-Please feel free to ask me any questions.
 
 \section*{p.147 Thm 3.1.5}
 
@@ -652,8 +600,5 @@ This is actually a convex function.
 \section*{p.153 Lem 3.1.4}\label{lem:3.1.4}
 
 Please compare with \href{lem:3.1.4.1}{lem 3.1.4.1}.
-
-visual proof \href{https://math.stackexchange.com/questions/258511/prove-that-every-convex-function-is-continuous}{link}:
-\IMG{stackExchange.png}{0.8}
 
 \end{document}
