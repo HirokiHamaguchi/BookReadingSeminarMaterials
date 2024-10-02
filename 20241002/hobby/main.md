@@ -19,6 +19,8 @@ https://link.springer.com/book/10.1007/978-3-319-91578-4
 
 ## 目次
 
+結論は、[まとめ](#まとめ)にあります。
+
 - [「凸関数は連続である」という言説の落とし穴](#凸関数は連続であるという言説の落とし穴)
   - [目次](#目次)
   - [用語の定義](#用語の定義)
@@ -36,6 +38,7 @@ https://link.springer.com/book/10.1007/978-3-319-91578-4
     - [2変数の場合、何故証明が回らないのか](#2変数の場合何故証明が回らないのか)
   - [「凸関数は連続である」が真となる十分条件](#凸関数は連続であるが真となる十分条件)
     - [「dom fが実数全域となる凸関数は連続である」の証明](#dom-fが実数全域となる凸関数は連続であるの証明)
+  - [まとめ](#まとめ)
   - [最後に](#最後に)
 
 ## 用語の定義
@@ -341,7 +344,7 @@ $$
 
 ## 開区間において凸関数は連続である
 
-本記事の最後に、開区間上で定義された凸関数は連続であることを示します。なお、この事はかなり簡単かつ初等的に示せますが、そのような証明は本節では省略します。。[別のサイト](https://mathlandscape.com/convex-func/#toc7)などを参照して下さい。
+続いて、開区間上で定義された凸関数は連続であることを示します。なお、この事はかなり簡単かつ初等的に示せますが、そのような証明は本節では省略します。[別のサイト](https://mathlandscape.com/convex-func/#toc7)などを参照して下さい。
 
 より正確に、本節では以下の命題を示します (教科書 Lemma 3.1.4):
 
@@ -413,7 +416,7 @@ $$
 
 ### 2変数の場合、何故証明が回らないのか
 
-続いて、上の証明が何故2変数以上の場合に回らないのか、という点について軽く考察します。
+補足として、上の証明が何故2変数以上の場合に回らないのか、という点について軽く考察します。
 
 閉凸関数だが連続ではない関数$\psi$について、$\mathrm{dom} ~ \psi = (\mathbb{R} \times \\{ \gamma > 0 \\}) \cup \\{ (0,0) \\}$でした。
 そして、下半連続であるが連続ではないことを示すのに用いた赤の点列をdomainがなす2次元平面上にプロットしたのが下図です。
@@ -483,11 +486,11 @@ $\mathrm{dom} ~ f = \mathbb{R}^n$である時、一般論として、$\beta > 0$
 仮定より、$\|\| x - \overline{x}  \|\| \leq 1$を満たす任意の$x \in \mathbb{R}^n$に対して、$\lvert f(x) - f(\overline{x}) \rvert < M$を満たす$M$が存在します。
 
 また、$\mathrm{dom} ~ f = \mathbb{R}^n$より、任意の実数$r>0$に対して、$\|\| \overline{x} - x \|\| = r$を満たす$x \in \mathrm{dom} ~ f$が存在します。
-この時、$y_1, y_2 \in \mathrm{dom} ~ f$を
+この時、$\overline{y}_1, \overline{y}_2 \in \mathrm{dom} ~ f$を
 $$
-y_1 := \overline{x} - \frac{\overline{x}-x}{r}, \quad y_2 := \overline{x} + \frac{\overline{x}-x}{r}
+\overline{y}_1 := \overline{x} - \frac{\overline{x}-x}{r}, \quad \overline{y}_2 := \overline{x} + \frac{\overline{x}-x}{r}
 $$
-と定義します。なお、$\|\| y_1 - \overline{x} \|\| = \|\| y_2 - \overline{x} \|\| = 1$より、$\lvert f(y_1) - f(\overline{x}) \rvert < M, \lvert f(y_2) - f(\overline{x}) \rvert < M$が成立します。
+と定義します。なお、$\|\| \overline{y}_1 - \overline{x} \|\| = \|\| \overline{y}_2 - \overline{x} \|\| = 1$より、$\lvert f(\overline{y}_1) - f(\overline{x}) \rvert < M, \lvert f(\overline{y}_2) - f(\overline{x}) \rvert < M$が成立します。
 
 ![why_interval_3.png](https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/905155/6ae3e6cf-326e-9876-b18e-f2c9bcbc53cb.png)
 
@@ -496,7 +499,7 @@ $$
 ```math
 \begin{align}
 -r \left(f\left( \overline{x} - \frac{\overline{x}-x}{r} \right) - f(\overline{x})\right) &\leq f(\overline{x}) - f(x) \leq r \left(f\left( \overline{x} + \frac{\overline{x}-x}{r} \right) - f(\overline{x})\right)\\
--r \left(f(y_1) - f(\overline{x})\right) &\leq f(\overline{x}) - f(x) \leq r \left(f(y_2) - f(\overline{x})\right)\\
+-r \left(f(\overline{y}_1) - f(\overline{x})\right) &\leq f(\overline{x}) - f(x) \leq r \left(f(\overline{y}_2) - f(\overline{x})\right)\\
 -r M &\leq f(\overline{x}) - f(x) \leq r M
 \end{align}
 ```
@@ -509,8 +512,22 @@ $r$は任意だったので、$r \to 0$とすれば、$f(x) \to f(\overline{x})$
 
 よって、$f$は連続であり、$\mathrm{dom} ~ f$が実数全域となる凸関数は連続であることが示されました。
 
+## まとめ
+
+- $\mathrm{dom} ~ f$が空集合
+  - 議論の対象外 ($-\infty$への恒等写像など)
+- $\mathrm{dom} ~ f$が$\mathbb{R}^n$全域でない ($f: \mathbb{R}^n \to \mathbb{R} \cup \\{ \pm\infty \\}$)
+  - **閉凸でない**
+    - $\mathrm{dom} ~ f$で下半連続ですらないこともあり、 (閉区間の端で不連続点を取る関数)
+    - $\mathrm{dom} ~ f$で連続であることもある ([improper convex functionの例](https://math.stackexchange.com/questions/1105842/improper-convex-function))
+  - **閉凸である**
+    - 1変数ならば、$\mathrm{dom} ~ f$で**連続** ($1/x,-\log x (x>0)$など)
+    - 多変数ならば、$\mathrm{dom} ~ f$で**下半連続** (本記事中の$\psi$は**連続ではない**例)
+- $\mathrm{dom} ~ f$が$\mathbb{R}^n$全域である ($f: \mathbb{R}^n \to \mathbb{R}$)
+  - **連続** ($ax+b,x^2,|x|,e^x$など)
+
 ## 最後に
 
 本記事は所属研究室の輪読準備の一環として書かれました。
 
-この記事の読者の皆様が、「落とし穴」に引っかかることなく凸関数の連続性を理解する為の、一助になれば幸いです。
+この記事が、「落とし穴」に引っかかることなく凸関数の連続性を理解する為の、一助になれば幸いです。
