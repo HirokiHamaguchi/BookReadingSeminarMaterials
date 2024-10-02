@@ -434,7 +434,7 @@ Therefore, $f$ is continuous, and it has been demonstrated that a convex functio
 ## Summary
 
 - When $\mathrm{dom}~f$ is the empty set:
-  - Not subject to discussion (e.g., identity mapping to $-\infty$).
+  - Not subject to discussion (e.g., constant value mapping to $-\infty$).
 - When $\mathrm{dom}~f$ is not the entire space $\mathbb{R}^n$ $(f: \mathbb{R}^n \to \mathbb{R} \cup \{\pm\infty\})$:
   - **Not closed convex**:
     - In some cases, $f$ is not even lower semicontinuous on $\mathrm{dom}~f$ (e.g., functions with discontinuities at the boundary of a closed interval).

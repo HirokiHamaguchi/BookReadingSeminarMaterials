@@ -515,7 +515,7 @@ $r$は任意だったので、$r \to 0$とすれば、$f(x) \to f(\overline{x})$
 ## まとめ
 
 - $\mathrm{dom} ~ f$が空集合
-  - 議論の対象外 ($-\infty$への恒等写像など)
+  - 議論の対象外 ($-\infty$への定値写像など)
 - $\mathrm{dom} ~ f$が$\mathbb{R}^n$全域でない ($f: \mathbb{R}^n \to \mathbb{R} \cup \\{ \pm\infty \\}$)
   - **閉凸でない**
     - $\mathrm{dom} ~ f$で下半連続ですらないこともあり、 (閉区間の端で不連続点を取る関数)
