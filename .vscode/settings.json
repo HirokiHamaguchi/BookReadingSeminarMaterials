@@ -33,4 +33,8 @@
             ]
         }
     ],
+    "latexlint.exceptions": [
+        "Primal-Dual",
+        "Piece-Wise"
+    ],
 }
