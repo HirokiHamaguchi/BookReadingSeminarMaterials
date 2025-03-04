@@ -1,5 +1,9 @@
 # memo
 
+## Chapter 5
+
+![GP](GP.png)
+
 ## 第6章: 目的関数の双対モデル (The Primal-Dual Model of an Objective Function)
 
 ### 概要

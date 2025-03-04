@@ -1,20 +1,19 @@
 import numpy as np
 
 
-# 通常のSoftmax関数（オーバーフローの危険あり）
+# softmax function
 def softmax_normal(x):
-    exp_x = np.exp(x)  # 直接指数関数を適用（オーバーフローの危険あり）
+    exp_x = np.exp(x)  
     return exp_x / np.sum(exp_x)
 
 
-# 数値安定化されたSoftmax関数
+# stable softmax function
 def softmax_stable(x):
-    m = np.max(x)  # 最大値を引いてオーバーフローを防止
+    m = np.max(x) 
     exp_x = np.exp(x - m)
     return exp_x / np.sum(exp_x)
 
 
-# テスト用データ（大きな値を含む）
 for x in [
     np.array([10, 11, 12]),
     np.array([100, 101, 102]),
@@ -22,16 +21,14 @@ for x in [
 ]:
     print(f"{x=}")
 
-    # 通常のSoftmaxを試す（オーバーフローが発生する可能性大）
     try:
         normal_result = softmax_normal(x)
     except OverflowError:
         normal_result = "OverflowError!"
 
-    # 数値安定化されたSoftmaxを試す
     stable_result = softmax_stable(x)
 
-    print(normal_result, stable_result)  # 結果表示
+    print(normal_result, stable_result)  
 
 
 '''
