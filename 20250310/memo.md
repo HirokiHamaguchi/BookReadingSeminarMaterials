@@ -2,50 +2,72 @@
 
 ## Chapter 5
 
+### ざっくりとした復習
+
+- 内点法で制約付きの最適化問題を解きたい
+- self-concordant barrier function を用いて、制約条件を扱いやすい形に変換する
+- self-concordant functionを実際に作ろう! ← 今回の話
+
+#### self-concordant barrier function
+
+![alt text](image-1.png)
+
+![alt text](image.png)
+
+power cone:
+$K_\alpha = \left \lbrace (x^{(1)}, x^{(2)}, z) \in \mathbb{R}_+^2 \times \mathbb{R} \mid (x^{(1)})^\alpha \cdot (x^{(2)})^{1-\alpha} \geq \lvert z \rvert \right \rbrace$
+
+$\xi(x) = (x^{(1)})^\alpha \cdot (x^{(2)})^{1-\alpha}$
+
+$F(x)=-\ln{x^{(1)}}-\ln{x^{(2)}}$
+
+$\Phi(y,z) = -\ln{(y^2-z^2)}$
+
+とした時に、
+
+$\Psi(x,z) = \Phi(\xi(x),z) + \beta^3 F(x)$ が  self-concordant barrierになると言っている。
+
 ![GP](GP.png)
 
-## 第6章: 目的関数の双対モデル (The Primal-Dual Model of an Objective Function)
+![barrier](barrier.png)
 
-### 概要
+## Chapter 6
+
+### abstract
 
 - 非スムーズ最適化問題はスムーズな問題よりも難しいが、多くの場合、関数の構造が明確である。
 - これを利用して、最適化手法を高速化し、双対問題の有用な情報を抽出できる。
 - 本章では、非微分可能な関数を滑らかな関数で近似し、高速勾配法 (Fast Gradient Methods) を適用する方法を紹介する。
 - 結果として、標準的なサブグラディエント法の反復回数の平方根に比例する反復回数で最適化が可能になる。
-- 半正定値最適化 (Semi-definite Optimization) の応用例を示し、条件付き勾配法 (Conditional Gradient Method) の性能分析も行う。
 
 ### 6.1 Smoothing for an Explicit Model of an Objective Function
 
 #### 6.1.1 Smooth Approximations of Non-differentiable Functions
 
-- サブグラディエント法では、最適化の反復回数は \(O(1/\epsilon^2)\) に比例する。
+- サブグラディエント法では、最適化の反復回数は $\mathcal{O}(1/\epsilon^2)$ に比例する。
 - しかし、ブラックボックスモデルではなく、関数の構造を活用すると、効率的な手法が構築可能。
-- フェンチェル共役 (Fenchel conjugate) を用いてスムージングを行い、関数を滑らかに近似する。
+- Fenchel conjugate を用いてスムージングを行い、関数を滑らかに近似する。
 - 平滑化後の関数はリプシッツ連続な勾配を持ち、高速勾配法を適用できる。
 
 #### 6.1.2 The Minimax Model of an Objective Function
 
 - 目的関数が明示的に「ミニマックス」構造を持つ場合、双対問題の形で表現できる。
-- 例えば、以下のような形で記述される:
-  \[
-  f(x) = f̂ (x) + \max_{u} \{ \langle Ax, u \rangle - φ̂(u) \}
-  \]
 - これを利用し、プライマル・デュアルの両方の解を同時に求める。
 
 prox-function: $f(y) \geq f(x) + \langle \nabla f(x), y - x \rangle + \frac{1}{2} \| y - x \|_2^2$
 
 これを使って、Fenchel 双対を平滑化する。
 
-#### **6.1.3 複合最適化のための高速勾配法 (The Fast Gradient Method for Composite Minimization)**
+#### **6.1.3 The Fast Gradient Method for Composite Minimization**
 
 - 一般的な凸関数 \( f(x) \) に対し、高速勾配法を適用することで収束速度を向上。
 - 主要なアルゴリズム:
   - 三角形類似法 (Method of Similar Triangles)
   - 関数の評価と勾配計算を交互に行い、反復回数を削減。
-  
-? 基本的に加速勾配法にアイデアは近い?
-! 特に重要なのがPrimal-Dualの管理
-% リスタートとかすれば実用上は速くなりそう
+
+- 加速勾配法的な感じでもあるし、近似をどんどん作っていくという意味ではBFGS的でもある
+- 特に重要なのがPrimal-Dualの管理
+- リスタートとかすれば実用上は速くなりそう
 
 大体この辺の話のらしい:
 Nesterov, Y. (2005). Smooth minimization of non-smooth functions. Mathematical programming, 103, 127-152.
@@ -178,3 +200,5 @@ https://data-analytics.fun/2021/04/06/understanding-gumbel-max-trick/
 
 - 目的関数の値の間に「過剰ギャップ (excessive gap)」を導入することで、収束解析を改善。
 - 収束保証のある新しい勾配更新手法を提案。
+
+![6.2.3](6.2.3.png)
