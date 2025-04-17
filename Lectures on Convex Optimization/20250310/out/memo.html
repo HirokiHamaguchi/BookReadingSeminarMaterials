@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>memo</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="memo">memo</h1>
+<h2 id="chapter-5">Chapter 5</h2>
+<h3 id="ざっくりとした復習">ざっくりとした復習</h3>
+<ul>
+<li>内点法で制約付きの最適化問題を解きたい</li>
+<li>self-concordant barrier function を用いて、制約条件を扱いやすい形に変換する</li>
+<li>self-concordant functionを実際に作ろう! ← 今回の話</li>
+</ul>
+<h4 id="self-concordant-barrier-function">self-concordant barrier function</h4>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\image-1.png" alt="alt text"></p>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\image.png" alt="alt text"></p>
+<p>power cone:
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>K</mi><mi>α</mi></msub><mo>=</mo><mrow><mo fence="true">{</mo><mo stretchy="false">(</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo separator="true">,</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo></mrow></msup><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo>∈</mo><msubsup><mi mathvariant="double-struck">R</mi><mo>+</mo><mn>2</mn></msubsup><mo>×</mo><mi mathvariant="double-struck">R</mi><mo>∣</mo><mo stretchy="false">(</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><msup><mo stretchy="false">)</mo><mi>α</mi></msup><mo>⋅</mo><mo stretchy="false">(</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo></mrow></msup><msup><mo stretchy="false">)</mo><mrow><mn>1</mn><mo>−</mo><mi>α</mi></mrow></msup><mo>≥</mo><mo stretchy="false">∣</mo><mi>z</mi><mo stretchy="false">∣</mo><mo fence="true">}</mo></mrow></mrow><annotation encoding="application/x-tex">K_\alpha = \left \lbrace (x^{(1)}, x^{(2)}, z) \in \mathbb{R}_+^2 \times \mathbb{R} \mid (x^{(1)})^\alpha \cdot (x^{(2)})^{1-\alpha} \geq \lvert z \rvert \right \rbrace</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.238em;vertical-align:-0.35em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">{</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">+</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathbb">R</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mopen">∣</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">∣</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">}</span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ξ</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">(</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><msup><mo stretchy="false">)</mo><mi>α</mi></msup><mo>⋅</mo><mo stretchy="false">(</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo></mrow></msup><msup><mo stretchy="false">)</mo><mrow><mn>1</mn><mo>−</mo><mi>α</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\xi(x) = (x^{(1)})^\alpha \cdot (x^{(2)})^{1-\alpha}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.04601em;">ξ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6644em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.138em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><mi>ln</mi><mo>⁡</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>1</mn><mo stretchy="false">)</mo></mrow></msup><mo>−</mo><mi>ln</mi><mo>⁡</mo><msup><mi>x</mi><mrow><mo stretchy="false">(</mo><mn>2</mn><mo stretchy="false">)</mo></mrow></msup></mrow><annotation encoding="application/x-tex">F(x)=-\ln{x^{(1)}}-\ln{x^{(2)}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.9713em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">1</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.888em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mtight">2</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span></span></p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Φ</mi><mo stretchy="false">(</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo>=</mo><mo>−</mo><mi>ln</mi><mo>⁡</mo><mrow><mo stretchy="false">(</mo><msup><mi>y</mi><mn>2</mn></msup><mo>−</mo><msup><mi>z</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow></mrow><annotation encoding="application/x-tex">\Phi(y,z) = -\ln{(y^2-z^2)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Φ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">ln</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></p>
+<p>とした時に、</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ψ</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo>=</mo><mi mathvariant="normal">Φ</mi><mo stretchy="false">(</mo><mi>ξ</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>z</mi><mo stretchy="false">)</mo><mo>+</mo><msup><mi>β</mi><mn>3</mn></msup><mi>F</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\Psi(x,z) = \Phi(\xi(x),z) + \beta^3 F(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Ψ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Φ</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.04601em;">ξ</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05278em;">β</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span></span></span></span> が  self-concordant barrierになると言っている。</p>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\GP.png" alt="GP"></p>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\barrier.png" alt="barrier"></p>
+<h2 id="chapter-6">Chapter 6</h2>
+<h3 id="abstract">abstract</h3>
+<ul>
+<li>非スムーズ最適化問題はスムーズな問題よりも難しいが、多くの場合、関数の構造が明確である。</li>
+<li>これを利用して、最適化手法を高速化し、双対問題の有用な情報を抽出できる。</li>
+<li>本章では、非微分可能な関数を滑らかな関数で近似し、高速勾配法 (Fast Gradient Methods) を適用する方法を紹介する。</li>
+<li>結果として、標準的なサブグラディエント法の反復回数の平方根に比例する反復回数で最適化が可能になる。</li>
+</ul>
+<h3 id="61-smoothing-for-an-explicit-model-of-an-objective-function">6.1 Smoothing for an Explicit Model of an Objective Function</h3>
+<h4 id="611-smooth-approximations-of-non-differentiable-functions">6.1.1 Smooth Approximations of Non-differentiable Functions</h4>
+<ul>
+<li>サブグラディエント法では、最適化の反復回数は <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">O</mi><mo stretchy="false">(</mo><mn>1</mn><mi mathvariant="normal">/</mi><msup><mi>ϵ</mi><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{O}(1/\epsilon^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1/</span><span class="mord"><span class="mord mathnormal">ϵ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> に比例する。</li>
+<li>しかし、ブラックボックスモデルではなく、関数の構造を活用すると、効率的な手法が構築可能。</li>
+<li>Fenchel conjugate を用いてスムージングを行い、関数を滑らかに近似する。</li>
+<li>平滑化後の関数はリプシッツ連続な勾配を持ち、高速勾配法を適用できる。</li>
+</ul>
+<h4 id="612-the-minimax-model-of-an-objective-function">6.1.2 The Minimax Model of an Objective Function</h4>
+<ul>
+<li>目的関数が明示的に「ミニマックス」構造を持つ場合、双対問題の形で表現できる。</li>
+<li>これを利用し、プライマル・デュアルの両方の解を同時に求める。</li>
+</ul>
+<p>prox-function: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≥</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>+</mo><mo stretchy="false">⟨</mo><mi mathvariant="normal">∇</mi><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>y</mi><mo>−</mo><mi>x</mi><mo stretchy="false">⟩</mo><mo>+</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mi mathvariant="normal">∥</mi><mi>y</mi><mo>−</mo><mi>x</mi><msubsup><mi mathvariant="normal">∥</mi><mn>2</mn><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">f(y) \geq f(x) + \langle \nabla f(x), y - x \rangle + \frac{1}{2} \| y - x \|_2^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⟨</span><span class="mord">∇</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mclose">⟩</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord">∥</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal">x</span><span class="mord"><span class="mord">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-2.4519em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2481em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>これを使って、Fenchel 双対を平滑化する。</p>
+<h4 id="613-the-fast-gradient-method-for-composite-minimization"><strong>6.1.3 The Fast Gradient Method for Composite Minimization</strong></h4>
+<ul>
+<li>
+<p>一般的な凸関数 ( f(x) ) に対し、高速勾配法を適用することで収束速度を向上。</p>
+</li>
+<li>
+<p>主要なアルゴリズム:</p>
+<ul>
+<li>三角形類似法 (Method of Similar Triangles)</li>
+<li>関数の評価と勾配計算を交互に行い、反復回数を削減。</li>
+</ul>
+</li>
+<li>
+<p>加速勾配法的な感じでもあるし、近似をどんどん作っていくという意味ではBFGS的でもある</p>
+</li>
+<li>
+<p>特に重要なのがPrimal-Dualの管理</p>
+</li>
+<li>
+<p>リスタートとかすれば実用上は速くなりそう</p>
+</li>
+</ul>
+<p>大体この辺の話のらしい:
+Nesterov, Y. (2005). Smooth minimization of non-smooth functions. Mathematical programming, 103, 127-152.</p>
+<pre><code class="language-Python"><span class="hljs-comment"># 定義: 最小化したい関数とその勾配</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">f</span>(<span class="hljs-params">x</span>):
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * (x - <span class="hljs-number">3</span>) ** <span class="hljs-number">2</span> + <span class="hljs-number">1</span>
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">grad_f</span>(<span class="hljs-params">x</span>):
+    <span class="hljs-keyword">return</span> x - <span class="hljs-number">3</span>
+
+
+<span class="hljs-comment"># パラメータ設定</span>
+L = <span class="hljs-number">1</span>  <span class="hljs-comment"># リプシッツ定数（今回は簡単化のため 1 とする）</span>
+max_iter = <span class="hljs-number">5</span>  <span class="hljs-comment"># 繰り返し回数</span>
+Q = [-<span class="hljs-number">5</span>, <span class="hljs-number">5</span>]  <span class="hljs-comment"># 制約領域</span>
+
+
+<span class="hljs-comment"># プロックス関数（今回は単純化のため二乗距離）</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">d</span>(<span class="hljs-params">x</span>):
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0.5</span> * x**<span class="hljs-number">2</span>
+</code></pre>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\MST.png" alt="MST"></p>
+<h4 id="614-応用例-application-examples"><strong>6.1.4 応用例 (Application Examples)</strong></h4>
+<ul>
+<li><strong>行列ゲームのミニマックス戦略</strong>
+<ul>
+<li>行列ゲームにおける最適戦略を見つけるため、エントロピー正則化を適用。</li>
+</ul>
+</li>
+<li><strong>連続配置問題 (The Continuous Location Problem)</strong>
+<ul>
+<li>各地点の人口密度を考慮し、社会的距離を最小化する施設の配置問題。</li>
+</ul>
+</li>
+<li><strong>線形作用素を持つ変分不等式 (Variational Inequalities with a Linear Operator)</strong>
+<ul>
+<li>単調線形作用素を用いた変分不等式問題の最適解を求める手法。</li>
+</ul>
+</li>
+<li><strong>区分線形最適化 (Piece-Wise Linear Optimization)</strong>
+<ul>
+<li>最大絶対値または絶対値の合計を最適化する問題の高速解法。</li>
+</ul>
+</li>
+</ul>
+<h4 id="615-実装上の課題-implementation-issues"><strong>6.1.5 実装上の課題 (Implementation Issues)</strong></h4>
+<ul>
+<li><strong>計算量の評価</strong>
+<ul>
+<li>高速勾配法を用いることで、計算コストを削減。</li>
+</ul>
+</li>
+<li><strong>数値計算の安定性</strong>
+<ul>
+<li>スムージングを適用すると、小さなスムージングパラメータが数値誤差を引き起こす可能性があるため、適切な計算手法が必要。</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\Gk6c1P6WMAAuIly.jpg" alt="Gk6c1P6WMAAuIly"></p>
+<pre><code class="language-Python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+
+<span class="hljs-comment"># 通常のSoftmax関数（オーバーフローの危険あり）</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">softmax_normal</span>(<span class="hljs-params">x</span>):
+    exp_x = np.exp(x)  <span class="hljs-comment"># 直接指数関数を適用（オーバーフローの危険あり）</span>
+    <span class="hljs-keyword">return</span> exp_x / np.<span class="hljs-built_in">sum</span>(exp_x)
+
+
+<span class="hljs-comment"># 数値安定化されたSoftmax関数</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">softmax_stable</span>(<span class="hljs-params">x</span>):
+    m = np.<span class="hljs-built_in">max</span>(x)  <span class="hljs-comment"># 最大値を引いてオーバーフローを防止</span>
+    exp_x = np.exp(x - m)
+    <span class="hljs-keyword">return</span> exp_x / np.<span class="hljs-built_in">sum</span>(exp_x)
+
+
+<span class="hljs-comment"># テスト用データ（大きな値を含む）</span>
+<span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> [
+    np.array([<span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>]),
+    np.array([<span class="hljs-number">100</span>, <span class="hljs-number">101</span>, <span class="hljs-number">102</span>]),
+    np.array([<span class="hljs-number">1000</span>, <span class="hljs-number">1001</span>, <span class="hljs-number">1002</span>]),
+]:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;<span class="hljs-subst">{x=}</span>&quot;</span>)
+
+    <span class="hljs-comment"># 通常のSoftmaxを試す（オーバーフローが発生する可能性大）</span>
+    <span class="hljs-keyword">try</span>:
+        normal_result = softmax_normal(x)
+    <span class="hljs-keyword">except</span> OverflowError:
+        normal_result = <span class="hljs-string">&quot;OverflowError!&quot;</span>
+
+    <span class="hljs-comment"># 数値安定化されたSoftmaxを試す</span>
+    stable_result = softmax_stable(x)
+
+    <span class="hljs-built_in">print</span>(normal_result, stable_result)  <span class="hljs-comment"># 結果表示</span>
+
+
+<span class="hljs-string">&#x27;&#x27;&#x27;
+PS C:\Users\hirok\Documents\University\BookReadingSeminarMaterials&gt; &amp; C:/Users/hirok/anaconda3/python.exe c:/Users/hirok/Documents/University/BookReadingSeminarMaterials/20250303/softmax.py
+x=array([10, 11, 12])
+[0.09003057 0.24472847 0.66524096] [0.09003057 0.24472847 0.66524096]
+x=array([100, 101, 102])
+[0.09003057 0.24472847 0.66524096] [0.09003057 0.24472847 0.66524096]
+x=array([1000, 1001, 1002])
+c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250303\softmax.py:6: RuntimeWarning: overflow encountered in exp
+  exp_x = np.exp(x)  # 直接指数関数を適用（オーバーフローの危険あり）
+c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250303\softmax.py:7: RuntimeWarning: invalid value encountered in divide
+  return exp_x / np.sum(exp_x)
+[nan nan nan] [0.09003057 0.24472847 0.66524096]
+&#x27;&#x27;&#x27;</span>
+
+
+<span class="hljs-string">&#x27;&#x27;&#x27;
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** -1000
+0.0
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** -100
+3.7200759760208555e-44
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** -10
+4.5399929762484875e-05
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** +10
+22026.465794806703
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** +100
+2.6881171418161212e+43
+<span class="hljs-meta">&gt;&gt;&gt; </span>math.e ** +1000
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+OverflowError: (34, &#x27;Result too large&#x27;)
+&#x27;&#x27;&#x27;</span>
+</code></pre>
+<p><a href="https://data-analytics.fun/2021/04/06/understanding-gumbel-max-trick/">https://data-analytics.fun/2021/04/06/understanding-gumbel-max-trick/</a></p>
+<hr>
+<h3 id="62-非スムーズ凸最小化のための過剰ギャップ手法-an-excessive-gap-technique-for-non-smooth-convex-minimization"><strong>6.2 非スムーズ凸最小化のための過剰ギャップ手法 (An Excessive Gap Technique for Non-smooth Convex Minimization)</strong></h3>
+<h4 id="621-プライマルデュアル問題の構造-primal-dual-problem-structure"><strong>6.2.1 プライマル・デュアル問題の構造 (Primal-Dual Problem Structure)</strong></h4>
+<ul>
+<li>双対問題を活用し、標準的なサブグラディエント法よりも効率的な解法を導入。</li>
+<li>目的関数のミニマックス構造を活用し、収束速度を向上させる。</li>
+</ul>
+<h4 id="622-過剰ギャップ条件-an-excessive-gap-condition"><strong>6.2.2 過剰ギャップ条件 (An Excessive Gap Condition)</strong></h4>
+<ul>
+<li>目的関数の値の間に「過剰ギャップ (excessive gap)」を導入することで、収束解析を改善。</li>
+<li>収束保証のある新しい勾配更新手法を提案。</li>
+</ul>
+<p><img src="file:///c:\Users\hirok\Documents\University\BookReadingSeminarMaterials\20250310\6.2.3.png" alt="6.2.3"></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
