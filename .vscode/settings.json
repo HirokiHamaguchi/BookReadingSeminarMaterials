@@ -12,6 +12,7 @@
         "linestyle",
         "markersize",
         "mathbb",
+        "MCMC",
         "meshgrid",
         "mgrid",
         "mplot",
