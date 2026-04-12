@@ -1,4 +1,4 @@
-This is e-upTeX, Version 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.sjis) (TeX Live 2026) (preloaded format=platex 2026.3.15)  12 APR 2026 12:50
+This is e-upTeX, Version 3.141592653-p4.1.2-u2.02-251130-2.6 (utf8.sjis) (TeX Live 2026) (preloaded format=platex 2026.3.15)  13 APR 2026 08:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -804,36 +804,42 @@ LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10.95> not available
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10.95> not available
 (Font)              Font shape `JY1/gt/m/n' tried instead on input line 113.
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 130.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 138.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 130.
-
-Overfull \hbox (5.5934pt too wide) detected at line 163
-[]
- []
-
-[1
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 138.
+File: lectures.png Graphic file (type bmp)
+<lectures.png>
+File: software.png Graphic file (type bmp)
+<software.png>
+ [1
 
 ]
 LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
-(Font)              No change on input line 178.
+(Font)              No change on input line 200.
 LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
-(Font)              No change on input line 178.
+(Font)              No change on input line 200.
 LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
-(Font)              No change on input line 178.
+(Font)              No change on input line 200.
 LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
-(Font)              No change on input line 178.
- [2]
-Underfull \hbox (badness 10000) in paragraph at lines 313--313
+(Font)              No change on input line 200.
+LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
+(Font)              No change on input line 200.
+ [2] [3] [4] [5]
+Overfull \hbox (30.4176pt too wide) detected at line 388
 []
  []
 
-[3]
 File: Sym21.png Graphic file (type bmp)
 <Sym21.png>
 File: Sym21_cone.png Graphic file (type bmp)
 <Sym21_cone.png>
- [4] [5] [6] [7] (./20260415.aux)
+[6] [7] [8]
+LaTeX Font Info:    Kanji font shape `JY1/mc/m/it' undefined
+(Font)              No change on input line 535.
+ [9]
+File: partition_of_unity.png Graphic file (type bmp)
+<partition_of_unity.png>
+ [10] [11] [12] (./20260415.aux)
  ***********
 pLaTeX2e <2023-02-14>+1, based on
 LaTeX2e <2025-11-01>
@@ -843,12 +849,12 @@ Package rerunfilecheck Info: File `20260415.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 31076 strings out of 468171
- 611994 string characters out of 5437837
- 1147991 words of memory out of 5000000
- 59457 multiletter control sequences out of 15000+600000
+ 31119 strings out of 468171
+ 612928 string characters out of 5437837
+ 1144991 words of memory out of 5000000
+ 59494 multiletter control sequences out of 15000+600000
  653105 words of font info for 139 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 86i,20n,106p,499b,1052s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 86i,20n,106p,773b,1052s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on 20260415.dvi (7 pages, 72416 bytes).
+Output written on 20260415.dvi (12 pages, 129136 bytes).

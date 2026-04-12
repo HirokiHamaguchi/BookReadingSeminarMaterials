@@ -1,0 +1,38 @@
+\myBox{Exercise 3.41}{\\
+    \textbf{Assumptions:}
+    \begin{gather*}
+        \mathcal{M} \subseteq \mathcal{E} \text{ is a $d$-dimensional smooth embedded submanifold},\\
+        \ell \geq 1, \quad g \colon \mathcal{M} \to \mathbb{R}^{\ell} \text{ is smooth},\quad \mathrm{rank}(\mathrm{D} g(x)) = \ell \text{ for all } x \in g^{-1}(0),\\
+        \mathcal{N} = g^{-1}(0) \subseteq \mathcal{M}.
+    \end{gather*}
+    \textbf{Goal:}
+    \begin{gather*}
+        \mathcal{N} \text{ is a smooth embedded submanifold of } \mathcal{E},\\
+        \dim \mathcal{N} = \dim \mathcal{M} - \ell,\\
+        \mathrm{T}_x \mathcal{N} = \ker(\mathrm{D} g(x)) \subset \mathrm{T}_x \mathcal{M}.
+    \end{gather*}
+    \vskip\baselineskip
+    By Definition 3.10, we can rewrite the assumptions and the goal as follows.\\
+    \textbf{Assumptions(rw):}
+    \begin{gather*}
+        \forall x \in \mathcal{M}, \quad
+        \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
+        \exists h_x\colon U_x \to \mathbb{R}^{d - \dim \mathcal{M}} \text{ is smooth},\\
+        (\forall y \in U_x, \quad h_x(y) = 0_{d - \dim \mathcal{M}} \iff y \in \mathcal{M}) \text{ and } (\mathrm{rank}(\mathrm{D} h_x(x)) = d - \dim \mathcal{M}),\\
+        \ell \geq 1, \quad g \colon \mathcal{M} \to \mathbb{R}^{\ell} \text{ is smooth},\quad \mathrm{rank}(\mathrm{D} g(x)) = \ell \text{ for all } x \in g^{-1}(0),\\
+        \mathcal{N} = g^{-1}(0) \subseteq \mathcal{M}.
+    \end{gather*}
+    Thus, we have
+    \textbf{Assumptions(rw2):}
+    \begin{gather*}
+        \forall x \in \mathcal{N} \subseteq \mathcal{M}, \quad
+        \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
+    \end{gather*}
+    \textbf{Goal(rw):}
+    \begin{gather*}
+        \forall x \in \mathcal{N}, \quad
+        \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
+        \exists h_x\colon U_x \to \mathbb{R}^{d - \dim \mathcal{M} + \ell} \text{ is smooth},\\
+        (\forall y \in U_x, \quad h_x(y) = 0_{d - \dim \mathcal{M} + \ell} \iff y \in \mathcal{N}) \text{ and } (\mathrm{rank}(\mathrm{D} h_x(x)) = d - \dim \mathcal{M} + \ell).
+    \end{gather*}
+}
