@@ -69,7 +69,6 @@
 \usepackage{lipsum}
 \usepackage{pifont}
 \usepackage{xparse}
-\usepackage{subfiles}
 
 % https://www.reddit.com/r/LaTeX/comments/111e7gn/can_someone_help_me_replicate_these_boxes_in_latex/
 \usepackage{tcolorbox}
@@ -127,11 +126,11 @@
     \begin{figure}[H]
         \begin{minipage}{0.5\columnwidth}
             \centering
-            \includegraphics[width=60mm]{lectures.png}
+            \includegraphics[width=0.9\columnwidth]{lectures.png}
         \end{minipage}%
         \begin{minipage}{0.5\columnwidth}
             \centering
-            \includegraphics[width=60mm]{software.png}
+            \includegraphics[width=0.9\columnwidth]{software.png}
         \end{minipage}
     \end{figure}
     There are lectures and software (Manopt) related to the textbook. They might be useful for understanding the textbook and doing exercises.
@@ -146,9 +145,9 @@
 
 \bookBox{Unit sphere}{
     \begin{equation}
-        \mathrm{S}^{d-1} \coloneq \{ x \in \mathbb{R}^d : x^\top x = 1 \}
+        \mathrm{S}^{d-1} \coloneq \{ x \in \mathbb{R}^d : x^\top x = 1 \}.
     \end{equation}
-    \textbf{Personal Opinion:} The sphere is actually a quite good example of a manifold, but I recommend NOT to rely too much for intuition on the sphere.
+    \textbf{Personal Opinion:} The sphere is actually quite a good example of a manifold, but I recommend NOT relying too much on it for intuition.
 }
 
 \myBox{Smoothness}{
@@ -163,7 +162,7 @@
         \forall \alpha \in \mathbb{N}^d, |\alpha| \leq k, \; \forall y \in U, \quad
         \frac{\partial^\alpha f}{\partial x_{1}^{\alpha_1} \partial x_{2}^{\alpha_2} \cdots \partial x_{d}^{\alpha_d}}(y_1, y_2, \ldots, y_d) \text{ exists and is continuous.}
     \end{gather*}
-    It is known that the smoothness is also equivalent to the existence and continuity of the $k$-th Fr\'echet derivatives:
+    It is known that smoothness is equivalent to the existence and continuity of the $k$-th Fr\'echet derivatives:
     \begin{gather*}
         (U \subseteq \mathbb{R}^d \text{ is open}, \quad f\colon U \to \mathbb{R}, \quad k \in \mathbb{N})\\
         f \text{ is of class } C^k \text{ on } U\\
@@ -200,8 +199,8 @@
 }
 
 \myBox{Notation of $U_x$}{
-    In this textbook, (unlike the general definition of neighborhood) neighborhood $U$ of $x$ is defined as an open set.
-    I want to explicitly indicate that it is an open and neighborhood of $x$, we use the notation ``$\exists U_x$ is open'' instaed of ``$U$'' to explicitly indicate the definition.
+    In this textbook, unlike in the general definition of a neighborhood, a neighborhood $U$ of $x$ is defined as an open set.
+    To explicitly indicate that it is an open neighborhood of $x$, we use the notation ``$\exists U_x$ is open'' instead of simply writing ``$U$.''
 }
 
 \myBox{Example: $S^2$ in $\mathbb{R}^3$}{
@@ -221,14 +220,14 @@
 
 \myBox{Intuition of Def 3.10}{
     \begin{gather*}
-        \mathrm{D} h_x(x) \simeq \mqty(\pdv{h_x}{x_1} & \cdots & \pdv{h_{x,1}}{x_d} \\ \vdots & \ddots & \vdots \\ \pdv{h_{x,k}}{x_1} & \cdots & \pdv{h_{x,k}}{x_d}) \in \mathbb{R}^{k \times d},\\
+        \mathrm{D} h_x(x) \simeq \mqty(\pdv{h_{x,1}}{x_1} & \cdots & \pdv{h_{x,1}}{x_d} \\ \vdots & \ddots & \vdots \\ \pdv{h_{x,k}}{x_1} & \cdots & \pdv{h_{x,k}}{x_d}) \in \mathbb{R}^{k \times d},\\
         \mathrm{rank}(\mathrm{D} h_x(x)) = k \iff \dim(\ker(\mathrm{D} h_x(x))) = d-k = n.
     \end{gather*}
-    Roughly speaking, we have an $n$-dimensional (local) space in which $h_x$ is constant and thus 0 since $h_x(x) = 0$. By the definition of the local defined function $h_x$, this $n$-dimensional space is exactly $\mathcal{M} \cap U_x$. Thus, $\mathcal{M}$ is locally like an $n$-dimensional space, which is the definition of the tangent space $\mathrm{T}_x \mathcal{M}$, i.e., the dimension of $\mathcal{M}$ is $n$.
+    Roughly speaking, we have an $n$-dimensional local space along which $h_x$ is constant and hence equal to $0$, since $h_x(x) = 0$. By the definition of the local defining function $h_x$, this $n$-dimensional space is exactly $\mathcal{M} \cap U_x$. Thus, $\mathcal{M}$ is locally like an $n$-dimensional space, which motivates the tangent space $\mathrm{T}_x \mathcal{M}$ and the statement that the dimension of $\mathcal{M}$ is $n$.
 
     \rule{0.98\textwidth}{0.4pt}\vspace{0.3em}
 
-    Here is an another intuition of the definition. It seems that the definitions between the case $n=d$ and the case $n=d-k$ are different, but they are actually the same.
+    Here is another intuition for the definition. It may seem that the cases $n=d$ and $n=d-k$ are defined differently, but they are actually the same.
     \begin{gather*}
         n=d-0 \text{ and } \forall x \in \mathcal{M}, \quad \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
         \exists h_x\colon U_x \to \mathbb{R}^0=\{0\} \text{ is smooth(?)},\\
@@ -237,7 +236,7 @@
 }
 
 \bookBox{Def 3.11}{
-    The textbook's definition is somehow simplified than the general one:
+    The textbook's definition is somewhat simpler than the general one:
     \begin{gather*}
         (\mathcal{E}_1, \mathcal{E}_2 \text{ are linear spaces},\quad U \subseteq \mathcal{E}_1, V \subseteq \mathcal{E}_2 \text{ are open})\\
         F \colon U \to V \text{ is a diffeomorphism}\\
@@ -256,7 +255,7 @@
         \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
         \exists V \subseteq \mathbb{R}^d \text{ is open}, \\
         \exists F\colon U_x \to V \text{ is a diffeomorphism}, \\
-        F(\mathcal{M} \cap U_x) = (\mathbb{R}^{n} \otimes 0_k) \cap V.
+        F(\mathcal{M} \cap U_x) = (\mathbb{R}^{n} \times \{0_k\}) \cap V.
     \end{gather*}
 }
 
@@ -269,14 +268,14 @@
         \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
         \exists V \subseteq \mathbb{R}^d \text{ is open}, \\
         \exists F^{-1}\colon V \to U_x \text{ is a diffeomorphism}, \\
-        F^{-1}((\mathbb{R}^{n} \otimes 0_k) \cap V) = \mathcal{M} \cap U_x.
+        F^{-1}((\mathbb{R}^{n} \times \{0_k\}) \cap V) = \mathcal{M} \cap U_x.
     \end{gather*}
 }
 
 \bookBox{Non-degenerate $\mathrm{D}F^{-1}$}{
     \setEqN{20}
     \begin{equation}
-        (\mathrm{D} F(x))^{-1} = D F^{-1}(F(x))
+        (\mathrm{D} F(x))^{-1} = \mathrm{D} F^{-1}(F(x)).
     \end{equation}
     Since $\mathrm{D} F^{-1}(F(x)) \cdot \mathrm{D} F(x) = \mathrm{D} (F^{-1} \circ F)(x) = \mathrm{D} (\mathrm{id})(x) = I_d$, this is non-degenerate.
 }
@@ -287,17 +286,17 @@
         (\mathcal{E} \text{ is a linear space}, \quad \mathcal{M} \subseteq \mathcal{E}, \quad x \in \mathcal{M}) \notag \\
         \mathrm{T}_x \mathcal{M} \coloneq \{ c'(0) \mid
         \exists \varepsilon > 0, \quad
-        \exists c\colon (-\varepsilon, \varepsilon) \to \mathcal{M} \text{ is smooth}, \quad c(0) = x \}
+        \exists c\colon (-\varepsilon, \varepsilon) \to \mathcal{M} \text{ is smooth}, \quad c(0) = x \}.
     \end{gather}
 }
 
 \myBox{Tangent space is a subset of the linear space}{
     \begin{equation*}
-        \mathrm{T}_x \mathcal{M} \subseteq \mathcal{E}
+        \mathrm{T}_x \mathcal{M} \subseteq \mathcal{E}.
     \end{equation*}
-    This is obvious but not so trivial.
+    This may look obvious, but it is not completely trivial.
     \begin{equation*}
-        c'(0) = \lim_{t \to 0} \frac{c(t) - c(0)}{t}
+        c'(0) = \lim_{t \to 0} \frac{c(t) - c(0)}{t}.
     \end{equation*}
     Since $c(t) \in \mathcal{M} \subseteq \mathcal{E}$ and $c(0) = x \in \mathcal{M} \subseteq \mathcal{E}$, we have $c(t) - c(0) \in \mathcal{E}$ for all $t$. Therefore, the limit is also in $\mathcal{E}$. Hence, $\mathrm{T}_x \mathcal{M} \subseteq \mathcal{E}$.
 
@@ -308,7 +307,7 @@
     \begin{gather*}
         (\mathcal{E} \text{ is a $d$-dimensional linear space}, \quad \mathcal{M} \subseteq \mathcal{E} \text{ is}\\ \text{a smooth embedded submanifold of dimension } n, \quad x \in \mathcal{M})\\
         \begin{dcases}
-            n=d                 & \implies \mathrm{T}_x \mathcal{M} = \mathcal{E}                                                       \\
+            n=d                 & \implies \mathrm{T}_x \mathcal{M} = \mathcal{E},                                                      \\
             n=d-k \; (k \geq 1) & \implies \mathrm{T}_x \mathcal{M} = \ker(\mathrm{D} h_x(x)) \quad (\text{where $h_x$ is in Def 3.10})
         \end{dcases}
     \end{gather*}
@@ -317,7 +316,7 @@
 
     $\mathrm{T}_x \mathcal{M} \subseteq \mathcal{E}$ is already stated. We will show $\mathrm{T}_x \mathcal{M} \supseteq \mathcal{E}$.
     \vskip\baselineskip
-    \textbf{Case $n=d$:} It is suffices to show that
+    \textbf{Case $n=d$:} It suffices to show that
     \begin{equation*}
         \forall v \in \mathcal{E}, \quad
         \exists \epsilon > 0, \quad
@@ -332,28 +331,28 @@
     \vskip\baselineskip
     \textbf{Case $n=d-k$:}\\
     \textbf{Step1:} $\mathrm{T}_x \mathcal{M} \subseteq \ker(\mathrm{D} h_x \lparen x\rparen )$ % The bug of VSCode. If you write h_x (x), then the indent will break
-    Recall the Def 3.10.
+    Recall Definition 3.10.
     \begin{gather*}
         \forall v \in \mathrm{T}_x \mathcal{M}, \quad \exists \epsilon > 0, \quad
         \exists c\colon (-\epsilon, \epsilon) \to \mathcal{M} \text{ is smooth}, \quad
-        c(0) = x, \quad c'(0) = v.\\
-        \forall c(t) \in U_x, \quad c(t) \in \mathcal{M} \implies h_x(c(t)) = 0_k\\
+        c(0) = x, \quad c'(0) = v.\,
+        \forall c(t) \in U_x, \quad c(t) \in \mathcal{M} \implies h_x(c(t)) = 0_k,\\
         0_k = \dv{t} h_x(c(t)) = \mathrm{D} h_x(c(t)) [c'(t)] \implies \mathrm{D} h_x(x) [v] = 0 \implies v \in \ker(\mathrm{D} h_x(x)).
     \end{gather*}
-    \textbf{Step2:} $\mathrm{T}_x \mathcal{M} \supseteq (\text{$n$-dimensional subspace of } \mathcal{E})$. Recall the Theorem 3.12.
+    \textbf{Step2:} $\mathrm{T}_x \mathcal{M} \supseteq (\text{$n$-dimensional subspace of } \mathcal{E})$. Recall Theorem 3.12.
     \begin{gather*}
         \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
         \exists V \subseteq \mathbb{R}^d \text{ is open}, \\
         \exists F^{-1}\colon V \to U_x \text{ is a diffeomorphism}, \\
-        F^{-1}((\mathbb{R}^{n} \otimes 0_k) \cap V) = \mathcal{M} \cap U_x.
+        F^{-1}((\mathbb{R}^{n} \times \{0_k\}) \cap V) = \mathcal{M} \cap U_x.
     \end{gather*}
     We can construct a curve $c$ to use the definition of $\mathrm{T}_x \mathcal{M}$ as follows:
     \begin{gather*}
         \forall u \in \mathbb{R}^n, \quad
         \exists \epsilon > 0, \quad
-        c\colon (-\epsilon, \epsilon) \to \mathbb{R}^d, \quad c(t) = F^{-1}(F(x) + t (u \otimes 0_k)) \text{ is smooth},\\
+        c\colon (-\epsilon, \epsilon) \to \mathbb{R}^d, \quad c(t) = F^{-1}(F(x) + t (u, 0_k)) \text{ is smooth},\\
         c(0) = F^{-1}(F(x)) = x, \quad c'(0) =
-        \mathrm{D} F^{-1}(F(x)) [u \otimes 0_k].
+        \mathrm{D} F^{-1}(F(x)) [(u, 0_k)].
     \end{gather*}
     Thus, $\mathrm{T}_x \mathcal{M}$ contains the $n$-dimensional subspace, which is $\ker(\mathrm{D} h_x \lparen x \rparen)$.
 }
@@ -363,7 +362,7 @@
         \dim\;\mathcal{M} \coloneq \dim \mathrm{T}_x \mathcal{M} \text{ at some } x \in \mathcal{M} \neq \emptyset.
     \end{equation*}
     This is exactly the $n$ in Definition 3.10
-    (TOP IMPORTANCE IN THIS MATERIAL).
+    (one of the most important points in this material).
 }
 
 \myBox{The general definition of manifold}{\\
@@ -372,7 +371,7 @@
     \textbf{Coordinate neighborhood:}
     \begin{gather*}
         (X \text{ is a topological space}, \quad U \subseteq X \text{ is open}, \quad U' \subseteq \mathbb{R}^m \text{ is open})\\
-        (U, \phi) \text{ is an $m$-dimensional coordinate neighborhood} \iff \phi\colon U \to U' \text{ is a homeomorphism}.
+        (U, \phi) \text{ is an $m$-dim.\ coordinate neighborhood} \iff \phi\colon U \to U' \text{ is a homeomorphism}.
     \end{gather*}
     \textbf{Manifold:}
     \begin{gather*}
@@ -381,7 +380,7 @@
         \iff\\
         \begin{dcases}
             (1) & \mathcal{M} \text{ is Hausdorff: } \forall x, y \in \mathcal{M}, x \neq y, \exists U_x, U_y \text{ are open}, U_x \cap U_y = \emptyset.                                                                      \\
-            (2) & \exists \{(U_\alpha, \phi_\alpha)\}_{\alpha \in A} (\text{ $m$-dimensional coordinate neighborhoods}),\quad M=\bigcup_{\alpha \in A} U_\alpha,                                                               \\
+            (2) & \exists \{(U_\alpha, \phi_\alpha)\}_{\alpha \in A} \; (\text{$m$-dimensional coordinate neighborhoods}),\quad M=\bigcup_{\alpha \in A} U_\alpha,                                                             \\
             (3) & \forall \alpha, \beta \in A, U_\alpha \cap U_\beta \neq \emptyset, \quad \phi_\beta \circ \phi_\alpha^{-1}\colon \phi_\alpha(U_\alpha \cap U_\beta) \to \phi_\beta(U_\alpha \cap U_\beta) \text{ is smooth}.
         \end{dcases}
     \end{gather*}
@@ -408,8 +407,8 @@
         \Big(\mathcal{E}, \mathcal{E}' \text{ are $d,d'$-dimensional linear spaces},\\
         \mathcal{M} \subseteq \mathcal{E}, \mathcal{M}' \subseteq \mathcal{E}' \text{ are smooth embedded submanifolds} \text{ of dimension } n, n' \Big)\\
         \begin{dcases}
-            \mathcal{M} \times \mathcal{M}' \text{ is a smooth embedded submanifold of } \mathcal{E} \times \mathcal{E}' \\
-            \mathrm{T}_{(x, x')} (\mathcal{M} \times \mathcal{M}') = \mathrm{T}_x \mathcal{M} \times \mathrm{T}_{x'} \mathcal{M}'
+            \mathcal{M} \times \mathcal{M}' \text{ is a smooth embedded submanifold of } \mathcal{E} \times \mathcal{E}', \\
+            \mathrm{T}_{(x, x')} (\mathcal{M} \times \mathcal{M}') = \mathrm{T}_x \mathcal{M} \times \mathrm{T}_{x'} \mathcal{M}'.
         \end{dcases}
     \end{gather*}
 
@@ -424,7 +423,7 @@
     \begin{gather*}
         \forall (x, x') \in \mathcal{M} \times \mathcal{M}', \quad
         \exists U_{x,x'} \coloneqq U_x \times U_{x'} \subseteq \mathcal{E} \times \mathcal{E}' \text{ is open}, \\
-        \exists h_{x,x'}\colon U_{x,x'} \to \mathbb{R}^{k+k'} \text{ is smooth defined by } h_{x,x'}(y, y') = (h_x(y), h_{x'}(y')),\\
+        \exists h_{x,x'}\colon U_{x,x'} \to \mathbb{R}^{k+k'} \text{ is smooth and defined by } h_{x,x'}(y, y') = (h_x(y), h_{x'}(y')),\\
         \Biggr(\forall (y, y') \in U_{x,x'}, \quad h_{x,x'}(y, y') = 0_{k+k'} \iff (y, y') \in \mathcal{M} \times \mathcal{M}' \text{ and }\\
         \left(\mathrm{rank}(\mathrm{D} h_{x,x'}(x, x')) = \mathrm{rank}\left(\mqty(\mathrm{D} h_x(x) & 0 \\ 0 & \mathrm{D} h_{x'}(x'))\right) = k + k' \right) \Biggr).
     \end{gather*}
@@ -440,11 +439,11 @@
     \begin{equation*}
         \mathcal{M} \in \{\mathcal{X}, \mathcal{C}, \mathcal{P}\}.
     \end{equation*}
-    These exercises require to prove that the manifolds provided are not an embedded submanifolds of $\mathcal{E}$.
+    These exercises ask us to prove that the given manifolds are not embedded submanifolds of $\mathcal{E}$.
     We can check the conditions in Def 3.10.
     Note that $\mathcal{E} = \mathbb{R}^2$ with $d=2$.
 
-    For the sake of solving these exercises, we first prove that, if manifold $\mathcal{M} \in \{\mathcal{X}, \mathcal{C}, \mathcal{P}\}$ is an embedded submanifold of $\mathrm{R}^2$, then the dimension of the manifold $k$ must be 1.
+    To solve these exercises, we first prove that if a manifold $\mathcal{M} \in \{\mathcal{X}, \mathcal{C}, \mathcal{P}\}$ is an embedded submanifold of $\mathbb{R}^2$, then the corresponding codimension $k$ must be 1.
     \vskip\baselineskip
     \textbf{Case $n=d=2$:} Since $\mathcal{M}$ is not open in $\mathbb{R}^2$, $\mathcal{M}$ is not an open submanifold. Thus, $k\neq 0$.\\
     \textbf{Case $n=d-k \; (k \geq 1)$:} Let $h$ to be the local defining function.
@@ -455,7 +454,7 @@
 
 \myBox{Exercise 3.27}{
     \begin{equation*}
-        \mathcal{X} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^2 \}
+        \mathcal{X} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^2 \}.
     \end{equation*}
     Assume that
     \begin{gather*}
@@ -470,7 +469,7 @@
 
 \myBox{Exercise 3.28}{
     \begin{equation*}
-        \mathcal{C} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^3 \}
+        \mathcal{C} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^3 \}.
     \end{equation*}
     Let us compute the tangent space at the origin $0 \in \mathcal{C}$:
     \begin{equation*}
@@ -478,44 +477,44 @@
         \exists \varepsilon > 0, \quad
         \exists c\colon (-\varepsilon, \varepsilon) \to \mathcal{C} \text{ is smooth}, \quad c(0) = 0 \}.
     \end{equation*}
-    On $\mathcal{C}$, we can only approach the origin along the positive $x_2$-axis. Thus, $c'(0) = 0$, otherwise, $c$ cannot be smooth. (we can show it by contradiction.)
+    On $\mathcal{C}$, we can only approach the origin along the positive $x_2$-axis. Thus, $c'(0) = 0$; otherwise, $c$ cannot be smooth (this can be shown by contradiction).
     Thus, $\mathrm{T}_0 \mathcal{C} = \{ 0 \}$, which is a degenerate subspace of $\mathbb{R}^2$. However, $\mathrm{rank}(\mathrm{D} h_0 \lparen 0 \rparen) = k = 1$, which is a contradiction. Thus, $\mathcal{C}$ is not a smooth embedded submanifold of $\mathbb{R}^2$.
 }
 
 \myBox{Exercise 3.29}{
     \begin{equation*}
-        \mathcal{P} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^4 \}
+        \mathcal{P} \coloneqq \{ x \in \mathbb{R}^2 : x_1^2 = x_2^4 \}.
     \end{equation*}
     Apply Theorem 3.12 at the origin $0 \in \mathcal{P}$:
     \begin{gather*}
         \exists U_0 \subseteq \mathbb{R}^2 \text{ is open}, \quad
         \exists V \subseteq \mathbb{R}^2 \text{ is open}, \\
         \exists F^{-1}\colon V \to U_0 \text{ is a diffeomorphism}, \\
-        F^{-1}((\mathbb{R}^{1} \otimes 0_1) \cap V) = \mathcal{P} \cap U_0. \quad (\bigstar)
+        F^{-1}((\mathbb{R}^{1} \times \{0_1\}) \cap V) = \mathcal{P} \cap U_0. \quad (\bigstar)
     \end{gather*}
-    Since $0 \in \mathcal{P} \cap U_0$ by definition, we have $F(0) \in (\mathbb{R}^{1} \otimes 0_1) \cap V$ by $(\bigstar)$.
+    Since $0 \in \mathcal{P} \cap U_0$ by definition, we have $F(0) \in (\mathbb{R}^{1} \times \{0_1\}) \cap V$ by $(\bigstar)$.
     Let us define $F(0) = (a, 0)$ for some $a \in \mathbb{R}$. Since $V$ is open, there exists $\epsilon > 0$ such that $(a+t, 0) \in V$ for all $t \in (-\epsilon, \epsilon)$.
     Let us define
     \begin{equation*}
         c(t) = F^{-1}(a+t, 0) \quad (t \in (-\epsilon, \epsilon)).
     \end{equation*}
-    Since $F^{-1}$ is diffeomorphism, $c$ is also diffeomorphism, i.e., bijective, invertible, and both $c$ and $c^{-1}$ are smooth.
-    It is obvious that $\{(a+t, 0) : t \in (-\epsilon, \epsilon)\} \subseteq (\mathbb{R}^{1} \otimes 0_1) \cap V$. Thus, $\{c(t) : t \in (-\epsilon, \epsilon)\} \subseteq \mathcal{P} \cap U_0$ by $(\bigstar)$. Since the image of smooth (i.e., continuous) map of an interval is open, and that $c(0)= F^{-1}(a, 0) = F^{-1}(F(0)) = 0$, we have $\{c(t) : t \in (-\epsilon, \epsilon)\}$ is an open neighborhood of $0$. Thus, there exists $\delta_1, \delta_2, \delta_3, \delta_4 > 0$ such that
+    Since $F^{-1}$ is a diffeomorphism, $c$ is also a diffeomorphism, i.e., bijective, invertible, and both $c$ and $c^{-1}$ are smooth.
+    It is obvious that $\{(a+t, 0) : t \in (-\epsilon, \epsilon)\} \subseteq (\mathbb{R}^{1} \times \{0_1\}) \cap V$. Thus, $\{c(t) : t \in (-\epsilon, \epsilon)\} \subseteq \mathcal{P} \cap U_0$ by $(\bigstar)$. Since $c$ is continuous and $c(0)= F^{-1}(a, 0) = F^{-1}(F(0)) = 0$, its image contains points of $\mathcal{P}$ arbitrarily close to $0$. Thus, there exist $\delta_1, \delta_2, \delta_3, \delta_4 > 0$ such that
     \begin{align*}
-        \{ (+x^2, +x) : x \in (0, \delta_1) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}  \\
-        \{ (-x^2, +x) : x \in (0, \delta_2) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}  \\
-        \{ (+x^2, -x) : x \in (0, \delta_3) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}  \\
+        \{ (+x^2, +x) : x \in (0, \delta_1) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}, \\
+        \{ (-x^2, +x) : x \in (0, \delta_2) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}, \\
+        \{ (+x^2, -x) : x \in (0, \delta_3) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}, \\
         \{ (-x^2, -x) : x \in (0, \delta_4) \} & \subseteq \{c(t) : t \in (-\epsilon, \epsilon)\}.
     \end{align*}
     Thus, we have 4 distinct intervals as follows:
     \begin{align*}
-        \{ c^{-1}(F((+x^2, +x))) : x \in (0, \delta_1) \} & \subseteq (-\epsilon, \epsilon)  \\
-        \{ c^{-1}(F((-x^2, +x))) : x \in (0, \delta_2) \} & \subseteq (-\epsilon, \epsilon)  \\
-        \{ c^{-1}(F((+x^2, -x))) : x \in (0, \delta_3) \} & \subseteq (-\epsilon, \epsilon)  \\
+        \{ c^{-1}(F((+x^2, +x))) : x \in (0, \delta_1) \} & \subseteq (-\epsilon, \epsilon), \\
+        \{ c^{-1}(F((-x^2, +x))) : x \in (0, \delta_2) \} & \subseteq (-\epsilon, \epsilon), \\
+        \{ c^{-1}(F((+x^2, -x))) : x \in (0, \delta_3) \} & \subseteq (-\epsilon, \epsilon), \\
         \{ c^{-1}(F((-x^2, -x))) : x \in (0, \delta_4) \} & \subseteq (-\epsilon, \epsilon).
     \end{align*}
-    Indeed, since $c$ is invertible and smooth (i.e., continuous), these sets are intervals in $(-\epsilon, \epsilon)$. They are also distinct since $c^{-1}$ and $F$ are bijective and the domain of $c^{-1} \circ F$ are 4 distinct set.
-    We also have that an sequence in $\{ c^{-1}(F((+x^2, +x))) : x \in (0, \delta_1) \}$ converges to $0$ as $x \to 0$, and the same holds for the other 3 sets. Thus, we have 4 distinct intervals in $(-\epsilon, \epsilon)$ that converge to $0$. This is a contradiction since there are at most 2 distinct intervals in $(-\epsilon, \epsilon)$ that converge to $0$. Thus, $\mathcal{P}$ is not a smooth embedded submanifold of $\mathbb{R}^2$.
+    Indeed, since $c$ is invertible and smooth (i.e., continuous), these sets are intervals in $(-\epsilon, \epsilon)$. They are also distinct, since $c^{-1}$ and $F$ are bijective and the domains above are four distinct sets.
+    We also have that a sequence in $\{ c^{-1}(F((+x^2, +x))) : x \in (0, \delta_1) \}$ converges to $0$ as $x \to 0$, and the same holds for the other three sets. Thus, we obtain four distinct intervals in $(-\epsilon, \epsilon)$ that approach $0$. This is a contradiction, since there can be at most two such intervals in $(-\epsilon, \epsilon)$ that approach $0$. Thus, $\mathcal{P}$ is not a smooth embedded submanifold of $\mathbb{R}^2$.
 }
 
 \bookBox{Definition 3.30}{
@@ -525,7 +524,7 @@
         \iff\\
         ( \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
         \exists \bar{F} \colon U_x \to \mathcal{E}' \text{ is smooth}, \quad
-        \bar{F}(y) = F(y) \text{ for all } y \in \mathcal{M} \cap U_x)
+        \bar{F}(y) = F(y) \text{ for all } y \in \mathcal{M} \cap U_x).
     \end{gather*}
     Note that the smoothness of $\bar{F}$ is already defined at the beginning of this material.
     $\bar{F}$ is called a \textit{local smooth extension} of $F$ at $x$.
@@ -541,7 +540,7 @@
         \iff\\
         \exists U \subseteq \mathcal{E} \text{ is open}, \quad \mathcal{M} \subseteq U \quad
         \exists \bar{F} \colon U \to \mathcal{E}' \text{ is smooth}, \quad
-        \bar{F}(y) = F(y) \text{ for all } y \in \mathcal{M}
+        \bar{F}(y) = F(y) \text{ for all } y \in \mathcal{M}.
     \end{gather*}
 }
 
@@ -553,7 +552,7 @@
         \caption{Cited from Wikipedia.}
     \end{figure}
     \begin{gather*}
-        \exists \{ U_{x_i} \}_{i \in I} \text{ is an finite open cover of } \mathcal{M},\\
+        \exists \{ U_{x_i} \}_{i \in I} \text{ is a finite open cover of } \mathcal{M},\\
         \exists \{ \phi_i \}_{i \in I} \text{ is a partition of unity subordinate to } \{ U_{x_i} \}_{i \in I}.
     \end{gather*}
     Then, we can construct a local smooth extension $\bar{F}$ of $F$ as follows:
@@ -579,15 +578,15 @@
     Let $f$ be a smooth function on $U$ which is defined on $\mathcal{E}=\mathrm{Sym}(2)$ as follows:
     \begin{equation*}
         f(X) = \begin{cases}
-            \frac{1}{\|X\|} & X \neq 0 \\
-            0               & X = 0
+            \frac{1}{\|X\|} & X \neq 0, \\
+            0               & X = 0.
         \end{cases}
     \end{equation*}
-    Then, smooth extension of $f$ from $U$ to $\mathcal{E}$ doesn't exist since it cannot be smooth at $0$ by definition.
+    Then, a smooth extension of $f$ from $U$ to $\mathcal{E}$ does not exist, since it cannot be smooth at $0$.
 }
 
 \myBox{Exercise 3.37}{\\
-    We add a hypothesis that $\mathcal{M}$ is a smooth embedded submanifold of $\mathcal{E}$. Otherwise, the statement can be undefined in the context of this textbook.
+    We add the hypothesis that $\mathcal{M}$ is a smooth embedded submanifold of $\mathcal{E}$. Otherwise, the statement may be undefined in the context of this textbook.
     By Proposition 3.31, we have
     \begin{gather*}
         \exists U_1 \subseteq \mathcal{E} \text{ is open}, \; \mathcal{M} \subseteq U_1, \quad \exists \bar{F}_1 \colon U_1 \to \mathcal{E}' \text{ is smooth}, \quad \bar{F}_1(y) = F(y) \text{ for all } y \in \mathcal{M},\\
@@ -599,7 +598,7 @@
         \bar{F}(y) = a_1 \bar{F}_1(y) + a_2 \bar{F}_2(y) = a_1 F_1(y) + a_2 F_2(y) = F(y) \quad (y \in \mathcal{M}).
     \end{gather*}
     This means that $F$ is smooth.
-    By proposition 3.35, we also have
+    By Proposition 3.35, we also have
     \begin{equation*}
         \mathrm{D} F(x) = \mathrm{D} \bar{F}(x) |_{\mathrm{T}_x \mathcal{M}} = a_1 \mathrm{D} \bar{F}_1(x) |_{\mathrm{T}_x \mathcal{M}} + a_2 \mathrm{D} \bar{F}_2(x) |_{\mathrm{T}_x \mathcal{M}} = a_1 \mathrm{D} F_1(x) + a_2 \mathrm{D} F_2(x).
     \end{equation*}
@@ -610,16 +609,56 @@
 }
 
 \myBox{Exercise 3.40}{\\
-    Almost the same as Exercise 3.37. We only show the case $\mathcal{M}=\mathrm{R}^{m_1}, \mathcal{M}'=\mathrm{R}^{m_2}, \mathcal{N}=\mathrm{R}^{n_1+n_2}$.
+    Almost the same as Exercise 3.37. We only show the case $\mathcal{M}=\mathbb{R}^{m_1}, \mathcal{M}'=\mathbb{R}^{m_2}, \mathcal{N}=\mathbb{R}^{n_1+n_2}$.
     Take an arbitrary point $(x, y) \in \mathcal{M} \times \mathcal{M}'$, and define
     \begin{equation*}
-        F_1^{(x,y)}\colon \mathrm{R}^{m_1} \to \mathrm{R}^{n_1}, F_1(x') = F(x', y), \quad
-        F_2^{(x,y)}\colon \mathrm{R}^{m_2} \to \mathrm{R}^{n_2}, F_2(y') = F(x, y').
+        F_1^{(x,y)}\colon \mathbb{R}^{m_1} \to \mathbb{R}^{n_1}, F_1(x') = F(x', y), \quad
+        F_2^{(x,y)}\colon \mathbb{R}^{m_2} \to \mathbb{R}^{n_2}, F_2(y') = F(x, y').
     \end{equation*}
     Then, we have
     \begin{equation*}
         \mathrm{D}F(x,y)[(u,v)] = \mqty[\mathrm{D} F_1^{(x,y)}(x) & 0 \\ 0 & \mathrm{D} F_2^{(x,y)}(y)] \mqty[u \\ v] = \mathrm{D} F_1^{(x,y)}(x) u + \mathrm{D} F_2^{(x,y)}(y) v.
     \end{equation*}
+}
+
+\myBox{Exercise 3.41}{\\
+    \textbf{Assumptions:}
+    \begin{gather*}
+        \mathcal{M} \subseteq \mathcal{E} \text{ is a $d$-dimensional smooth embedded submanifold},\\
+        \ell \geq 1, \quad g \colon \mathcal{M} \to \mathbb{R}^{\ell} \text{ is smooth},\quad \mathrm{rank}(\mathrm{D} g(x)) = \ell \text{ for all } x \in g^{-1}(0),\\
+        \mathcal{N} = g^{-1}(0) \subseteq \mathcal{M}.
+    \end{gather*}
+    \textbf{Goal:}
+    \begin{gather*}
+        \mathcal{N} \text{ is a smooth embedded submanifold of } \mathcal{E},\\
+        \dim \mathcal{N} = \dim \mathcal{M} - \ell,\\
+        \mathrm{T}_x \mathcal{N} = \ker(\mathrm{D} g(x)) \subset \mathrm{T}_x \mathcal{M}.
+    \end{gather*}
+    \vskip\baselineskip
+    By Definition 3.10, we can rewrite the assumptions and the goal as follows.\\
+    \textbf{Assumptions(rw):}
+    \begin{gather*}
+        \forall x \in \mathcal{M}, \quad
+        \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
+        \exists h_x\colon U_x \to \mathbb{R}^{d - \dim \mathcal{M}} \text{ is smooth},\\
+        (\forall y \in U_x, \quad h_x(y) = 0_{d - \dim \mathcal{M}} \iff y \in \mathcal{M}) \text{ and } (\mathrm{rank}(\mathrm{D} h_x(x)) = d - \dim \mathcal{M}),\\
+        \ell \geq 1, \quad g \colon \mathcal{M} \to \mathbb{R}^{\ell} \text{ is smooth},\quad \mathrm{rank}(\mathrm{D} g(x)) = \ell \text{ for all } x \in g^{-1}(0),\\
+        \mathcal{N} = g^{-1}(0) \subseteq \mathcal{M}.
+    \end{gather*}
+    \textbf{Goal(rw):}
+    \begin{gather*}
+        \forall x \in \mathcal{N}, \quad
+        \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
+        \exists h_x\colon U_x \to \mathbb{R}^{d - \dim \mathcal{M} + \ell} \text{ is smooth},\\
+        (\forall y \in U_x, \quad h_x(y) = 0_{d - \dim \mathcal{M} + \ell} \iff y \in \mathcal{N}) \text{ and } (\mathrm{rank}(\mathrm{D} h_x(x)) = d - \dim \mathcal{M} + \ell).
+    \end{gather*}
+    Then, we can construct a local defining function for $\mathcal{N}$ at $x$ as follows:
+    \begin{gather*}
+        h'_x\colon U_x \to \mathbb{R}^{d - \dim \mathcal{M} + \ell}, \quad h'_x(y) = \mqty[h_x(y) \\ g(y)],\\
+        \forall y \in U_x, \quad h'_x(y) = 0_{d - \dim \mathcal{M} + \ell} \iff h_x(y) = 0_{d - \dim \mathcal{M}} \text{ and } g(y) = 0_\ell \iff y \in \mathcal{N},\\
+        \mathrm{rank}(\mathrm{D} h'_x(x)) = \mathrm{rank}\left(\mqty[\mathrm{D} h_x(x) \\ \mathrm{D} g(x)]\right) = d - \dim \mathcal{M} + \ell \text{ for all } x \in \mathcal{N}.
+    \end{gather*}
+    This $h'_x$ is exactly the local defining function for $\mathcal{N}$ at $x$, completing the proof.
 }
 
 \end{document}
