@@ -113,8 +113,6 @@
     \begin{center}
         This is the supplemental material for the book reading seminar.
 
-        Please refer to the textbook and the whiteboard for the main content.
-
         If necessary, please also refer to my \href{https://github.com/hari64boli64/BookReadingSeminarMaterials}{repository}.
     \end{center}
 \end{abstract}
@@ -122,7 +120,8 @@
 \renewcommand{\theequation}{3.\arabic{equation}}
 \newcommand{\setEqN}[1]{\setcounter{equation}{\numexpr#1-1\relax}}
 
-\myBox{About the textbook}{
+\bookBox{About the textbook}{\\
+    In this material, we will write content written in the textbook in \textcolor{cA}{\textbf{blue regions}}.
     \begin{figure}[H]
         \begin{minipage}{0.5\columnwidth}
             \centering
@@ -133,9 +132,23 @@
             \includegraphics[width=0.9\columnwidth]{software.png}
         \end{minipage}
     \end{figure}
-    There are lectures and software (Manopt) related to the textbook. They might be useful for understanding the textbook and doing exercises.
+    There are lectures and software (Manopt) related to the textbook.
 }
+\href{https://mediaspace.epfl.ch/channel/MATH-512+Optimization+on+manifolds/31836}{EPFL (Video Lectures)}
 \href{https://www.nicolasboumal.net/book/#lectures}{Lectures} \href{https://www.manopt.org/}{Manopt}
+\href{https://www.manopt.org/manifolds.html}{Manopt: Manifolds}
+
+\myBox{My recommendation for learning optimization on manifolds}{\\
+    In this material, we will write supplemental content that is not written in the textbook in \textcolor{cC}{\textbf{green regions}}.
+    I personally recommend the following books and a website:
+    \begin{enumerate}[label=\textbullet, itemsep=0em]
+        \item 多様体上の最適化理論, 佐藤寛之, オーム社 (2024)
+        \item 多様体の基礎, 松本幸夫, 東京大学出版 (1988) p.107--116: 逆関数の定理の証明
+        \item 佐藤一宏先生のブログ
+    \end{enumerate}
+}
+\href{https://ogyahogya.hatenablog.com/entry/2015/01/31/%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%B3%E5%A4%9A%E6%A7%98%E4%BD%93}{Associate Professor Sato Kazuhiro's blog: Riemannian Manifolds}
+
 
 \bookBox{Our goal}{
     \begin{equation}
@@ -150,6 +163,17 @@
     \textbf{Personal Opinion:} The sphere is actually quite a good example of a manifold, but I recommend NOT relying too much on it for intuition.
 }
 
+\bookBox{differential on linear spaces}{
+    \setEqN{19}
+    \begin{gather}
+        (\mathcal{E}, \mathcal{F} \text{ are linear spaces}) \notag \\
+        (U \subseteq \mathcal{E}, \quad V \subseteq \mathcal{F} \text{ are open}) \notag \\
+        (F \colon U \to V \text{ is smooth}) \notag \\
+        \mathrm{D} F(x) \colon \mathcal{E} \to \mathcal{F} \text{ defined by} \notag \\
+        \mathrm{D} F(x) [v] = \dv{t} F(x + t v) \Big|_{t=0} = \lim_{t \to 0} \frac{F(x + t v) - F(x)}{t}.
+    \end{gather}
+}
+
 \myBox{Smoothness}{
     \begin{equation*}
         f \text{ is smooth} \iff f \text{ is of class } C^{\infty}.
@@ -162,14 +186,12 @@
         \forall \alpha \in \mathbb{N}^d, |\alpha| \leq k, \; \forall y \in U, \quad
         \frac{\partial^\alpha f}{\partial x_{1}^{\alpha_1} \partial x_{2}^{\alpha_2} \cdots \partial x_{d}^{\alpha_d}}(y_1, y_2, \ldots, y_d) \text{ exists and is continuous.}
     \end{gather*}
-    It is known that smoothness is equivalent to the existence and continuity of the $k$-th Fr\'echet derivatives:
+    It is known that smoothness of $C^k$ function $f$ is equivalent to the existence and continuity of the $k$-th Fr\'echet derivatives of $f$. The definition of Fr\'echet derivative is as follows:
     \begin{gather*}
-        (U \subseteq \mathbb{R}^d \text{ is open}, \quad f\colon U \to \mathbb{R}, \quad k \in \mathbb{N})\\
-        f \text{ is of class } C^k \text{ on } U\\
-        \iff\\
-        \forall j \in \{1, 2, \ldots, k\}, \quad
+        (U \subseteq \mathbb{R}^d \text{ is open}, \quad f\colon U \to \mathbb{R})\\
         \forall y \in U, \quad
-        \exists A \colon U \to \mathbb{R}^d, \quad \lim_{\norm{h} \to 0} \frac{\norm{f(y+h) - f(y) - A(h)}}{\norm{h}} = 0.
+        \exists A \colon U \to \mathbb{R}^d \text{ is bounded linear operator}, \\
+        \lim_{\norm{h} \to 0} \frac{\norm{f(y+h) - f(y) - A(h)}}{\norm{h}} = 0.
     \end{gather*}
 
     \textbf{Remark (partial differentiability vs. total differentiability):} In general, partial differentiability does not imply total differentiability (i.e., Fr\'echet differentiability). However, the above statement holds. Why? This is because the smoothness requires not only existence but also continuity of the partial derivatives. The continuity of the partial derivatives ensures that the function behaves well enough to guarantee total differentiability.\\
@@ -183,6 +205,7 @@
 }
 \href{https://en.wikipedia.org/wiki/Smoothness#Multivariate_differentiability_classes}{Wiki: Smoothness}
 \href{https://en.wikipedia.org/wiki/Fr%C3%A9chet_derivative}{Wiki: Fr\'echet derivative}
+\href{https://ogyahogya.hatenablog.com/entry/2018/08/29/%E3%82%AC%E3%83%88%E3%83%BC%E5%BE%AE%E5%88%86%E3%81%A8%E3%83%95%E3%83%AC%E3%83%83%E3%82%B7%E3%82%A7%E5%BE%AE%E5%88%86%EF%BC%9A%E6%96%B9%E5%90%91%E5%BE%AE%E5%88%86%E3%81%A8%E5%8B%BE%E9%85%8D%E3%81%AE}{ガトー微分とフレッシェ微分}
 
 \bookBox{Def 3.10}{
     \begin{gather*}
@@ -203,7 +226,7 @@
     To explicitly indicate that it is an open neighborhood of $x$, we use the notation ``$\exists U_x$ is open'' instead of simply writing ``$U$.''
 }
 
-\myBox{Example: $S^2$ in $\mathbb{R}^3$}{
+\myBox{Example: $S^2$ in $\mathbb{R}^3$ (provide more examples in the whiteboard)}{
     \begin{equation*}
         \mathrm{S}^2 = \{ x \in \mathbb{R}^3 : x^\top x = 1 \}
         = \{ x \in \mathbb{R}^3 : h(x) = 0 \}, \quad h(x) = x^\top x - 1.
@@ -331,14 +354,22 @@
     \vskip\baselineskip
     \textbf{Case $n=d-k$:}\\
     \textbf{Step1:} $\mathrm{T}_x \mathcal{M} \subseteq \ker(\mathrm{D} h_x \lparen x\rparen )$ % The bug of VSCode. If you write h_x (x), then the indent will break
-    Recall Definition 3.10.
-    \begin{gather*}
+    Recall Definition 3.10. We have
+    \begin{equation*}
         \forall v \in \mathrm{T}_x \mathcal{M}, \quad \exists \epsilon > 0, \quad
         \exists c\colon (-\epsilon, \epsilon) \to \mathcal{M} \text{ is smooth}, \quad
-        c(0) = x, \quad c'(0) = v.\,
-        \forall c(t) \in U_x, \quad c(t) \in \mathcal{M} \implies h_x(c(t)) = 0_k,\\
-        0_k = \dv{t} h_x(c(t)) = \mathrm{D} h_x(c(t)) [c'(t)] \implies \mathrm{D} h_x(x) [v] = 0 \implies v \in \ker(\mathrm{D} h_x(x)).
-    \end{gather*}
+        c(0) = x, \quad c'(0) = v.
+    \end{equation*}
+    By the definition of the local defining function $h_x$, we have
+    \begin{equation*}
+        c(t) \in \mathcal{M} \implies h_x(c(t)) = 0_k.
+    \end{equation*}
+    Thus, we have
+    \begin{align*}
+                    & 0_k = \dv{t} h_x(c(t)) = \dv{t} h_x(c(t)+t c'(t)) \Big|_{t=0} = \mathrm{D} h_x(c(t)) [c'(t)] \\
+        \implies {} & \mathrm{D} h_x(x) [v] = 0                                                                    \\
+        \implies {} & v \in \ker(\mathrm{D} h_x(x)).
+    \end{align*}
     \textbf{Step2:} $\mathrm{T}_x \mathcal{M} \supseteq (\text{$n$-dimensional subspace of } \mathcal{E})$. Recall Theorem 3.12.
     \begin{gather*}
         \exists U_x \subseteq \mathcal{E} \text{ is open}, \quad
@@ -400,6 +431,8 @@
         \label{fig:Sym21_cone}
     \end{figure}
     We show the visualization in \cref{fig:Sym21,fig:Sym21_cone}.
+
+    It is neither open (obvious) nor closed ($0$ in the complement of the set, which cannot be an interior point) in $\mathbb{R}^3$, and it is not connected (the set consists of two connected components). Still, it is a smooth embedded submanifold of $\mathbb{R}^3$ of dimension $n=2$.
 }
 
 \myBox{Proposition 3.20 and Exercise 3.25}{
@@ -571,9 +604,9 @@
 \href{https://ja.wikipedia.org/wiki/%E3%83%91%E3%83%A9%E3%82%B3%E3%83%B3%E3%83%91%E3%82%AF%E3%83%88%E7%A9%BA%E9%96%93}{Wiki: Paracompact space}
 \href{https://ja.wikipedia.org/wiki/1%E3%81%AE%E5%88%86%E5%89%B2}{Wiki: Partition of unity}
 
-\myBox{Exercise 3.32}{
+\myBox{Exercise 3.33}{
     \begin{equation*}
-        \mathrm{Sym}(2)_1 \subseteq U=\mathrm{Sym}(2) \setminus \{ 0 \} \subseteq \mathcal{E} = \mathrm{Sym}(2).
+        \mathcal{M} = \mathrm{Sym}(2)_1 \subseteq \mathcal{E} = \mathrm{Sym}(2).
     \end{equation*}
     Let $f$ be a smooth function on $U$ which is defined on $\mathcal{E}=\mathrm{Sym}(2)$ as follows:
     \begin{equation*}
@@ -632,7 +665,7 @@
     \begin{gather*}
         \mathcal{N} \text{ is a smooth embedded submanifold of } \mathcal{E},\\
         \dim \mathcal{N} = \dim \mathcal{M} - \ell,\\
-        \mathrm{T}_x \mathcal{N} = \ker(\mathrm{D} g(x)) \subset \mathrm{T}_x \mathcal{M}.
+        (\mathrm{T}_x \mathcal{N} = \ker(\mathrm{D} g(x)) \subset \mathrm{T}_x \mathcal{M}. \text{   We omit this goal here.})
     \end{gather*}
     \vskip\baselineskip
     By Definition 3.10, we can rewrite the assumptions and the goal as follows.\\
