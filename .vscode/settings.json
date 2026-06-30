@@ -13,6 +13,7 @@
         "Fr",
         "labelsep",
         "linestyle",
+        "Lipschitz",
         "Manopt",
         "markersize",
         "mathbb",
@@ -32,15 +33,6 @@
         "xytext",
         "ylim",
         "zorder"
-    ],
-    "latex-workshop.latex.recipes": [
-        {
-            "name": "ptex2pdf*2",
-            "tools": [
-                "ptex2pdf",
-                "ptex2pdf",
-            ]
-        }
     ],
     "latexlint.exceptions": [
         "Primal-Dual",
