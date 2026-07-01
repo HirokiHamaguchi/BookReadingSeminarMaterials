@@ -120,55 +120,75 @@
     \end{center}
 \end{abstract}
 
-\section*{第5章 感度解析と安定性（pp.419--445）}
+\myBox{Chapter1からの復習事項}{\\
+    変分不等式 $\operatorname{VI}(K,F)$:
+    \begin{equation*}
+        \text{Find} \quad x \in K \quad \text{s.t.} \quad (y-x)^\top F(x) \geq 0 \quad \text{for all} \quad y \in K.
+    \end{equation*}
+    線形相補性問題 $\operatorname{LCP}(q,M)$:
+    \begin{equation*}
+        \text{Find} \quad x \in \mathbb{R}^n \quad \text{s.t.} \quad 0 \leq x \perp Mx+q \geq 0.
+    \end{equation*}
+    (LCPはVIの特殊形: \href{https://www.kurims.kyoto-u.ac.jp/coss/coss2019/hayashi-lecture1.pdf}{林先生の資料} p.21)
+}
 
-\bookBox{第5章の目的と二種類の感度解析}{
-    変分不等式 $\operatorname{VI}(K,F)$ の解が、集合 $K$ や写像 $F$ の小さな変化に対して
-    どのように変化するかを調べる。厳密には、閉凸集合の族および連続写像の空間に距離を導入して
-    「小さな変化」を定式化する必要がある。
+\bookBox{P.419 第1段落}{
+    $VI(K,F)$ の解が、集合 $K$ や写像 $F$ の小さな変化に対してどのように変化するかを調べる。
+    厳密には、閉凸集合の族および連続写像の空間に距離を導入して「小さな変化」を定式化する必要がある。
+}
 
-    本章では二種類の問題を区別する。第一は、孤立解 $x^*$ を一つ固定し、摂動後の問題
-    $\operatorname{VI}(L,G)$ に $x^*$ の近くの解が存在するか、その解が孤立しているか、
-    摂動が消えるとき近傍の解が $x^*$ に収束するかを問う\textbf{孤立感度解析}である。
-    第二は解集合全体 $\operatorname{SOL}(K,F)$ の変化を調べる\textbf{全感度解析}であり、
-    こちらの方が一般に難しい。本章では発展の進んでいる孤立感度解析を主に扱う。
+\bookBox{P.419 第2段落}{
+    孤立解 $x^*$ を一つ固定し、摂動後の問題 $\operatorname{VI}(L,G)$ に $x^*$ の近くの解が存在するか、その解が孤立しているか、摂動が消えるとき近傍の解が $x^*$ に収束するかを問うのが\textbf{孤立感度解析 (isolated sensitivity analysis)}である。
+}
 
+\bookBox{P.419 第3段落、P.420 第2段落}{
     パラメータ付き問題
     \[
-        \{\operatorname{VI}(K(p),F(\cdot,p)):p\in P\}
+        \{\operatorname{VI}(K(p),F(\cdot,p)) : p\in P\}
     \]
     では、$p^*$ における解 $x^*$ から出る解軌道 $x(p)$ の連続性に加え、微分可能性も問題となる。
+    このような問題は\textbf{孤立パラメトリック解析 (isolated parametric analysis)}と呼ばれる。
     とくに本章前半では $K$ を固定し $F$ のみを摂動する。この設定は MiCP や NCP の感度解析を含む。
+}
+
+\bookBox{P.420 第3段落}{
+    解集合全体 $\operatorname{SOL}(K,F)$ の変化を調べるのが\textbf{全感度解析}である。
+    こちらの方が一般に難しく、あまり扱わない。
 }
 
 \myBox{最適化問題との対応}{
     $F=\nabla f$ のとき、$\operatorname{VI}(K,F)$ は制約付き最適化の一階条件である。
-    したがって孤立感度解析は、目的関数やパラメータを少し変えた際に局所解が残るか、
-    また解がどの程度動くかを調べる問題と読める。ただし一般の VI ではポテンシャル $f$ が存在するとは限らず、
-    以下の議論は勾配構造を仮定しない。
+    したがって孤立感度解析は、目的関数やパラメータを少し変えた際に局所解が残るか、また解がどの程度動くかを調べる問題と解釈できる(i.e., LPの感度分析)。
+    ただし一般の VI ではポテンシャル $f$ が存在するとは限らず、以下の議論は勾配構造を仮定しない。
 }
 
-\bookBox{5.1 孤立解の感度:局所一意性だけでは足りない}{
-    $K$ を閉凸集合として固定し、$x^*$ を $\operatorname{VI}(K,F)$ の局所一意解とする。
-    中心的な問いは、$F$ に近い $G$ に対して $\operatorname{VI}(K,G)$ が $x^*$ の近くに解をもつか、である。
-    しかし局所一意性だけではこれを保証できない。
+\bookBox{Example 5.1.1}{\\
+    $K$: 固定された閉凸集合\qquad
+    $x^*$: $\operatorname{VI}(K,F)$ の局所一意解\\
 
-    例5.1.1では
+    ナイーブな仮説「$G \approx F$ に対して $\operatorname{VI}(K,G)$ が $x^*$ の近くに解をもつ」\\
+    しかし局所一意性だけではこれを保証できない。
+    反例が例5.1.1。
     \[
       q=(0,-1,1)^\top,\qquad
       M=\begin{bmatrix}0&-1&-1\\1&0&0\\-1&0&0\end{bmatrix}
     \]
     による LCP は一意解 $(1,0,0)$ をもつ一方、$q(\varepsilon)=(-\varepsilon,-1,1)^\top$
-    とすると任意の $\varepsilon>0$ で解が存在しない。$M$ は半正定値ではあるが正定値でない。
-    ゆえに「元の解が孤立していること」と「近い問題に近い解が存在すること」は別の性質である。
+    とすると任意の $\varepsilon>0$ で解が存在しない。この例外は言明できるか?
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\columnwidth]{example5.1.1.png}
+    \end{figure}
+
+    ゆえに「元の解($x^*_F \in \operatorname{SOL}(K,F)$)が孤立していること」と「近い問題($\operatorname{SOL}(K,G \approx F)$)に近い解($x^*_G \approx x^*_F$)が存在すること」は別の性質である。
 
     開集合 $D\subseteq\mathbb R^n$ 上の連続写像 $H$ と $S\subset D$ に対し、
     \[
        \mathbb B(H;\varepsilon,S)
        \coloneqq\left\{G:\sup_{y\in S}\norm{G(y)-H(y)}<\varepsilon\right\}
     \]
-    を $S$ 上の一様な $\varepsilon$-近傍とする。$\norm{G_k-H}_S\to0$ を
-    $G_k$ が $S$ 上で $H$ に収束することと呼ぶ。
+    を $S$ 上の一様な $\varepsilon$-近傍とする。$\norm{G_k-H}_S \coloneqq \sup_{y \in  S} \norm{G(y)-H(y)} \to 0$ を $G_k$ が $S$ 上で $H$ に収束することと呼ぶ。(一様収束に近い定義)
 }
 
 \bookBox{命題5.1.2:孤立解は近傍解の吸引点である}{
@@ -179,19 +199,42 @@
        \operatorname{SOL}(K,F)\cap\overline N=\{x^*\}                         \tag{5.1.1}
     \]
     を満たすとする。$G_k\to F$ が $N$ 上で一様に成り立ち、
-    $x_k\in\operatorname{SOL}(K,G_k)\cap N$ ならば $x_k\to x^*$ である。
+    $x_k\in\operatorname{SOL}(K,G_k) \red{{} \cap N}$ ならば $x_k\to x^*$ である。
 
-    証明の要点はコンパクト性と極限操作である。$\{x_k\}$ の任意の集積点 $x^\infty$ は、
-    $G_k\to F$ と VI の不等式を極限に移すことにより $\operatorname{VI}(K,F)$ の解となる。
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.8\columnwidth]{proposition5.1.2.png}
+    \end{figure}
+
+    証明の要点はコンパクト性と極限操作。
+    $\{x_k\}$ の任意の集積点 $x^\infty$ は、$G_k\to F$ と VI の不等式を極限に移すことにより $\operatorname{VI}(K,F)$ の解となる。
     しかも $x^\infty\in\overline N$ なので (5.1.1) より $x^\infty=x^*$ である。
-    集積点が一つしかないため列全体が $x^*$ に収束する。
+    集積点が一つしかないため列全体が $x^*$ に収束する。\\
 
-    ただしこの命題は、摂動後の解が近傍に\emph{存在すると仮定した上で}その収束を述べるだけであり、
-    存在そのものは保証しない。局所可解性には位相的次数を用いる。
+    ただし、この命題は\red{摂動後の解が近傍に存在する}と仮定してその収束を述べる。
+    存在そのものは保証しない。
+    この``local solvability''を、degree theoryを用いて解析する。
+}
+
+\myBox{復習}{\\
+    natural map:
+    \begin{equation*}
+        F_K^{\mathrm{nat}}(v) \coloneqq v - \Pi_K(v-F(v)).
+    \end{equation*}
+    % LLDisable
+    normal map:
+    \begin{equation*}
+        F_K^{\mathrm{nor}}(v) \coloneqq F(\Pi_K(v)) + v - \Pi_K(v).
+    \end{equation*}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\columnwidth]{nat_and_nor.png}
+        \caption{natural mapとnormal mapの例}
+    \end{figure}
 }
 
 \bookBox{命題5.1.3--5.1.5:非零指数による局所可解性}{
-    $F_K^{\mathrm{nat}}$ を自然写像とする。孤立解 $x^*$ における指数
+    $F_K^{\mathrm{nat}}$ をnatural mapとする。孤立解 $x^*$ における指数
     $\operatorname{ind}(F_K^{\mathrm{nat}},x^*)$ が非零ならば、(5.1.1) を満たす任意の開近傍 $N$ に対し、
     \[
        \varepsilon=\operatorname{dist}_\infty
@@ -199,19 +242,19 @@
     \]
     とおくことで、$\norm{G-F}_{\overline N}<\varepsilon$ を満たす $G$ による
     $\operatorname{VI}(K,G)$ は $N$ 内に解をもつ（命題5.1.3）。射影 $\Pi_K$ の非拡大性により
-    自然写像同士の差もこの誤差以下となり、次数の近接不変性から
+    natural map同士の差もこの誤差以下となり、次数の近接不変性から
     \[
        \deg(G_K^{\mathrm{nat}},N)
        =\operatorname{ind}(F_K^{\mathrm{nat}},x^*)\ne0
     \]
     が従うためである。
 
-    正規写像を用いると仮定を局所化できる。$z^*=x^*-F(x^*)$、$K_N=K\cap\overline N$ とおく。
+    normal mapを用いると仮定を局所化できる。$z^*=x^*-F(x^*)$、$K_N=K\cap\overline N$ とおく。
     $\operatorname{ind}(F_K^{\mathrm{nor}},z^*)\ne0$ ならば、ある $\varepsilon>0$ が存在し、
     $G-F$ の大きさを $K_N$ 上だけで抑えれば $\operatorname{VI}(K,G)$ は $N$ に解をもつ
-    （命題5.1.4）。これは $\Pi_K(z)$ が $K_N$ に入る正規写像側の近傍を選べるためである。
+    （命題5.1.4）。これは $\Pi_K(z)$ が $K_N$ に入るnormal map側の近傍を選べるためである。
 
-    パラメータ付きの固定集合 VI では、$F(\cdot,p^*)$ に対する正規写像の指数が非零で、
+    パラメータ付きの固定集合 VI では、$F(\cdot,p^*)$ に対するnormal mapの指数が非零で、
     \[
        \sup_{x\in K\cap N}\norm{F(x,p)-F(x,p^*)}
        \le L\norm{p-p^*}
@@ -241,7 +284,7 @@
        v^\top F'(x^*;v)>0
        \qquad(0\ne v\in C(x^*;K,F))                                  \tag{5.1.4}
     \]
-    が成り立つなら、自然写像と正規写像の指数はいずれも定義され非零となる（命題5.1.6）。
+    が成り立つなら、natural mapとnormal mapの指数はいずれも定義され非零となる（命題5.1.6）。
     証明では $F$ と $x\mapsto x-z^*$ を結ぶホモトピー
     \[
       F_t(x)=tF(x)+(1-t)(x-z^*)
@@ -415,8 +458,8 @@
     を満たすとき強 FOA と呼ぶ。FOA であることは $H$ と $h$ について対称である。
     $H$ が B微分可能なら $h(y)=H(x)+H'(x;y-x)$ が FOA となる。
 
-    正規写像 $F_K^{\mathrm{nor}}$ では、射影 $\Pi_K$ を線形化せず $F$ だけを線形化した
-    半線形化 VI の正規写像が FOA になる。すなわち $\bar x=\Pi_K(\bar z)$ として
+    normal map $F_K^{\mathrm{nor}}$ では、射影 $\Pi_K$ を線形化せず $F$ だけを線形化した
+    半線形化 VI のnormal mapが FOA になる。すなわち $\bar x=\Pi_K(\bar z)$ として
     \[
       z\mapsto F_K^{\mathrm{nor}}(\bar z)
       +JF(\bar x)(\Pi_K(z)-\Pi_K(\bar z))+z-\Pi_K(z).                 \tag{5.2.8}
@@ -451,7 +494,7 @@
       \end{array}
     \]
     滑らかな問題ではこれらが Jacobian の正則性へまとまるが、非滑らか・退化した VI では分離する。
-    次節5.3は、この方程式に対する概念を自然写像・正規写像を介して固定集合 VI に移し、
+    次節5.3は、この方程式に対する概念をnatural map・normal mapを介して固定集合 VI に移し、
     VI 固有の構造を反映した安定性を定義するところから始まる。
 }
 
