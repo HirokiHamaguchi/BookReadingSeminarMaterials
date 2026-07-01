@@ -40,4 +40,8 @@
         "Primal-Dual",
         "Piece-Wise"
     ],
+    "latexlint.userDefinedRules": [
+        "VI\\(",
+        "吸引点"
+    ],
 }

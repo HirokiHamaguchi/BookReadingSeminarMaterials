@@ -133,7 +133,7 @@
 }
 
 \bookBox{P.419 第1段落}{
-    $VI(K,F)$ の解が、集合 $K$ や写像 $F$ の小さな変化に対してどのように変化するかを調べる。
+    $\operatorname{VI}(K,F)$ の解が、集合 $K$ や写像 $F$ の小さな変化に対してどのように変化するかを調べる。
     厳密には、閉凸集合の族および連続写像の空間に距離を導入して「小さな変化」を定式化する必要がある。
 }
 
@@ -191,7 +191,7 @@
     を $S$ 上の一様な $\varepsilon$-近傍とする。$\norm{G_k-H}_S \coloneqq \sup_{y \in  S} \norm{G(y)-H(y)} \to 0$ を $G_k$ が $S$ 上で $H$ に収束することと呼ぶ。(一様収束に近い定義)
 }
 
-\bookBox{命題5.1.2:孤立解は近傍解の吸引点である}{
+\bookBox{命題5.1.2:孤立解は近傍解の集積点である}{
     $F\colon D\to\mathbb R^n$ を連続とし、$x^*$ を $\operatorname{VI}(K,F)$ の孤立解とする。
     $x^*$ の近傍 $N$ が
     \[
@@ -231,9 +231,77 @@
         \includegraphics[width=\columnwidth]{nat_and_nor.png}
         \caption{natural mapとnormal mapの例}
     \end{figure}
+    Proposition 1.5.8 ($K$: closed convex):
+    \begin{equation*}
+        x \in \operatorname{SOL}(K,F) \iff F_K^{\mathrm{nat}}(x) = 0
+    \end{equation*}
 }
 
-\bookBox{命題5.1.3--5.1.5:非零指数による局所可解性}{
+\myBox{位相的次数、指数、境界の定義}{\\
+    \textit{参照：原著 Chapter 2, \S2.1, pp.127--130
+    （Definition 2.1.1、Proposition 2.1.3 とその直後の議論）。}\\
+
+    $\Omega\subset\mathbb R^n$ を有界開集合、$\Phi\colon\overline\Omega\to\mathbb R^n$
+    を連続写像とし、$p\notin\Phi(\partial\Omega)$ とする。このとき
+    \[
+        \deg(\Phi,\Omega,p)\in\mathbb Z
+    \]
+    を、$\Omega$ 内にある方程式 $\Phi(x)=p$ の零点の``向き付き個数''を表す
+    \textbf{位相的次数}という。$p=0$ のときは
+    $\deg(\Phi,\Omega)\coloneqq\deg(\Phi,\Omega,0)$ と略記する。
+    厳密には単なる零点の個数ではないが、ここでは次の二性質が重要である：
+    \[
+       \deg(\Phi,\Omega,p)\ne0
+       \quad\Longrightarrow\quad
+       \text{$\Phi(x)=p$ は $\Omega$ 内に解をもつ},
+    \]
+    また、ホモトピーの途中で $p$ が境界像を横切らなければ次数は変化しない。
+
+    $\bar x$ が $\Phi(x)=p$ の孤立解であるとする。$\bar x$ だけを含み、ほかの解を
+    含まない十分小さな開近傍 $U$ をとると、切除性により
+    $\deg(\Phi,U,p)$ は $U$ の選び方によらない。この共通値を
+    \[
+       \operatorname{ind}(\Phi,\bar x)
+       \coloneqq \deg(\Phi,U,p)
+    \]
+    と定め、$\bar x$ における\textbf{指数}という。したがって指数は、次数を一つの
+    孤立解の周囲に局所化したものである。
+
+    $\partial N$ は集合 $N$ の\textbf{境界}であり、
+    \[
+       \partial N=\overline N\setminus\operatorname{int}N
+    \]
+    と定義される。ここでは $N$ が開集合なので
+    $\partial N=\overline N\setminus N$ である。例えば
+    $N=\{x:\norm{x-x^*}<r\}$ なら $\partial N=\{x:\norm{x-x^*}=r\}$ となる。
+    また
+    \[
+       \operatorname{dist}_\infty(0,\Phi(\partial N))
+       =\inf_{x\in\partial N}\norm{\Phi(x)}_\infty
+    \]
+    は、境界上で $\Phi$ が零点からどれだけ離れているかを測る量である。
+    一般に、閉集合 $S\subset\mathbb R^n$ に対して
+    \[
+       \operatorname{dist}_\infty(x,S)
+       \coloneqq\inf_{y\in S}\norm{x-y}_\infty
+    \]
+    と定義される（後述参照）。
+}
+
+\myBox{Nearness Property}{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\columnwidth]{nearness1.png}
+    \end{figure}
+        \begin{figure}[H]
+        \centering
+        \includegraphics[width=\columnwidth]{nearness2.png}
+    \end{figure}
+}
+
+\bookBox{命題5.1.3：natural mapによる局所可解性}{
+    \textit{参照：原著 Chapter 5, \S5.1, pp.422--423, Proposition 5.1.3。}\\
+
     $F_K^{\mathrm{nat}}$ をnatural mapとする。孤立解 $x^*$ における指数
     $\operatorname{ind}(F_K^{\mathrm{nat}},x^*)$ が非零ならば、(5.1.1) を満たす任意の開近傍 $N$ に対し、
     \[
@@ -241,18 +309,84 @@
        (0,F_K^{\mathrm{nat}}(\partial N))>0
     \]
     とおくことで、$\norm{G-F}_{\overline N}<\varepsilon$ を満たす $G$ による
-    $\operatorname{VI}(K,G)$ は $N$ 内に解をもつ（命題5.1.3）。射影 $\Pi_K$ の非拡大性により
-    natural map同士の差もこの誤差以下となり、次数の近接不変性から
+    $\operatorname{VI}(K,G)$ は $N$ 内に解をもつ。
+
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\columnwidth]{path}
+        \caption{todo!!!}
+    \end{figure}
+
+
+    実際、(5.1.1) より
+    $\partial N$ 上に $F_K^{\mathrm{nat}}$ の零点はないので、$\varepsilon>0$ である。
+    また射影 $\Pi_K$ の非拡大性から、任意の $x\in\overline N$ に対して
+    \[
+       \begin{aligned}
+       \norm{G_K^{\mathrm{nat}}(x)-F_K^{\mathrm{nat}}(x)}
+       &=\norm{\Pi_K(x-F(x))-\Pi_K(x-G(x))}\\
+       &\le \norm{G(x)-F(x)}
+       \end{aligned}
+    \]
+    となる。ここで射影の非拡大性はユークリッドノルムについての評価である一方、
+    $\operatorname{dist}_\infty$ と次数の近接不変性は最大値ノルムを用いる。しかし
+    $\norm{v}_\infty\le\norm{v}_2$ なので、上のユークリッドノルムによる誤差評価は
+    最大値ノルムによる評価も同時に保証する。したがって、$F_K^{\mathrm{nat}}$ を
+    $G_K^{\mathrm{nat}}$ に摂動しても境界上に零点は現れない。次数の近接不変性から
     \[
        \deg(G_K^{\mathrm{nat}},N)
+       =\deg(F_K^{\mathrm{nat}},N)
        =\operatorname{ind}(F_K^{\mathrm{nat}},x^*)\ne0
     \]
-    が従うためである。
+    が従い、非零次数の存在性より $G_K^{\mathrm{nat}}(x)=0$ となる
+    $x\in N$ が存在する。この零点条件は $x\in\operatorname{SOL}(K,G)$ と同値である。
+
+    つまり $\varepsilon$ は、境界上の natural map の値が原点まで動くために必要な
+    最小距離である。摂動がこの距離より小さければ、零点は $\partial N$ を横切れず、
+    非零次数が表す零点の存在が $N$ 内に保存される。ただし、摂動後の解の一意性までは
+    この命題からは従わない。
+}
+
+\bookBox{命題5.1.4：normal mapによる誤差条件の局所化}{
+    \textit{参照：原著 Chapter 5, \S5.1, p.423, Proposition 5.1.4 とその直前の議論。}\\
 
     normal mapを用いると仮定を局所化できる。$z^*=x^*-F(x^*)$、$K_N=K\cap\overline N$ とおく。
     $\operatorname{ind}(F_K^{\mathrm{nor}},z^*)\ne0$ ならば、ある $\varepsilon>0$ が存在し、
     $G-F$ の大きさを $K_N$ 上だけで抑えれば $\operatorname{VI}(K,G)$ は $N$ に解をもつ
-    （命題5.1.4）。これは $\Pi_K(z)$ が $K_N$ に入るnormal map側の近傍を選べるためである。
+    （命題5.1.4）。より具体的には、$z^*$ の開近傍 $Z$ を
+    $\Pi_K(\overline Z)\subset K_N$ かつ $z^*$ が
+    $F_K^{\mathrm{nor}}$ の $\overline Z$ 内の唯一の零点となるように選ぶ。このとき
+    \[
+       \norm{G_K^{\mathrm{nor}}(z)-F_K^{\mathrm{nor}}(z)}
+       =\norm{G(\Pi_K(z))-F(\Pi_K(z))}
+       \qquad(z\in\overline Z)
+    \]
+    であり、右辺が参照する点 $\Pi_K(z)$ はすべて $K_N$ にある。ゆえに $G-F$ を
+    $D$ 全体や $\overline N$ 全体で抑える必要はなく、$K_N$ 上の誤差だけで次数を保存できる。
+    この $Z$ が選べるのは、$\Pi_K(z^*)=x^*\in N$ と $\Pi_K$ の連続性から
+    $z^*$ の十分小さな近傍が $N$ に射影され、さらに normal map の零点 $z$ と
+    VI の解 $\Pi_K(z)$ が対応するためである。(5.1.1) により $\overline N$ 内の解は
+    $x^*$ だけなので、$Z$ を小さくすれば $\overline Z$ 内の零点も $z^*$ だけにできる。
+
+    このとき実際に用いる許容誤差は
+    \[
+       \varepsilon_N
+       =\operatorname{dist}_\infty
+       (0,F_K^{\mathrm{nor}}(\partial Z))>0
+    \]
+    である。$G-F$ が $K_N$ 上で $\varepsilon_N$ より小さければ、
+    $G_K^{\mathrm{nor}}$ と $F_K^{\mathrm{nor}}$ は $Z$ 上で同じ次数をもつ。
+    よって $G_K^{\mathrm{nor}}$ は $Z$ 内に零点 $z$ をもち、その射影
+    $x=\Pi_K(z)\in N$ が $\operatorname{VI}(K,G)$ の解となる。
+
+    命題5.1.3との違いは誤差を測る領域である。natural mapでは $\overline N$ 上で
+    $G-F$ を抑えたが、normal mapでは実行可能点だけからなる
+    $K_N=K\cap\overline N$ 上で抑えればよい。
+}
+
+\bookBox{系5.1.5：パラメータ付きVIの局所可解性と収束}{
+    \textit{参照：原著 Chapter 5, \S5.1, pp.423--424, Corollary 5.1.5。}\\
 
     パラメータ付きの固定集合 VI では、$F(\cdot,p^*)$ に対するnormal mapの指数が非零で、
     \[
@@ -264,7 +398,23 @@
     \[
        \lim_{p\to p^*}\sup\{\norm{x-x^*}:x\in S_N(p)\}=0.                 \tag{5.1.3}
     \]
-    これは命題5.1.4で存在を、命題5.1.2で収束を得る二段構えである。
+    第1段階では、$\norm{p-p^*}$ を十分小さくして上の誤差を命題5.1.4の
+    $\varepsilon$ 未満にし、$S_N(p)\ne\varnothing$ を得る。第2段階では、任意の列
+    $p_k\to p^*$ と $x_k\in S_N(p_k)$ をとると
+    $F(\cdot,p_k)\to F(\cdot,p^*)$ が $K\cap N$ 上で一様に成り立つため、
+    命題5.1.2から $x_k\to x^*$ となる。この列による特徴づけが (5.1.3) を与える。
+    より明示的には、(5.1.3) が偽ならば、ある $\delta>0$、$p_k\to p^*$ および
+    $x_k\in S_N(p_k)$ を
+    \[
+       \norm{x_k-x^*}\ge\delta\qquad(k=1,2,\ldots)
+    \]
+    となるように選べる。しかし命題5.1.2は $x_k\to x^*$ を与えるので矛盾する。
+
+    (5.1.3) の $\sup$ は重要である。これは特定の解の選択
+    $x(p)\in S_N(p)$ だけが収束するのではなく、$N$ 内に存在する摂動解が複数あっても、
+    それらすべてと $x^*$ との最大距離が $0$ に近づくことを述べている。
+    したがってこの系も一意性は保証しないが、近傍内の解集合全体が
+    $x^*$ の周囲へ収縮することを保証する。
 }
 
 \myBox{位相的次数の役割}{
