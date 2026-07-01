@@ -1,4 +1,7 @@
-**/secret
+**/secret/*
+!**/secret/
+!**/secret/*.py
+!**/secret/*.enc.pdf
 
 # Python-generated files
 .mypy_cache/
