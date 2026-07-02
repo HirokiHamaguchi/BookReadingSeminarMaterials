@@ -35,8 +35,8 @@ def F(x):
 # Canvas/grid
 xlim = (-1.35, 1.85)
 ylim = (-1.35, 1.35)
-x = np.linspace(xlim[0], xlim[1], 19)
-y = np.linspace(ylim[0], ylim[1], 15)
+x = np.linspace(xlim[0], xlim[1], 13)
+y = np.linspace(ylim[0], ylim[1], 10)
 X, Y = np.meshgrid(x, y)
 P = np.stack([X, Y], axis=-1)
 
@@ -61,7 +61,7 @@ setup(ax)
 U = a[0] - X
 V = a[1] - Y
 ax.quiver(X, Y, U, V, angles="xy", scale_units="xy",
-          width=0.0032, color=TAB10[0], alpha=0.95)
+          width=0.0048, color=TAB10[0], alpha=0.95)
 ax.plot(a[0], a[1], marker="*", ms=14, color="gold", zorder=5)
 ax.plot(xstar[0], xstar[1], "o", ms=8, color=TAB10[3], zorder=6)
 ax.set_title("Negative flow\n" r"$-F(x)=a-x$", fontsize=20)
@@ -69,17 +69,19 @@ ax.set_title("Negative flow\n" r"$-F(x)=a-x$", fontsize=20)
 # --- Middle: natural map correction -F_nat(v), v in K
 ax = axs[1]
 setup(ax)
-# vector field drawn only inside K
-mask = X**2 + Y**2 <= 1.0001
 Vpts = np.stack([X, Y], axis=-1)
 YminusF = Vpts - (Vpts - a)  # v - F(v) = a for this affine example
 Proj = proj_ball_vec(YminusF)
 Fnat = Vpts - Proj
 Unat, Vnat = -Fnat[..., 0], -Fnat[..., 1]
-Unat = np.where(mask, Unat, np.nan)
-Vnat = np.where(mask, Vnat, np.nan)
-ax.quiver(X, Y, Unat, Vnat, angles="xy", scale_units="xy",
-          width=0.0033, color=TAB10[2], alpha=0.95)
+inside = X**2 + Y**2 <= 1.0001
+outside = ~inside
+ax.quiver(X, Y, np.where(inside, Unat, np.nan),
+          np.where(inside, Vnat, np.nan), angles="xy", scale_units="xy",
+          width=0.0050, color=TAB10[2], alpha=0.95)
+ax.quiver(X, Y, np.where(outside, Unat, np.nan),
+          np.where(outside, Vnat, np.nan), angles="xy", scale_units="xy",
+          width=0.0050, color=TAB10[2], alpha=0.3)
 ax.plot(a[0], a[1], marker="*", ms=14, color="gold", zorder=5)
 ax.plot(xstar[0], xstar[1], "o", ms=8, color=TAB10[3], zorder=6)
 ax.set_title(
@@ -96,7 +98,7 @@ PiZ = proj_ball_vec(Z)
 Fnor = (PiZ - a) + Z - PiZ   # F(Pi_K(z)) + z - Pi_K(z)
 Unor, Vnor = -Fnor[..., 0], -Fnor[..., 1]
 ax.quiver(X, Y, Unor, Vnor, angles="xy", scale_units="xy",
-          width=0.0032, color=TAB10[4], alpha=0.95)
+          width=0.0048, color=TAB10[4], alpha=0.95)
 ax.plot(a[0], a[1], marker="*", ms=14, color="gold", zorder=5)
 ax.set_title(
     "Normal map\n"

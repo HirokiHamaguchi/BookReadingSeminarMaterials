@@ -44,4 +44,33 @@
         "VI\\(",
         "吸引点"
     ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "uplatex-miktex",
+            "command": "uplatex",
+            "args": [
+                "-kanji=utf8",
+                "-c-style-errors",
+                "-interaction=nonstopmode",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "dvipdfmx",
+            "command": "dvipdfmx",
+            "args": [
+                "%DOCFILE%.dvi"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "uplatex",
+            "tools": [
+                "uplatex-miktex",
+                "uplatex-miktex",
+                "dvipdfmx"
+            ]
+        }
+    ]
 }

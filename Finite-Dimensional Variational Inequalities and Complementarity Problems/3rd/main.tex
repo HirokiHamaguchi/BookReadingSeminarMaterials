@@ -170,8 +170,8 @@
     しかし局所一意性だけではこれを保証できない。
     反例が例5.1.1。
     \[
-      q=(0,-1,1)^\top,\qquad
-      M=\begin{bmatrix}0&-1&-1\\1&0&0\\-1&0&0\end{bmatrix}
+        q=(0,-1,1)^\top,\qquad
+        M=\begin{bmatrix}0&-1&-1\\1&0&0\\-1&0&0\end{bmatrix}
     \]
     による LCP は一意解 $(1,0,0)$ をもつ一方、$q(\varepsilon)=(-\varepsilon,-1,1)^\top$
     とすると任意の $\varepsilon>0$ で解が存在しない。この例外は言明できるか?
@@ -185,8 +185,8 @@
 
     開集合 $D\subseteq\mathbb R^n$ 上の連続写像 $H$ と $S\subset D$ に対し、
     \[
-       \mathbb B(H;\varepsilon,S)
-       \coloneqq\left\{G:\sup_{y\in S}\norm{G(y)-H(y)}<\varepsilon\right\}
+        \mathbb B(H;\varepsilon,S)
+        \coloneqq\left\{G:\sup_{y\in S}\norm{G(y)-H(y)}<\varepsilon\right\}
     \]
     を $S$ 上の一様な $\varepsilon$-近傍とする。$\norm{G_k-H}_S \coloneqq \sup_{y \in  S} \norm{G(y)-H(y)} \to 0$ を $G_k$ が $S$ 上で $H$ に収束することと呼ぶ。(一様収束に近い定義)
 }
@@ -195,8 +195,8 @@
     $F\colon D\to\mathbb R^n$ を連続とし、$x^*$ を $\operatorname{VI}(K,F)$ の孤立解とする。
     $x^*$ の近傍 $N$ が
     \[
-       \overline N\subset D,\qquad
-       \operatorname{SOL}(K,F)\cap\overline N=\{x^*\}                         \tag{5.1.1}
+        \overline N\subset D,\qquad
+        \operatorname{SOL}(K,F)\cap\overline N=\{x^*\}                         \tag{5.1.1}
     \]
     を満たすとする。$G_k\to F$ が $N$ 上で一様に成り立ち、
     $x_k\in\operatorname{SOL}(K,G_k) \red{{} \cap N}$ ならば $x_k\to x^*$ である。
@@ -216,74 +216,74 @@
     この``local solvability''を、degree theoryを用いて解析する。
 }
 
-\myBox{復習}{\\
+\myBox{natural mapとnormal map}{\\
     natural map:
     \begin{equation*}
         F_K^{\mathrm{nat}}(v) \coloneqq v - \Pi_K(v-F(v)).
     \end{equation*}
-    % LLDisable
+    Proposition 1.5.8 ($K$: closed convex):
+    \begin{equation*}
+        x \in \operatorname{SOL}(K,F) \iff F_K^{\mathrm{nat}}(x) = 0
+    \end{equation*}
+    雑理解: VIが$-F$の$K$上安定点を求める問題で、natural mapは$-F$方向に進む射影勾配降下法の1ステップ。Prop 1.5.8の同値性も自然、証明はVIと$\Pi$の定義より不等式評価。\\
+
     normal map:
     \begin{equation*}
         F_K^{\mathrm{nor}}(v) \coloneqq F(\Pi_K(v)) + v - \Pi_K(v).
     \end{equation*}
+    Proposition 1.5.8 ($K$: closed convex):
+    \begin{equation*}
+        x \in \operatorname{SOL}(K,F) \iff F_K^{\mathrm{nat}}(x) = 0
+    \end{equation*}
+    雑理解: normal mapは$-F$方向に進む射影勾配降下法の1ステップ。Prop 1.5.8の同値性も自然、証明はVIと$\Pi$の定義より不等式評価。\\
+
+
     \begin{figure}[H]
         \centering
         \includegraphics[width=\columnwidth]{nat_and_nor.png}
         \caption{natural mapとnormal mapの例}
     \end{figure}
-    Proposition 1.5.8 ($K$: closed convex):
-    \begin{equation*}
-        x \in \operatorname{SOL}(K,F) \iff F_K^{\mathrm{nat}}(x) = 0
-    \end{equation*}
+    \textbf{直観としては、natural mapを使えば、安定性の定義に出てくるSOLという扱いにくい集合が、零点の問題に帰着できるので嬉しい。}
 }
 
-\myBox{位相的次数、指数、境界の定義}{\\
-    \textit{参照：原著 Chapter 2, \S2.1, pp.127--130
-    （Definition 2.1.1、Proposition 2.1.3 とその直後の議論）。}\\
-
+\myBox{degree theory}{
+    (Definition 2.1.1、Proposition 2.1.3など)\\
     $\Omega\subset\mathbb R^n$ を有界開集合、$\Phi\colon\overline\Omega\to\mathbb R^n$
-    を連続写像とし、$p\notin\Phi(\partial\Omega)$ とする。このとき
+    を連続写像とし、$p\notin\Phi(\partial\Omega)$ とする。
     \[
         \deg(\Phi,\Omega,p)\in\mathbb Z
     \]
-    を、$\Omega$ 内にある方程式 $\Phi(x)=p$ の零点の``向き付き個数''を表す
-    \textbf{位相的次数}という。$p=0$ のときは
-    $\deg(\Phi,\Omega)\coloneqq\deg(\Phi,\Omega,0)$ と略記する。
-    厳密には単なる零点の個数ではないが、ここでは次の二性質が重要である：
+    は、大雑把には$\Omega$ 内にある方程式 $\Phi(x)=p$ の零点の向き付き個数を表す。
+    $p=0$ のときは $\deg(\Phi,\Omega)\coloneqq\deg(\Phi,\Omega,0)$ と略記する。
+    また、以下が成り立つ。
     \[
-       \deg(\Phi,\Omega,p)\ne0
-       \quad\Longrightarrow\quad
-       \text{$\Phi(x)=p$ は $\Omega$ 内に解をもつ},
+        p \notin \Phi(\operatorname{bd}(\Omega)) \; \mathrm{and} \;
+        \deg(\Phi,\Omega,p)\ne0
+        \implies
+        \text{$\Phi(x)=p$ は $\Omega$ 内に解をもつ},
     \]
-    また、ホモトピーの途中で $p$ が境界像を横切らなければ次数は変化しない。
+    $\bar x$ を $\Phi(x)=p$ の孤立解とする。
+    $\bar x$ だけを含み、ほかの解を含まない十分小さな開近傍 $U$ をとると、$\deg(\Phi,U,p)$ は $U$ の選び方によらない。この共通値を
+    \[
+        \operatorname{ind}(\Phi,\bar x)
+        \coloneqq \deg(\Phi,U,p)
+    \]
+    と定める。\\
+    \textbf{直観としては、零点の問題に帰着したので、degree theoryで処理する、いつもの流れ。}
+}
 
-    $\bar x$ が $\Phi(x)=p$ の孤立解であるとする。$\bar x$ だけを含み、ほかの解を
-    含まない十分小さな開近傍 $U$ をとると、切除性により
-    $\deg(\Phi,U,p)$ は $U$ の選び方によらない。この共通値を
+\myBox{境界など}{
+    $\partial N$ は集合 $N$ の境界。
+    また、
     \[
-       \operatorname{ind}(\Phi,\bar x)
-       \coloneqq \deg(\Phi,U,p)
-    \]
-    と定め、$\bar x$ における\textbf{指数}という。したがって指数は、次数を一つの
-    孤立解の周囲に局所化したものである。
-
-    $\partial N$ は集合 $N$ の\textbf{境界}であり、
-    \[
-       \partial N=\overline N\setminus\operatorname{int}N
-    \]
-    と定義される。ここでは $N$ が開集合なので
-    $\partial N=\overline N\setminus N$ である。例えば
-    $N=\{x:\norm{x-x^*}<r\}$ なら $\partial N=\{x:\norm{x-x^*}=r\}$ となる。
-    また
-    \[
-       \operatorname{dist}_\infty(0,\Phi(\partial N))
-       =\inf_{x\in\partial N}\norm{\Phi(x)}_\infty
+        \operatorname{dist}_\infty(0,\Phi(\partial N))
+        =\inf_{x\in\partial N}\norm{\Phi(x)}_\infty
     \]
     は、境界上で $\Phi$ が零点からどれだけ離れているかを測る量である。
     一般に、閉集合 $S\subset\mathbb R^n$ に対して
     \[
-       \operatorname{dist}_\infty(x,S)
-       \coloneqq\inf_{y\in S}\norm{x-y}_\infty
+        \operatorname{dist}_\infty(x,S)
+        \coloneqq\inf_{y\in S}\norm{x-y}_\infty
     \]
     と定義される（後述参照）。
 }
@@ -293,92 +293,80 @@
         \centering
         \includegraphics[width=\columnwidth]{nearness1.png}
     \end{figure}
-        \begin{figure}[H]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=\columnwidth]{nearness2.png}
     \end{figure}
+    ホモトピー変換の間で常に、境界上で零点が発生しないなら、degreeは不変 (公理A3)。
+    \textbf{直観としては、関数値の変動幅の最大値が、もともとの境界上における零点からの最短距離で上からバウンドされているなら、常に境界上で零点が発生せず、degree不変。}
+    \textcolor{gray}{
+\begin{proof}
+    \textcolor{gray}{
+    Definition 2.1.1 の公理A3 はホモトピー不変性を主張する:
+    \begin{equation*}
+        H\colon\overline{\Omega}\times[0,1]\to\mathbb{R}^{n},
+    \end{equation*}
+    \begin{equation*}
+        p \notin H(\partial\Omega,t) \implies         \deg(H(\cdot,t),\Omega,q(t)) \text{が不変}
+    \end{equation*}
+    }
+    \textcolor{gray}{
+    ここで、
+    \begin{equation*}
+        H(x,t)\coloneqq
+        (1-t)\Phi(x)+t\Upsilon(x)
+    \end{equation*}
+    とし、 $x\in\partial\Omega$ および $t\in[0,1]$ に対して、
+    \begin{align*}
+        \|H(x,t)-p\|_{\infty}
+        &=
+        \|\Phi(x)-p+t(\Upsilon(x)-\Phi(x))\|_{\infty}
+        && (\text{definition of $H$})\\
+        &\geq
+        \|\Phi(x)-p\|_{\infty}
+        -t\|\Upsilon(x)-\Phi(x)\|_{\infty}
+        &&(\text{triangle inequality})\\
+        &\geq
+        \operatorname{dist}_{\infty}
+        \bigl(p,\Phi(\partial\Omega)\bigr)
+        -\|\Upsilon(x)-\Phi(x)\|_{\infty}
+        &&(\text{definition of $\mathrm{dist}$ and $t\leq 1$})\\
+        &\geq
+        \operatorname{dist}_{\infty}
+        \bigl(p,\Phi(\partial\Omega)\bigr)
+        -
+        \max_{y\in\overline{\Omega}}
+        \|\Phi(y)-\Upsilon(y)\|_{\infty}
+        &&(\text{max})\\
+        &>0 && (\text{assumption})
+    \end{align*}
+    より、$p\notin H(\partial\Omega,t)$なので、$\deg(\Phi,\Omega,p)=\deg(\Upsilon,\Omega,p)$.
+    }
+\end{proof}}
 }
 
 \bookBox{命題5.1.3：natural mapによる局所可解性}{
-    \textit{参照：原著 Chapter 5, \S5.1, pp.422--423, Proposition 5.1.3。}\\
-
-    $F_K^{\mathrm{nat}}$ をnatural mapとする。孤立解 $x^*$ における指数
-    $\operatorname{ind}(F_K^{\mathrm{nat}},x^*)$ が非零ならば、(5.1.1) を満たす任意の開近傍 $N$ に対し、
+    $F_K^{\mathrm{nat}}$ をnatural mapとする。孤立解 $x^*$ における $\operatorname{ind}(F_K^{\mathrm{nat}},x^*)$ が非零ならば、(5.1.1) を満たす任意の開近傍 $N$ に対し、
     \[
-       \varepsilon=\operatorname{dist}_\infty
-       (0,F_K^{\mathrm{nat}}(\partial N))>0
+        \varepsilon=\operatorname{dist}_\infty
+        (0,F_K^{\mathrm{nat}}(\partial N))>0
     \]
     とおくことで、$\norm{G-F}_{\overline N}<\varepsilon$ を満たす $G$ による
     $\operatorname{VI}(K,G)$ は $N$ 内に解をもつ。
 
+    % \begin{figure}[H]
+    %     \centering
+    %     % \includegraphics[width=\columnwidth]{path}
+    %     \caption{todo!!!}
+    % \end{figure}
 
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\columnwidth]{path}
-        \caption{todo!!!}
-    \end{figure}
-
-
-    実際、(5.1.1) より
-    $\partial N$ 上に $F_K^{\mathrm{nat}}$ の零点はないので、$\varepsilon>0$ である。
-    また射影 $\Pi_K$ の非拡大性から、任意の $x\in\overline N$ に対して
-    \[
-       \begin{aligned}
-       \norm{G_K^{\mathrm{nat}}(x)-F_K^{\mathrm{nat}}(x)}
-       &=\norm{\Pi_K(x-F(x))-\Pi_K(x-G(x))}\\
-       &\le \norm{G(x)-F(x)}
-       \end{aligned}
-    \]
-    となる。ここで射影の非拡大性はユークリッドノルムについての評価である一方、
-    $\operatorname{dist}_\infty$ と次数の近接不変性は最大値ノルムを用いる。しかし
-    $\norm{v}_\infty\le\norm{v}_2$ なので、上のユークリッドノルムによる誤差評価は
-    最大値ノルムによる評価も同時に保証する。したがって、$F_K^{\mathrm{nat}}$ を
-    $G_K^{\mathrm{nat}}$ に摂動しても境界上に零点は現れない。次数の近接不変性から
-    \[
-       \deg(G_K^{\mathrm{nat}},N)
-       =\deg(F_K^{\mathrm{nat}},N)
-       =\operatorname{ind}(F_K^{\mathrm{nat}},x^*)\ne0
-    \]
-    が従い、非零次数の存在性より $G_K^{\mathrm{nat}}(x)=0$ となる
-    $x\in N$ が存在する。この零点条件は $x\in\operatorname{SOL}(K,G)$ と同値である。
-
-    つまり $\varepsilon$ は、境界上の natural map の値が原点まで動くために必要な
-    最小距離である。摂動がこの距離より小さければ、零点は $\partial N$ を横切れず、
-    非零次数が表す零点の存在が $N$ 内に保存される。ただし、摂動後の解の一意性までは
-    この命題からは従わない。
+    (直観としては自明、証明も難しくない、略)
 }
 
 \bookBox{命題5.1.4：normal mapによる誤差条件の局所化}{
-    \textit{参照：原著 Chapter 5, \S5.1, p.423, Proposition 5.1.4 とその直前の議論。}\\
-
     normal mapを用いると仮定を局所化できる。$z^*=x^*-F(x^*)$、$K_N=K\cap\overline N$ とおく。
     $\operatorname{ind}(F_K^{\mathrm{nor}},z^*)\ne0$ ならば、ある $\varepsilon>0$ が存在し、
-    $G-F$ の大きさを $K_N$ 上だけで抑えれば $\operatorname{VI}(K,G)$ は $N$ に解をもつ
-    （命題5.1.4）。より具体的には、$z^*$ の開近傍 $Z$ を
-    $\Pi_K(\overline Z)\subset K_N$ かつ $z^*$ が
-    $F_K^{\mathrm{nor}}$ の $\overline Z$ 内の唯一の零点となるように選ぶ。このとき
-    \[
-       \norm{G_K^{\mathrm{nor}}(z)-F_K^{\mathrm{nor}}(z)}
-       =\norm{G(\Pi_K(z))-F(\Pi_K(z))}
-       \qquad(z\in\overline Z)
-    \]
-    であり、右辺が参照する点 $\Pi_K(z)$ はすべて $K_N$ にある。ゆえに $G-F$ を
-    $D$ 全体や $\overline N$ 全体で抑える必要はなく、$K_N$ 上の誤差だけで次数を保存できる。
-    この $Z$ が選べるのは、$\Pi_K(z^*)=x^*\in N$ と $\Pi_K$ の連続性から
-    $z^*$ の十分小さな近傍が $N$ に射影され、さらに normal map の零点 $z$ と
-    VI の解 $\Pi_K(z)$ が対応するためである。(5.1.1) により $\overline N$ 内の解は
-    $x^*$ だけなので、$Z$ を小さくすれば $\overline Z$ 内の零点も $z^*$ だけにできる。
-
-    このとき実際に用いる許容誤差は
-    \[
-       \varepsilon_N
-       =\operatorname{dist}_\infty
-       (0,F_K^{\mathrm{nor}}(\partial Z))>0
-    \]
-    である。$G-F$ が $K_N$ 上で $\varepsilon_N$ より小さければ、
-    $G_K^{\mathrm{nor}}$ と $F_K^{\mathrm{nor}}$ は $Z$ 上で同じ次数をもつ。
-    よって $G_K^{\mathrm{nor}}$ は $Z$ 内に零点 $z$ をもち、その射影
-    $x=\Pi_K(z)\in N$ が $\operatorname{VI}(K,G)$ の解となる。
+    $G-F$ の大きさを $K_N$ 上だけで抑えれば $\operatorname{VI}(K,G)$ は $N$ に解をもつ。
 
     命題5.1.3との違いは誤差を測る領域である。natural mapでは $\overline N$ 上で
     $G-F$ を抑えたが、normal mapでは実行可能点だけからなる
@@ -390,13 +378,13 @@
 
     パラメータ付きの固定集合 VI では、$F(\cdot,p^*)$ に対するnormal mapの指数が非零で、
     \[
-       \sup_{x\in K\cap N}\norm{F(x,p)-F(x,p^*)}
-       \le L\norm{p-p^*}
+        \sup_{x\in K\cap N}\norm{F(x,p)-F(x,p^*)}
+        \le L\norm{p-p^*}
     \]
     が成り立つなら、$p^*$ の十分小さい近傍で
     $S_N(p)=\operatorname{SOL}(K,F(\cdot,p))\cap N$ は空でない。さらに
     \[
-       \lim_{p\to p^*}\sup\{\norm{x-x^*}:x\in S_N(p)\}=0.                 \tag{5.1.3}
+        \lim_{p\to p^*}\sup\{\norm{x-x^*}:x\in S_N(p)\}=0.                 \tag{5.1.3}
     \]
     第1段階では、$\norm{p-p^*}$ を十分小さくして上の誤差を命題5.1.4の
     $\varepsilon$ 未満にし、$S_N(p)\ne\varnothing$ を得る。第2段階では、任意の列
@@ -406,7 +394,7 @@
     より明示的には、(5.1.3) が偽ならば、ある $\delta>0$、$p_k\to p^*$ および
     $x_k\in S_N(p_k)$ を
     \[
-       \norm{x_k-x^*}\ge\delta\qquad(k=1,2,\ldots)
+        \norm{x_k-x^*}\ge\delta\qquad(k=1,2,\ldots)
     \]
     となるように選べる。しかし命題5.1.2は $x_k\to x^*$ を与えるので矛盾する。
 
@@ -427,34 +415,34 @@
 \bookBox{命題5.1.6--系5.1.8:臨界錐上の正値性と定量評価}{
     $F$ が解 $x^*$ で B微分可能とする。臨界錐
     \[
-       C(x^*;K,F)=T(x^*;K)\cap F(x^*)^\perp
+        C(x^*;K,F)=T(x^*;K)\cap F(x^*)^\perp
     \]
     上で
     \[
-       v^\top F'(x^*;v)>0
-       \qquad(0\ne v\in C(x^*;K,F))                                  \tag{5.1.4}
+        v^\top F'(x^*;v)>0
+        \qquad(0\ne v\in C(x^*;K,F))                                  \tag{5.1.4}
     \]
     が成り立つなら、natural mapとnormal mapの指数はいずれも定義され非零となる（命題5.1.6）。
     証明では $F$ と $x\mapsto x-z^*$ を結ぶホモトピー
     \[
-      F_t(x)=tF(x)+(1-t)(x-z^*)
+        F_t(x)=tF(x)+(1-t)(x-z^*)
     \]
     を作る。もしホモトピーの零点が任意に小さい近傍の境界へ現れるなら、正規化した解差の極限から
     非零臨界方向 $v$ が得られ、(5.1.4) に反する。ゆえに次数は恒等写像の場合と同じ $1$ である。
 
     同じ条件は解の移動量も制御する。任意の適切な近傍 $N$ に対してある $c>0$ が存在し、
     \[
-      \sup\{\norm{x-x^*}:x\in\operatorname{SOL}(K,q+F)\cap\overline N\}
-      \le c\norm{q}       \tag{5.1.7}
+        \sup\{\norm{x-x^*}:x\in\operatorname{SOL}(K,q+F)\cap\overline N\}
+        \le c\norm{q}       \tag{5.1.7}
     \]
     となる（補題5.1.7）。これと局所可解性を合わせると、ある $c,\varepsilon>0$ が存在して、
     \[
-      \gamma\coloneqq\sup_{x\in K\cap\overline N}\norm{G(x)-F(x)}<\varepsilon
+        \gamma\coloneqq\sup_{x\in K\cap\overline N}\norm{G(x)-F(x)}<\varepsilon
     \]
     ならば $\operatorname{SOL}(K,G)\cap N\ne\varnothing$ かつ
     \[
-      \sup_{x\in\operatorname{SOL}(K,G)\cap\overline N}\norm{x-x^*}
-      \le c\gamma.                                                        \tag{5.1.5}
+        \sup_{x\in\operatorname{SOL}(K,G)\cap\overline N}\norm{x-x^*}
+        \le c\gamma.                                                        \tag{5.1.5}
     \]
     パラメータ付きの場合には $\gamma\le L\norm{p-p^*}$ より、局所解写像について
     上側 Lipschitz 性が得られる。
@@ -471,9 +459,9 @@
     $K=\mathbb R^n$ とすれば VI は方程式 $H(x)=0$ になる。$H$ が零点 $x$ で B微分可能なとき、
     次の三条件は同値である（補題5.2.1）:
     \begin{enumerate}[label=(\alph*)]
-      \item $H'(x;v)=0$ ならば $v=0$;
-      \item ある $c'>0$ により $\norm{v} \le c'\norm{H'(x;v)}$ が全ての $v$ で成り立つ;
-      \item ある近傍 $N$ と $c>0$ により $\norm{y-x}\le c\norm{H(y)}$ が全ての $y\in N$ で成り立つ。
+        \item $H'(x;v)=0$ ならば $v=0$;
+        \item ある $c'>0$ により $\norm{v} \le c'\norm{H'(x;v)}$ が全ての $v$ で成り立つ;
+        \item ある近傍 $N$ と $c>0$ により $\norm{y-x}\le c\norm{H(y)}$ が全ての $y\in N$ で成り立つ。
     \end{enumerate}
     とくにこれらは $x$ の孤立性を含意する。さらに
     $\Gamma(y)=H'(x;y-x)$ とおいて $\operatorname{ind}(\Gamma,x)\ne0$ なら、
@@ -482,9 +470,9 @@
 
     これを踏まえ、孤立零点 $x$ を次のように定義する（定義5.2.3）。
     \begin{itemize}
-      \item \textbf{半安定}:小さい任意の摂動 $G$ の近傍零点 $x'$ が
-      $\norm{x'-x}\le c\norm{H(x')}$ を満たす。ただし摂動後の零点の存在は要求しない。
-      \item \textbf{安定}:上の誤差評価に加えて、全ての十分小さい摂動 $G$ が近傍に零点をもつ。
+        \item \textbf{半安定}:小さい任意の摂動 $G$ の近傍零点 $x'$ が
+              $\norm{x'-x}\le c\norm{H(x')}$ を満たす。ただし摂動後の零点の存在は要求しない。
+        \item \textbf{安定}:上の誤差評価に加えて、全ての十分小さい摂動 $G$ が近傍に零点をもつ。
     \end{itemize}
     よって $H'(x;\cdot)$ の零点が原点だけなら半安定であり、さらに指数が非零なら安定である
     （定理5.2.4）。これらは局所概念であり、十分小さな近傍だけを考えればよい。
@@ -498,13 +486,13 @@
     そこで孤立零点 $x$ が\textbf{強安定}であるとは、十分小さい任意の摂動 $G,\widetilde G$ が近傍零点をもち、
     それらの任意の零点 $v,\widetilde v$ に対して
     \[
-       \norm{v-\widetilde v}
-       \le c\norm{H(v)-H(\widetilde v)}
+        \norm{v-\widetilde v}
+        \le c\norm{H(v)-H(\widetilde v)}
     \]
     が成り立つことと定める。$\widetilde G=H$ とすれば半安定性が従うので、強安定なら安定である。
     とくに右辺摂動 $H(y)=u$ に限れば、近傍解 $x(u)$ は一意で
     \[
-       \norm{x(u)-x(u')}\le c\norm{u-u'}
+        \norm{x(u)-x(u')}\le c\norm{u-u'}
     \]
     を満たす。
 
@@ -518,22 +506,22 @@
     連続写像 $H$ の零点 $x$ について、強安定性と強正則性は同値である（定理5.2.8(a)）。
     強正則性から強安定性を示す際には、局所逆写像 $x_N$ と誤差 $e=H-G$ を使って
     \[
-       \Phi(y)=x_N(e(y))
+        \Phi(y)=x_N(e(y))
     \]
     を閉球からそれ自身への連続写像として構成し、Brouwer の不動点定理を適用する。
 
     また $H$ が $x$ で局所 Lipschitz 同相なら $x$ は強安定である。逆に $H$ 自身が $x$ で
     局所 Lipschitz 連続なら、強安定性から局所 Lipschitz 同相性が従う。したがって局所 Lipschitz 写像では
     \[
-       \text{強安定}\quad\Longleftrightarrow\quad
-       \text{強正則}\quad\Longleftrightarrow\quad
-       \text{局所 Lipschitz 同相}.
+        \text{強安定}\quad\Longleftrightarrow\quad
+        \text{強正則}\quad\Longleftrightarrow\quad
+        \text{局所 Lipschitz 同相}.
     \]
 
     さらに $H$ が $x$ で強 F微分可能なら、次の全てが同値である（命題5.2.9）:
     \[
-      \text{強安定},\quad \text{安定},\quad \text{正則},\quad
-      JH(x)\text{ が正則},\quad \text{局所 Lipschitz 同相}.
+        \text{強安定},\quad \text{安定},\quad \text{正則},\quad
+        JH(x)\text{ が正則},\quad \text{局所 Lipschitz 同相}.
     \]
     滑らかな場合には結局、古典的な逆関数定理の非特異 Jacobian 条件へ帰着する。
 }
@@ -541,29 +529,29 @@
 \bookBox{垂直相補性問題と非滑らかな反例}{
     $H(x)=\min(F(x),G(x))$ とおけば、$H(x)=0$ は垂直相補性問題
     \[
-       0\le F(x)\perp G(x)\ge0
+        0\le F(x)\perp G(x)\ge0
     \]
     と同値である。解 $x^*$ において
     \[
-      \alpha_F=\{i:F_i(x^*)=0<G_i(x^*)\},\quad
-      \beta=\{i:F_i(x^*)=G_i(x^*)=0\},\quad
-      \alpha_G=\{i:F_i(x^*)>0=G_i(x^*)\}
+        \alpha_F=\{i:F_i(x^*)=0<G_i(x^*)\},\quad
+        \beta=\{i:F_i(x^*)=G_i(x^*)=0\},\quad
+        \alpha_G=\{i:F_i(x^*)>0=G_i(x^*)\}
     \]
     とする。非退化性 $\beta=\varnothing$ の下では、$H$ の各行は近傍で $F_i$ または $G_i$ の一方に固定される。
     したがって
     \[
-       \begin{bmatrix}
-          \nabla F_i(x^*)^\top:i\in\alpha_F\\
-          \nabla G_i(x^*)^\top:i\in\alpha_G
-       \end{bmatrix}
+        \begin{bmatrix}
+            \nabla F_i(x^*)^\top:i\in\alpha_F \\
+            \nabla G_i(x^*)^\top:i\in\alpha_G
+        \end{bmatrix}
     \]
     が正則なら、十分小さい二組の摂動問題は近傍に一意解 $x_1,x_2$ をもち、解差は摂動差で
     Lipschitz 評価できる（系5.2.10）。
 
     一方、非滑らかな点では安定性と強安定性は一致しない。例5.2.11の
     \[
-       H(x_1,x_2)=
-       \begin{bmatrix}\min(x_1,x_1+x_2)\\\min(x_2,x_1+x_2)\end{bmatrix}
+        H(x_1,x_2)=
+        \begin{bmatrix}\min(x_1,x_1+x_2)\\\min(x_2,x_1+x_2)\end{bmatrix}
     \]
     は原点を一意零点にもち、対応 LCP の厳密共正値性と指数 $1$ から安定である。
     しかし $H(x)+(\varepsilon,\varepsilon)^\top=0$ は
@@ -579,18 +567,18 @@
 
     $H$ が $x$ で B微分可能で $\Gamma$ が非消失性をもつなら、次は同値である（定理5.2.12）:
     \begin{enumerate}[label=(\alph*)]
-      \item $x$ は $\Gamma$ の安定零点である;
-      \item $\Gamma$ は全射で、$\Gamma^{-1}(\mathbb B(0,1))$ は有界である;
-      \item $x$ は $\Gamma$ の唯一の零点である;
-      \item $x$ は $H$ の安定零点である。
+        \item $x$ は $\Gamma$ の安定零点である;
+        \item $\Gamma$ は全射で、$\Gamma^{-1}(\mathbb B(0,1))$ は有界である;
+        \item $x$ は $\Gamma$ の唯一の零点である;
+        \item $x$ は $H$ の安定零点である。
     \end{enumerate}
     さらに安定性の定義で「全ての近傍」を要求する代わりに「ある一つの近傍」で条件が成り立てば十分である。
 
     $H$ が $x$ で\textbf{強 B微分可能}なら、非消失性の仮定なしに次が同値となる（定理5.2.14）:
     \[
-       0\text{ は }H'(x;\cdot)\text{ の強安定零点}
-       \Longleftrightarrow H'(x;\cdot)\text{ は大域的 Lipschitz 同相}
-       \Longleftrightarrow x\text{ は }H\text{ の強安定零点}.
+        0\text{ は }H'(x;\cdot)\text{ の強安定零点}
+        \Longleftrightarrow H'(x;\cdot)\text{ は大域的 Lipschitz 同相}
+        \Longleftrightarrow x\text{ は }H\text{ の強安定零点}.
     \]
     B微分が区分線形なら、第4章の区分線形写像に対する大域的同相条件も利用できる。
 }
@@ -598,12 +586,12 @@
 \bookBox{5.2.2 一次近似（FOA）への拡張}{
     局所 Lipschitz 写像 $H$ に対し、$h$ が $x$ における一次近似（FOA）であるとは
     \[
-       \lim_{y\to x,\,y\ne x}\frac{\norm{H(y)-h(y)}}{\norm{y-x}}=0
+        \lim_{y\to x,\,y\ne x}\frac{\norm{H(y)-h(y)}}{\norm{y-x}}=0
     \]
     を満たすことをいう。誤差 $e=H-h$ が
     \[
-       \lim_{(y_1,y_2)\to(x,x),\,y_1\ne y_2}
-       \frac{\norm{e(y_1)-e(y_2)}}{\norm{y_1-y_2}}=0
+        \lim_{(y_1,y_2)\to(x,x),\,y_1\ne y_2}
+        \frac{\norm{e(y_1)-e(y_2)}}{\norm{y_1-y_2}}=0
     \]
     を満たすとき強 FOA と呼ぶ。FOA であることは $H$ と $h$ について対称である。
     $H$ が B微分可能なら $h(y)=H(x)+H'(x;y-x)$ が FOA となる。
@@ -611,8 +599,8 @@
     normal map $F_K^{\mathrm{nor}}$ では、射影 $\Pi_K$ を線形化せず $F$ だけを線形化した
     半線形化 VI のnormal mapが FOA になる。すなわち $\bar x=\Pi_K(\bar z)$ として
     \[
-      z\mapsto F_K^{\mathrm{nor}}(\bar z)
-      +JF(\bar x)(\Pi_K(z)-\Pi_K(\bar z))+z-\Pi_K(z).                 \tag{5.2.8}
+        z\mapsto F_K^{\mathrm{nor}}(\bar z)
+        +JF(\bar x)(\Pi_K(z)-\Pi_K(\bar z))+z-\Pi_K(z).                 \tag{5.2.8}
     \]
     これは射影まで近似する B微分近似とは異なる。
 
@@ -625,23 +613,23 @@
 \myBox{この範囲の見取り図}{
     本範囲の条件は、おおむね次の三段階を担う。
     \[
-      \begin{array}{c}
-      \text{方向微分の零点が原点のみ}\\[-1mm]
-      \Downarrow\\[-1mm]
-      \text{誤差評価・孤立性（半安定）}
-      \end{array}
-      \qquad
-      \begin{array}{c}
-      +\ \text{非零指数}\\[-1mm]
-      \Downarrow\\[-1mm]
-      \text{摂動解の存在（安定）}
-      \end{array}
-      \qquad
-      \begin{array}{c}
-      +\ \text{局所逆写像の一意性}\\[-1mm]
-      \Downarrow\\[-1mm]
-      \text{Lipschitz な解応答（強安定）}.
-      \end{array}
+        \begin{array}{c}
+            \text{方向微分の零点が原点のみ} \\[-1mm]
+            \Downarrow          \\[-1mm]
+            \text{誤差評価・孤立性（半安定）}
+        \end{array}
+        \qquad
+        \begin{array}{c}
+            +\ \text{非零指数} \\[-1mm]
+            \Downarrow     \\[-1mm]
+            \text{摂動解の存在（安定）}
+        \end{array}
+        \qquad
+        \begin{array}{c}
+            +\ \text{局所逆写像の一意性} \\[-1mm]
+            \Downarrow          \\[-1mm]
+            \text{Lipschitz な解応答（強安定）}.
+        \end{array}
     \]
     滑らかな問題ではこれらが Jacobian の正則性へまとまるが、非滑らか・退化した VI では分離する。
     次節5.3は、この方程式に対する概念をnatural map・normal mapを介して固定集合 VI に移し、
