@@ -1,0 +1,665 @@
+\documentclass[a4paper,12pt,nomag,dvipdfmx,uplatex]{jsarticle}
+\usepackage[margin=1.0truein]{geometry}
+\usepackage{ifdraft}
+\usepackage{subfiles}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{optidef}
+\usepackage{physics}
+% https://qiita.com/rityo_masu/items/efd44bc8f9229e014237
+\allowdisplaybreaks[4]
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+% https://tex.stackexchange.com/questions/28836/typesetting-the-define-equals-symbol
+% https://tex.stackexchange.com/questions/5502/how-to-get-a-mid-binary-relation-that-grows
+\newcommand{\relmiddle}[1]{\mathrel{}\middle#1\mathrel{}}
+
+% Theorem environments
+\usepackage{amsthm}
+\usepackage{thm-restate}
+\theoremstyle{plain}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{lemma}{補題}
+\newtheorem{assumption}{仮定}
+\newtheorem{condition}{条件}
+\newtheorem{corollary}{系}
+
+% Figure, Table, Algorithm
+\usepackage{graphicx}
+% MATLAB examples accompanying the supplementary boxes.
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+% \usepackage{mathptmx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tikz}
+\definecolor{cA}{HTML}{0072BD}
+\definecolor{cB}{HTML}{EDB120}
+\definecolor{cC}{HTML}{77AC30}
+\definecolor{cD}{HTML}{D95319}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
+\newcommand{\black}[1]{\textcolor{black}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+
+% References
+\usepackage{hyperref}
+\usepackage{pxjahyper}
+\usepackage{cleveref}
+% cleveref fails to accurately capture pseudo-code line numbers. We define a custom reference command for lines in algorithms.
+\crefname{assumption}{仮定}{仮定}
+\crefname{equation}{式}{式}
+\Crefname{equation}{式}{式}
+\AtBeginDocument{
+    \renewcommand{\crefpairconjunction}{、}
+    \renewcommand{\crefmiddleconjunction}{、}
+    \renewcommand{\creflastconjunction}{、}
+    \renewcommand{\crefrangeconjunction}{から}
+}
+\newcommand{\refLine}[1]{Line~\ref{#1}}
+\newcommand{\refLines}[2]{Lines~\ref{#1} and \ref{#2}}
+
+% Other packages
+\usepackage{appendix}
+\usepackage{cancel}
+\usepackage{enumitem}
+\usepackage{fancybox}
+\usepackage{ifthen}
+\usepackage{lipsum}
+\usepackage{pifont}
+\usepackage{xparse}
+
+% https://www.reddit.com/r/LaTeX/comments/111e7gn/can_someone_help_me_replicate_these_boxes_in_latex/
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\NewTotalTColorBox[auto counter]{\bookBox}{ +m +m }{
+    notitle,
+    colback=white,
+    frame hidden,
+    boxrule=0pt,
+    enhanced,
+    sharp corners,
+    borderline west={4pt}{0pt}{cA},
+    breakable,
+}{
+    \textcolor{cA}{
+        \sffamily\textbf{#1}
+    }#2
+}
+\NewTotalTColorBox[auto counter]{\myBox}{ +m +m }{
+    notitle,
+    colback=white,
+    frame hidden,
+    boxrule=0pt,
+    enhanced,
+    sharp corners,
+    borderline west={4pt}{0pt}{cC},
+    breakable,
+}{
+    \textcolor{cC}{
+        \sffamily\textbf{#1}
+    }#2
+}
+
+\renewcommand{\theequation}{S.\arabic{equation}}
+\lstset{
+    language=Matlab,
+    basicstyle=\ttfamily\footnotesize,
+    columns=fullflexible,
+    keepspaces=true,
+    breaklines=true,
+    showstringspaces=false,
+    frame=single,
+    rulecolor=\color{cC},
+    aboveskip=\baselineskip,
+    belowskip=\baselineskip
+}
+
+% Source: secret/IntroOptimManifolds_Boumal_2023_pages260-306.pdf.
+% Blue boxes contain verbatim excerpts. Green boxes contain Japanese explanations and code.
+\begin{document}
+
+\title{10月21日 輪読補足資料\\多様体上の最適化：完備性とManopt}
+\author{Hiroki Hamaguchi}
+\date{2026/10/21}
+\maketitle
+
+\section{距離・完備性とHopf--Rinowの定理}
+\label{sec:completeness}
+
+% Section 10.1, pp. 261--263.
+% Textbook pp. 261--262.
+\bookBox{Equations (10.1)--(10.2) and Theorem 10.3}{\\
+    Let $\mathcal{M}$ be a Riemannian manifold.
+    Given a piecewise smooth curve segment $c\colon [a, b] \to \mathcal{M}$, we define the length of $c$ as the integral of its speed $\norm{c'(t)}_{c(t)}$:
+    \begin{equation*}
+        L(c) = \int_a^b \norm{c'(t)}_{c(t)}\,\dd{t}.
+        \tag{10.1}\label{eq:curve-length}
+    \end{equation*}
+    The notion of length of a curve leads to a natural notion of distance on $\mathcal{M}$, called the Riemannian distance:
+    \begin{equation*}
+        \operatorname{dist}(x, y) = \inf_c L(c),
+        \tag{10.2}\label{eq:riemannian-distance}
+    \end{equation*}
+    where the infimum is taken over all piecewise regular curve segments on $\mathcal{M}$ which connect $x$ to $y$.
+    It is equivalent to take the infimum over all piecewise smooth curve segments.
+
+    \textbf{Theorem 10.3.}
+    If $\mathcal{M}$ is connected (meaning each pair of points is connected by a curve segment), equation (10.2) defines a distance.
+    Equipped with this distance, $\mathcal{M}$ is a metric space whose metric topology coincides with its atlas topology.
+}
+
+\myBox{測地線の定義}{\\
+    測地線は、速度ベクトル場が$\frac{D}{\dd{t}}c'(t) = 0$を満たす滑らかな曲線$c$である。
+    $\frac{D}{\dd{t}}$は、リーマン接続（Levi--Civita接続）に関する、曲線に沿う共変微分を表す。
+    初期条件$\gamma_v(0) = x$、$\gamma_v'(0) = v$を満たす測地線を$\gamma_v$と書き、その局所的な存在と一意性を用いる。
+}
+
+% Textbook p. 262.
+\bookBox{Theorems 10.4--10.5}{\\
+    If the infimum in (10.2) is attained for some curve segment $c$, we call $c$ a minimizing curve.
+
+    \textbf{Theorem 10.4.}
+    Every minimizing curve admits a constant-speed parameterization such that it is a geodesic, called a minimizing geodesic.
+
+    \textbf{Theorem 10.5.}
+    Every geodesic $\gamma$ on $\mathcal{M}$ is locally minimizing, that is, every $t$ in the domain of $\gamma$ has a neighborhood $I$ in the domain of $\gamma$ such that, if $a, b \in I$ satisfy $a < b$, then the restriction $\gamma|_{[a, b]}$ is a minimizing curve.
+}
+
+% Textbook pp. 262--263.
+\bookBox{Definitions 10.6--10.7 and Theorem 10.8 (Hopf--Rinow)}{\\
+    Recall that a sequence $x_0, x_1, x_2, \ldots$ is Cauchy if for every $\varepsilon > 0$ there exists an integer $k$ such that, for all $m, n > k$, $\operatorname{dist}(x_m, x_n) < \varepsilon$.
+
+    \textbf{Definition 10.6.}
+    A connected Riemannian manifold is metrically complete if it is complete as a metric space equipped with the Riemannian distance, that is, if every Cauchy sequence on the manifold converges on the manifold.
+
+    \textbf{Definition 10.7.}
+    A Riemannian manifold is geodesically complete if every geodesic can be extended to a geodesic defined on the whole real line.
+
+    \textbf{Theorem 10.8 (Hopf--Rinow).}
+    A connected Riemannian manifold $\mathcal{M}$ is metrically complete if and only if it is geodesically complete.
+    Additionally, $\mathcal{M}$ is complete (in either sense) if and only if its compact subsets are exactly its closed and bounded subsets.
+}
+
+% Section 10.2, pp. 264--265, introduced here only as needed for the proof.
+% Textbook pp. 263--264.
+\bookBox{Theorem 10.9 and Definition 10.16}{\\
+    \textbf{Theorem 10.9.}
+    If $\mathcal{M}$ is complete, then any two points $x, y$ in the same connected component are connected by a minimizing geodesic segment $c\colon [0, 1] \to \mathcal{M}$ such that $c(0) = x$, $c(1) = y$ and $\operatorname{dist}(x, y) = L(c)$.
+
+    \textbf{Definition 10.16.}
+    Consider the following subset of the tangent bundle:
+    \begin{equation*}
+        \mathcal{O} = \{(x, v) \in \mathrm{T}\mathcal{M} : \gamma_v \text{ is defined on an interval containing } [0, 1]\}.
+    \end{equation*}
+    The exponential map $\operatorname{Exp}\colon \mathcal{O} \to \mathcal{M}$ is defined by
+    \begin{equation*}
+        \operatorname{Exp}(x, v) = \operatorname{Exp}_x(v) = \gamma_v(1).
+    \end{equation*}
+    By Definition 10.7, a manifold $\mathcal{M}$ is (geodesically) complete exactly if the domain of the exponential map is the whole tangent bundle $\mathrm{T}\mathcal{M}$.
+    \begin{equation*}
+        \operatorname{Exp}_x(t v) = \gamma_v(t),
+        \tag{10.3}\label{eq:exponential-geodesic}
+    \end{equation*}
+    \textbf{Proposition 10.17.}
+    The exponential map is smooth on its domain $\mathcal{O}$, which is open in $\mathrm{T}\mathcal{M}$.
+}
+
+\myBox{Hopf--Rinowの定理の一方向の証明：測地的完備なら距離完備}{\\
+    \textbf{測地的完備性から最短測地線の存在を導く部分は、証明なしで使う。}
+    コンパクト集合の連続像と閉部分集合はコンパクトであり、コンパクトな距離空間の任意の点列はその空間内に収束する部分列を持つことを用いる。
+
+    \textbf{1. 閉球がコンパクトになる。}
+    $\mathcal{M}$を連結で測地的完備なリーマン多様体とし、$x \in \mathcal{M}$と$R > 0$を固定する。
+    測地線の速さは一定なので、\cref{eq:curve-length,eq:exponential-geodesic}から
+    \begin{equation}
+        L\qty(t \mapsto \operatorname{Exp}_x(t v),\ t \in [0, 1]) = \norm{v}_x
+        \label{eq:radial-length}
+    \end{equation}
+    が成り立つ。
+    接空間と多様体上の閉球を
+    \begin{align}
+        K_R &\coloneqq \{v \in \mathrm{T}_x\mathcal{M} : \norm{v}_x \leq R\},\label{eq:tangent-ball}\\
+        \overline B(x, R) &\coloneqq \{y \in \mathcal{M} : \operatorname{dist}(x, y) \leq R\}\label{eq:metric-ball}
+    \end{align}
+    とおくと、
+    \begin{equation}
+        \overline B(x, R) = \operatorname{Exp}_x(K_R)
+        \label{eq:ball-image}
+    \end{equation}
+    である。
+    実際、$v \in K_R$なら、\cref{eq:riemannian-distance,eq:radial-length,eq:tangent-ball}から
+    \begin{equation}
+        \operatorname{dist}(x, \operatorname{Exp}_x(v)) \leq \norm{v}_x \leq R
+        \label{eq:ball-inclusion}
+    \end{equation}
+    となり、一方の包含が従う。
+    逆に$y \in \overline B(x, R)$なら、$x$から$y$への定速の最短測地線$c\colon [0, 1] \to \mathcal{M}$を取り、$v \coloneqq c'(0)$とおく。
+    最短性、\cref{eq:radial-length,eq:metric-ball}および初期条件に対する測地線の一意性から
+    \begin{equation}
+        \operatorname{Exp}_x(v) = y,\qquad
+        \norm{v}_x = L(c) = \operatorname{dist}(x, y) \leq R
+        \label{eq:minimizing-vector}
+    \end{equation}
+    となり、もう一方の包含も従う。
+    \textbf{接空間}は有限次元の内積空間なので、Heine--Borelにより$K_R$はコンパクトである。
+    したがって\cref{eq:ball-image}と指数写像の連続性から、閉球もコンパクトである。
+    閉かつ有界な集合はこのような閉球の閉部分集合なので、やはりコンパクトになる。
+
+    \textbf{2. Cauchy列が収束する。}
+    Cauchy列$(x_n)$は有界なので、1で示したコンパクトな閉球に含まれる。
+    よって、ある部分列$(x_{n_k})$が$x \in \mathcal{M}$に収束する。
+    任意の$\varepsilon > 0$に対し、Cauchy性から$m, n \geq N$なら$\operatorname{dist}(x_m, x_n) < \varepsilon/2$となる$N$を取り、さらに$n_k \geq N$かつ$\operatorname{dist}(x_{n_k}, x) < \varepsilon/2$となる$k$を取る。
+    三角不等式から、すべての$n \geq N$について
+    \begin{equation}
+        \operatorname{dist}(x_n, x)
+        \leq \operatorname{dist}(x_n, x_{n_k}) + \operatorname{dist}(x_{n_k}, x)
+        < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+        \label{eq:cauchy-convergence}
+    \end{equation}
+    となり、列全体が$x$に収束する。
+}
+\href{https://www.mat.univie.ac.at/~stein/teaching/courses/SoSem16/rg-2017-03-06.pdf}{証明の参考：Kunzinger--Steinbauer、補題2.4.1と定理2.4.2の証明}
+
+% Textbook p. 263.
+\bookBox{Examples 10.10--10.11}{\\
+    The converse of Theorem 10.9 does not hold: consider $\mathcal{M} = (0, 1)$ as a Riemannian submanifold of $\mathbb{R}$.
+
+    \textbf{Example 10.10.}
+    Compact Riemannian manifolds are complete.
+
+    \textbf{Example 10.11.}
+    A finite-dimensional Euclidean space $\mathcal{E}$ is connected and complete.
+}
+\myBox{球面と開区間}{\\
+    単位球面はコンパクトなので、例10.10から完備である。
+    一方、ユークリッド計量を制限した$(0, 1)$では、Cauchy列$x_n = 1/(n + 2)$の極限$0$は区間内に属さない。
+    この開区間でも任意の2点間の最短測地線は存在する。
+}
+
+\myBox{コンパクト性と最小値の存在}{\\
+    $f\colon \mathcal{M} \to \mathbb{R}$を連続とし、初期点$x_0$に対して集合を
+    \begin{equation}
+        \mathcal{L}_0 \coloneqq \{x \in \mathcal{M} : f(x) \leq f(x_0)\}
+        \label{eq:sublevel}
+    \end{equation}
+    とおく。
+    $\mathcal{M}$が完備で$\mathcal{L}_0$が有界なら、連続性による閉性とHopf--Rinowから$\mathcal{L}_0$はコンパクトになる。
+    したがって$f$はこの集合上で最小値を取り、\cref{eq:sublevel}からその点は$\mathcal{M}$全体でも最小点である。
+    また、目的関数値を増やさない反復列は$\mathcal{L}_0$内にとどまるので、収束部分列を持つ。
+    反復列全体の収束や、極限点の停留性には、アルゴリズムに応じた追加の議論が必要である。
+}
+
+\section{レトラクションとManoptによる最急降下法}
+\label{sec:manopt}
+
+% Section 10.2, pp. 265--266.
+% Textbook pp. 265--266. The formula in Example 10.21 is unnumbered.
+\bookBox{Proposition 10.18 and Example 10.21}{\\
+    \textbf{Proposition 10.18.}
+    The exponential map is a second-order retraction, with a possibly restricted domain $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$.
+
+    \textbf{Example 10.21.}
+    On the sphere $\mathrm{S}^{n-1}$, the exponential map is (Example 5.37)
+    \begin{equation*}
+        v \mapsto \operatorname{Exp}_x(v) = \cos(\norm{v}) x + \frac{\sin(\norm{v})}{\norm{v}} v.
+    \end{equation*}
+    This is smooth over the whole tangent bundle, with the usual smooth extension $\sin(t)/t = 1$ at $t = 0$.
+    Also, $\operatorname{dist}(x, y) = \arccos(x^\top y)$.
+}
+
+\myBox{球面上のレトラクションと最急降下法}{\\
+    $n \geq 2$とし、球面、接空間、直交射影をそれぞれ次のように書く。
+    \begin{align}
+        \mathrm{S}^{n-1} &\coloneqq \{x \in \mathbb{R}^n : x^\top x = 1\},\label{eq:sphere}\\
+        \mathrm{T}_x\mathrm{S}^{n-1} &= \{u \in \mathbb{R}^n : x^\top u = 0\},\label{eq:sphere-tangent}\\
+        \operatorname{Proj}_x(w) &\coloneqq w - x(x^\top w).\label{eq:sphere-projection}
+    \end{align}
+    各点$x$に対する写像$R_x\colon \mathrm{T}_x\mathcal{M} \to \mathcal{M}$が$(x, v)$について滑らかで、$R_x(0) = x$と$\mathrm{D} R_x(0) = \mathrm{id}$を満たすとき、写像$(x, v) \mapsto R_x(v)$をレトラクション（retraction）という。
+    指数写像の場合のように、定義域を各接空間の原点の近傍に制限する場合もある。
+    球面上では、レトラクションの一例として
+    \begin{equation}
+        R_x(v) \coloneqq \frac{x + v}{\norm{x + v}}
+        \label{eq:sphere-retraction}
+    \end{equation}
+    を使う。
+    \Cref{eq:sphere,eq:sphere-tangent}から$\norm{x + v}^2 = 1 + \norm{v}^2$なので、分母は常に正である。
+    また$R_x(0) = x$であり、\cref{eq:sphere-retraction}を$t = 0$で微分すると$\left.\dv{t}R_x(t v)\right|_{t = 0} = v$となるので、レトラクションの条件を満たす。
+    Manoptの\texttt{spherefactory}は、この正規化を\texttt{M.retr}として提供する。
+    リーマン最急降下法（Riemannian Steepest Descent, SD）は、探索方向に負のリーマン勾配を用い、次式により反復列を生成する。
+    \begin{equation}
+        x_{k+1} = R_{x_k}\qty(-\alpha_k \operatorname{grad} f(x_k))
+        \label{eq:rgd-step}
+    \end{equation}
+}
+
+\myBox{数値例：球面上の二次関数の最小化}{\\
+    $A \coloneqq \operatorname{diag}(1, 2, 3, 4, 5)$とし、
+    \begin{equation}
+        \min_{x \in \mathrm{S}^{4}} f(x),\qquad
+        f(x) \coloneqq \frac{1}{2} x^\top A x
+        \label{eq:sphere-problem}
+    \end{equation}
+    を考える。
+    この二次関数のユークリッド勾配は$A x$であり、その接空間への直交射影がリーマン勾配である。
+    \Cref{eq:sphere-projection}を使うと、
+    \begin{equation}
+        \operatorname{grad} f(x) = \operatorname{Proj}_x(A x) = A x - x(x^\top A x)
+        \label{eq:sphere-gradient}
+    \end{equation}
+    となる。
+    実際、任意の接ベクトル$u$について、直交射影の性質から$\mathrm{D} f(x)[u] = u^\top A x = u^\top \operatorname{Proj}_x(A x)$であり、これが球面上の勾配の定義を満たす。
+    \Cref{eq:sphere-problem}は座標の二乗の重み付き和なので、最小値は$1/2$で、$x = \pm(1, 0, 0, 0, 0)^\top$において達成される。
+    以下のコードはこの勾配と\cref{eq:rgd-step}をManoptで実行する例である。
+}
+\begin{lstlisting}
+A = diag(1:5);
+M = spherefactory(5);
+problem.M = M;
+problem.cost = @(x) 0.5 * (x' * A * x);
+problem.grad = @(x) M.proj(x, A * x);
+x0 = ones(5, 1) / sqrt(5);
+options.verbosity = 0;
+
+[xgd, fgd, info_gd] = steepestdescent(problem, x0, options);
+fprintf('SD: f = %.8f, norm(x) = %.8f\n', fgd, norm(xgd));
+\end{lstlisting}
+
+\myBox{数式とManoptの操作の対応}{\\
+    \texttt{spherefactory(5)}は$\mathbb{R}^5$内の球面$\mathrm{S}^4$を指定する。
+    \begin{center}
+        \begin{tabular}{ll}
+            \toprule
+            数学的な操作 & Manoptの操作\\
+            \midrule
+            接空間への直交射影 & \texttt{M.proj(x, w)}\\
+            接ベクトルのノルム & \texttt{M.norm(x, u)}\\
+            $R_x(t u)$による点の更新 & \texttt{M.retr(x, u, t)}\\
+            接空間内の線形結合 & \texttt{M.lincomb(x, a, u, b, v)}\\
+            transporter & \texttt{M.transp(x, y, u)}\\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+    \texttt{problem.cost}と\texttt{problem.grad}には、目的関数とリーマン勾配を計算する関数ハンドルを指定する。
+    多様体上の演算は\texttt{M}に定義され、各ソルバーは同じ\texttt{problem}に対して適用できる。
+    勾配の実装を確認するには\texttt{checkgradient(problem)}を使える。
+}
+\href{https://www.manopt.org/costdescription.html}{Manopt：目的関数と導関数の指定}
+\href{https://www.manopt.org/solvers.html}{Manopt：ソルバー}
+
+\section{平行移動、transporterと共役勾配法}
+\label{sec:transport}
+
+% Section 10.3, pp. 270--273.
+% Textbook pp. 271--272. These formulas are unnumbered in the textbook.
+\bookBox{Definitions 10.33, 10.35 and Proposition 10.36}{\\
+    \textbf{Definition 10.33.}
+    A vector field $Z \in \mathfrak{X}(c)$ such that $\frac{D}{\dd{t}}Z = 0$ is parallel.
+
+    \textbf{Definition 10.35.}
+    Given a smooth curve $c$ on $\mathcal{M}$, the parallel transport of tangent vectors at $c(t_0)$ to the tangent space at $c(t_1)$ along $c$ is the map
+    \begin{equation*}
+        \mathrm{PT}^c_{t_1 \leftarrow t_0}\colon \mathrm{T}_{c(t_0)}\mathcal{M} \to \mathrm{T}_{c(t_1)}\mathcal{M}
+    \end{equation*}
+    defined by $\mathrm{PT}^c_{t_1 \leftarrow t_0}(u) = Z(t_1)$, where $Z \in \mathfrak{X}(c)$ is the unique parallel vector field such that $Z(t_0) = u$.
+    Parallel transport from $x$ to $y$ depends on the choice of curve connecting $x$ and $y$.
+
+    \textbf{Proposition 10.36.}
+    The parallel transport operator $\mathrm{PT}^c_{t_1 \leftarrow t_0}$ is linear.
+    If $\mathcal{M}$ is Riemannian and $\nabla$ is compatible with the Riemannian metric, then parallel transport is an isometry, that is,
+    \begin{equation*}
+        \forall u, v \in \mathrm{T}_{c(t_0)}\mathcal{M},\qquad
+        \langle u, v \rangle_{c(t_0)} = \big\langle \mathrm{PT}^c_{t_1 \leftarrow t_0}(u), \mathrm{PT}^c_{t_1 \leftarrow t_0}(v) \big\rangle_{c(t_1)}.
+    \end{equation*}
+}
+
+\myBox{球面の異なる点における接空間}{\\
+    $\mathfrak{X}(c)$は、曲線$c$に沿う滑らかな接ベクトル場の集合を表す。
+    球面上の$x$における接ベクトル$u$は$x^\top u = 0$を満たすが、別の点$y$では$y^\top u = 0$を満たすとは限らない。
+    例えば$\mathbb{R}^3$で$x = (1, 0, 0)^\top$、$y = (0, 1, 0)^\top$、$u = (0, 1, 0)^\top$とすると、$x^\top u = 0$だが$y^\top u = 1$である。
+    平行移動を適用すれば、異なる点の接ベクトルを一つの接空間の元として比較し、線形結合を計算できる。
+}
+
+% Section 10.5, pp. 285--288.
+% Textbook pp. 286, 288. These formulas are unnumbered in the textbook.
+\bookBox{Definition 10.61 and Proposition 10.66}{\\
+    \textbf{Definition 10.61.}
+    Given a manifold $\mathcal{M}$, let $\mathcal{V}$ be open in $\mathcal{M} \times \mathcal{M}$ such that $(x, x) \in \mathcal{V}$ for all $x \in \mathcal{M}$.
+    A transporter on $\mathcal{V}$ is a smooth map
+    \begin{equation*}
+        \mathcal{T}\colon \mathcal{V} \to \mathrm{L}(\mathrm{T}\mathcal{M}, \mathrm{T}\mathcal{M})\colon (x, y) \mapsto \mathcal{T}_{y \leftarrow x}
+    \end{equation*}
+    such that $\mathcal{T}_{y \leftarrow x}$ is linear from $\mathrm{T}_x\mathcal{M}$ to $\mathrm{T}_y\mathcal{M}$ and $\mathcal{T}_{x \leftarrow x}$ is the identity.
+
+    \textbf{Proposition 10.66.}
+    Let $\mathcal{M}$ be an embedded submanifold of a Euclidean space $\mathcal{E}$.
+    For all $x, y \in \mathcal{M}$, exploiting the fact that both $\mathrm{T}_x\mathcal{M}$ and $\mathrm{T}_y\mathcal{M}$ are subspaces of $\mathcal{E}$, define the linear maps
+    \begin{equation*}
+        \mathcal{T}_{y \leftarrow x} = \operatorname{Proj}_y|_{\mathrm{T}_x\mathcal{M}},
+    \end{equation*}
+    where $\operatorname{Proj}_y$ is the orthogonal projector from $\mathcal{E}$ to $\mathrm{T}_y\mathcal{M}$, here restricted to $\mathrm{T}_x\mathcal{M}$.
+    This is a transporter on all of $\mathcal{M} \times \mathcal{M}$.
+}
+
+% Section 10.5, p. 290. Terminology checked against Sato (2017), Definition 3.3.
+\myBox{transporterとベクトル輸送}{\\
+    教科書のベクトル輸送（定義10.68）は、始点$x$と接ベクトル$v$を引数とする。
+    transporterとレトラクションから、写像が定義される範囲で
+    \begin{equation}
+        \operatorname{VT}_{(x, v)}(u) \coloneqq \mathcal{T}_{R_x(v) \leftarrow x}(u),\qquad
+        u, v \in \mathrm{T}_x\mathcal{M}
+        \label{eq:vector-transport}
+    \end{equation}
+    によりベクトル輸送を構成できる。
+    一般のベクトル輸送は、$R_x(v) = R_x(w)$であっても$v$と$w$に対して異なる線形写像を定め得るので、点の組$(x, y)$を引数とするtransporterとは区別する。
+}
+
+\myBox{球面のtransporterとManoptの実装}{\\
+    \Cref{eq:sphere-projection}と命題10.66から、球面では
+    \begin{equation}
+        \mathcal{T}_{y \leftarrow x}(u) = u - y(y^\top u)
+        \label{eq:sphere-transporter}
+    \end{equation}
+    と書ける。
+    \Cref{eq:sphere}より$y^\top \mathcal{T}_{y \leftarrow x}(u) = 0$なので、写像の値は$\mathrm{T}_y\mathcal{M}$に属する。
+    Manoptの\texttt{spherefactory}にも、対応する次の実装がある。
+    \texttt{M.transp}はこの射影であり、別に用意された\texttt{M.paralleltransp}とは区別する。
+}
+\begin{lstlisting}
+M.proj = @(x, d) d - x*(x(:)'*d(:));
+M.transp = @(x1, x2, d) M.proj(x2, d);
+\end{lstlisting}
+\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/sphere/spherefactory.m}{Manopt：spherefactory.m}
+
+\myBox{リーマン共役勾配法の探索方向}{\\
+    リーマン共役勾配法（Riemannian Conjugate Gradient, CG）の探索方向は、負のリーマン勾配と、前反復の探索方向にtransporterを適用したベクトルとの線形結合である。
+    $g_k \coloneqq \operatorname{grad} f(x_k)$、$\eta_k \in \mathrm{T}_{x_k}\mathcal{M}$を現在の探索方向とすると、前処理を使わない基本形は
+    \begin{align}
+        x_{k+1} &= R_{x_k}(\alpha_k \eta_k),\label{eq:cg-step}\\
+        \eta_{k+1} &= -g_{k+1} + \beta_k\,\mathcal{T}_{x_{k+1} \leftarrow x_k}(\eta_k)\label{eq:cg-direction}
+    \end{align}
+    となる。
+    ステップ幅$\alpha_k > 0$は、一変数関数$t \mapsto f(R_{x_k}(t \eta_k))$に対する直線探索で選び、$\beta_k$は前反復の探索方向に掛かる実数係数である。
+    \Cref{eq:cg-direction}の$g_{k+1}$と$\mathcal{T}_{x_{k+1} \leftarrow x_k}(\eta_k)$は、どちらも$\mathrm{T}_{x_{k+1}}\mathcal{M}$の元である。
+    $\beta_k$の計算でも、$g_{k+1}$と$\mathcal{T}_{x_{k+1} \leftarrow x_k}(g_k)$の差や内積を用いる場合がある。
+    次は\texttt{conjugategradient.m}から、途中を省略して抜き出した行である。
+    最後の行は\cref{eq:cg-direction}に対応し、\texttt{Pnewgrad}は点\texttt{newx}での勾配に前処理を適用したベクトルを表す。
+}
+\begin{lstlisting}
+oldgrad = M.transp(x, newx, grad);
+desc_dir = M.transp(x, newx, desc_dir);
+desc_dir = M.lincomb(newx, -1, Pnewgrad, beta, desc_dir);
+\end{lstlisting}
+\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m}{Manopt：conjugategradient.m}
+
+\myBox{CGによる数値計算}{\\
+    最急降下法と同じ\texttt{problem}、初期点\texttt{x0}、および\texttt{options}を指定する。
+    \texttt{conjugategradient}は、\texttt{problem.M}に定義された\texttt{M.transp}を用いる。
+}
+\begin{lstlisting}
+[xcg, fcg, info_cg] = conjugategradient(problem, x0, options);
+fprintf('CG: f = %.8f, norm(x) = %.8f\n', fcg, norm(xcg));
+\end{lstlisting}
+
+\section{リーマンヘシアンの有限差分近似}
+\label{sec:hessian}
+
+% Section 10.6, pp. 292--294.
+% Textbook p. 292. Preserve PT and the full equality in (10.38).
+\bookBox{Equations (10.38)--(10.39)}{\\
+    For any smooth curve $c\colon I \to \mathcal{M}$ such that $c(0) = x$ and $c'(0) = u$, it holds that
+    \begin{equation*}
+        \operatorname{Hess} f(x)[u] = \nabla_u \operatorname{grad} f = \frac{D}{\dd{t}}(\operatorname{grad} f \circ c)(0).
+        \tag{10.38}\label{eq:hessian-derivative}
+    \end{equation*}
+    Using Proposition 10.37, we can further rewrite the right-hand side in terms of parallel transport along $c$:
+    \begin{equation*}
+        \operatorname{Hess} f(x)[u]
+        = \lim_{t \to 0}\frac{\mathrm{PT}^c_{0 \leftarrow t}(\operatorname{grad} f(c(t))) - \operatorname{grad} f(x)}{t}.
+        \tag{10.39}\label{eq:hessian-pt}
+    \end{equation*}
+}
+\myBox{ヘシアンと差商}{\\
+    リーマンヘシアンはリーマン勾配の共変微分であり、接空間上の線形作用素である。
+    \Cref{eq:hessian-pt}では、$\mathrm{PT}^c_{0 \leftarrow t}(\operatorname{grad} f(c(t)))$と$\operatorname{grad} f(x)$がともに$\mathrm{T}_x\mathcal{M}$に属するので、この接空間内で差商を計算できる。
+}
+
+% Textbook pp. 292, 294. Preserve bar t in (10.41).
+\bookBox{Equations (10.41), (10.45)}{\\
+    With a transporter $\mathcal{T}$ on a Riemannian manifold $\mathcal{M}$, we contemplate the following candidate approximation for the Hessian:
+    \begin{equation*}
+        \operatorname{Hess} f(x)[u]
+        \approx \frac{\mathcal{T}_{x \leftarrow c(\bar{t})}(\operatorname{grad} f(c(\bar{t}))) - \operatorname{grad} f(x)}{\bar{t}}.
+        \tag{10.41}\label{eq:hessian-fd}
+    \end{equation*}
+    Thus we see that the approximation (10.41) is justified at or near a critical point.
+    This is typically sufficient to obtain good performance with second-order optimization algorithms such as RTR.
+    Likewise, circling back to Example 5.32 for the case where $\mathcal{M}$ is a Riemannian submanifold of a Euclidean space $\mathcal{E}$ and the transporter is taken to be simply orthogonal projection to tangent spaces (Proposition 10.66), we also get the favorable simplification.
+    As a reminder, this yields the particularly convenient formula
+    \begin{equation*}
+        \operatorname{Hess} f(x)[u]
+        = \lim_{t \to 0}\frac{\operatorname{Proj}_x(\operatorname{grad} f(c(t))) - \operatorname{grad} f(x)}{t},
+        \tag{10.45}\label{eq:hessian-projection}
+    \end{equation*}
+    where $\operatorname{Proj}_x$ is the orthogonal projector from $\mathcal{E}$ to $\mathrm{T}_x\mathcal{M}$, $c(t)$ satisfies $c(0) = x$ and $c'(0) = u$, and $\operatorname{grad} f(c(t))$ is interpreted as a vector in $\mathcal{E}$.
+}
+
+% Textbook pp. 292--293.
+\bookBox{10.6 Finite difference approximation of the Hessian}{\\
+    For example, in the Manopt toolbox, the default behavior when the Hessian is needed but unavailable is to fall back on (10.41) with $c(\bar{t}) = R_x(\bar{t}u)$ and $\bar{t} > 0$ set such that $\norm{\bar{t}u}_x = 2^{-14}$.
+    This costs one retraction, one gradient evaluation (assuming $\operatorname{grad} f(x)$ is available), and one call to a transporter.
+}
+
+\myBox{信頼領域法でヘシアンの有限差分を利用する}{\\
+    リーマン信頼領域法（Riemannian Trust-Region, RTR）の実装では、接ベクトル$u$に対する作用$\operatorname{Hess} f(x)[u]$を評価できればよく、ヘシアンの行列表示は必要としない。
+    \texttt{trustregions}は、ヘシアンもその近似も指定されていない場合に、勾配の有限差分を使う。
+    その分岐には次の代入があり、第10.6節の説明と対応する。
+}
+\begin{lstlisting}
+problem.approxhess = approxhessianFD(problem);
+\end{lstlisting}
+\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/trustregions/trustregions.m}{Manopt：trustregions.m}
+
+\myBox{RTRによる数値計算}{\\
+    これまでのコードでは\texttt{problem.hess}も\texttt{problem.approxhess}も指定していないので、次の呼び出しは有限差分によるヘシアン近似を使う。
+    \texttt{trustregions}は、有限差分近似の使用に関する警告を出力する場合がある。
+}
+\begin{lstlisting}
+[xtr, ftr, info_tr] = trustregions(problem, x0, options);
+fprintf('RTR-FD: f = %.8f, norm(x) = %.8f\n', ftr, norm(xtr));
+\end{lstlisting}
+
+\myBox{目的関数値、制約条件と勾配ノルムの確認}{\\
+    目的関数値を既知の最小値$1/2$と比較し、制約$\norm{x} = 1$も確認する。
+    また、反復情報の\texttt{gradnorm}から、勾配ノルムの変化を確認できる。
+    次のコードは、各反復におけるリーマン勾配ノルムを表示する。
+}
+\begin{lstlisting}
+semilogy([info_gd.iter], [info_gd.gradnorm], '-o', ...
+         [info_cg.iter], [info_cg.gradnorm], '-s', ...
+         [info_tr.iter], [info_tr.gradnorm], '-^');
+xlabel('Iteration');
+ylabel('Riemannian gradient norm');
+legend('SD', 'CG', 'RTR-FD');
+grid on;
+\end{lstlisting}
+
+\appendix
+\section{補足：式(10.41)を実装する}
+\label{sec:fd-code}
+
+\myBox{有限差分の説明用コード}{\\
+    以下は\cref{eq:hessian-fd}の説明用の実装であり、Manopt内部の関数をそのまま転記したものではない。
+    \texttt{problem.grad}がリーマン勾配を返し、\texttt{u}が点\texttt{x}の接ベクトルであるとする。
+    コード中の\texttt{t}は\cref{eq:hessian-fd}の$\bar{t}$に対応する。
+    非零の$u$に対し$t = h/\norm{u}_x$とすれば$\norm{t u}_x = h$なので、接ベクトル$t u$のノルムを$h$に固定できる。
+    $h$には、教科書執筆時の値$2^{-14}$を使う。
+    球面では\cref{eq:hessian-projection}により、この差商の極限はリーマンヘシアンの接ベクトルへの作用に一致する。
+}
+\begin{lstlisting}
+function Hu = illustrativeHessianFD(problem, x, u)
+    M = problem.M;
+    unorm = M.norm(x, u);
+    if unorm == 0
+        Hu = M.zerovec(x);
+        return;
+    end
+    h = 2^(-14);
+    t = h / unorm;
+    y = M.retr(x, u, t);
+    gx = problem.grad(x);
+    gy = problem.grad(y);
+    gy_at_x = M.transp(y, x, gy);
+    Hu = M.lincomb(x, 1/t, gy_at_x, -1/t, gx);
+end
+\end{lstlisting}
+
+\myBox{ヘシアン近似の明示的な指定}{\\
+    上の関数を\texttt{illustrativeHessianFD.m}として保存すると、次のように近似を明示的に指定できる。
+    \texttt{M.retr}は$y = R_x(t u)$を計算し、\texttt{M.transp(y, x, gy)}は$\mathcal{T}_{x \leftarrow y}(\operatorname{grad} f(y))$を計算する。
+    \texttt{M.lincomb}は、\cref{eq:hessian-fd}の差商を$\mathrm{T}_x\mathcal{M}$内で計算する。
+}
+\begin{lstlisting}
+problem.approxhess = @(x, u) illustrativeHessianFD(problem, x, u);
+[xcustom, fcustom] = trustregions(problem, x0, options);
+fprintf('RTR-custom-FD: %.8f\n', fcustom);
+\end{lstlisting}
+
+\section{補足：平行移動とLipschitz条件}
+\label{sec:lipschitz}
+
+% Section 10.4, p. 277. Optional reading, not part of the main two-hour route.
+% Textbook p. 277. V and P_s are kept as in the original proposition.
+\bookBox{Proposition 10.45}{\\
+    A vector field $V$ on a manifold $\mathcal{M}$ is $L$-Lipschitz continuous if and only if
+    \begin{equation*}
+        \forall (x, s) \in \mathcal{O},\qquad
+        \norm{P_s^{-1} V(\operatorname{Exp}_x(s)) - V(x)} \leq L\norm{s},
+        \tag{10.17}\label{eq:lipschitz-gradient}
+    \end{equation*}
+    where $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$ is the domain of $\operatorname{Exp}$ and $P_s$ denotes parallel transport along $\gamma(t) = \operatorname{Exp}_x(t s)$ from $t = 0$ to $t = 1$.
+}
+\myBox{勾配への適用}{\\
+    $V = \operatorname{grad} f$とおくことで、勾配のLipschitz連続性が得られる。
+    第10.4節の議論は指数写像の定義域内で行われ、多様体全体の完備性は仮定しない。
+}
+
+% Sections 10.2 (logarithms and injectivity), 10.7, and 10.8 are outside the main route.
+% Terminology references checked in the previous revision:
+% Sato (2017): https://www.jstage.jst.go.jp/article/bjsiam/27/1/27_21/_pdf
+% Sato--Kasai (2018): https://www.jstage.jst.go.jp/article/isciesci/62/1/62_21/_pdf/-char/ja
+% Homma (2010): https://yhomma.w.waseda.jp/homma2/download/symmetric-sp-kougi.pdf
+% Absil (2007): https://perso.uclouvain.be/pa.absil/Talks/ICIAM070717_oom_05.pdf
+\end{document}
