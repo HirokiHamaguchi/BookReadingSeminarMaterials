@@ -359,6 +359,12 @@
     The exponential map is a second-order retraction, with a possibly restricted domain $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$.
 }
 
+\myBox{指数写像：接ベクトルから移動先を指定する}{\\
+    ユークリッド空間では$\operatorname{Exp}_x(v) = x + v$、$\operatorname{Log}_x(y) = y - x$であり、点と変位を対応させる。
+    多様体では測地線で移動し、(10.3)の$\operatorname{Exp}_x(t v) = \gamma_v(t)$は「初速度$v$で時刻$t$まで進む」ことを表す。
+    また、指数写像は二次のretractionなので、一般のretractionと比較する際の基準になる。
+}
+
 \bookBox{Definitions 10.19--10.20（pp.265--266）}{\\
     \textbf{Definition 10.19.}
     The injectivity radius of a Riemannian manifold $\mathcal{M}$ at a point $x$, denoted by $\operatorname{inj}(x)$, is the supremum over radii $r > 0$ such that $\operatorname{Exp}_x$ is defined and is a diffeomorphism on the open ball $B(x, r) = \{v \in \mathrm{T}_x\mathcal{M} : \norm{v}_x < r\}$.
@@ -378,6 +384,12 @@
     \textbf{Proposition 10.22.}
     If $\norm{v}_x < \operatorname{inj}(x)$, the geodesic $c(t) = \operatorname{Exp}_x(t v)$ on the interval $[0, 1]$ is the minimizing curve connecting $x$ to $y = \operatorname{Exp}_x(v)$, unique up to parameterization.
     In particular, $\operatorname{dist}(x, y) = \norm{v}_x$, and $\operatorname{Log}_x(y) = v$.
+}
+
+\myBox{最短測地線の存在と一意性}{\\
+    Hopf--Rinowは、完備な場合に最短測地線の存在を保証するが、一意性までは保証しない（球面の対蹠点が例）。
+    Proposition 10.22の範囲では、最短測地線が一意に選べ、$\operatorname{Log}_x(y)$がその初速度を与える。
+    このとき$\operatorname{dist}(x, y) = \norm{\operatorname{Log}_x(y)}_x$となり、距離を接空間で測れる。
 }
 
 \bookBox{Proposition 10.23（p.267）}{\\
@@ -416,6 +428,12 @@
 
     \textbf{Corollary 10.27.}
     For any retraction $\mathrm{R}$, the map $(x, v) \mapsto (x, \mathrm{R}_x(v))$ is a diffeomorphism onto its image on some zero-section neighborhood $\mathcal{T}$ of the form (10.8), with respect to any chosen Riemannian metric.
+}
+
+\myBox{基点も動かしたときの滑らかさ}{\\
+    ここで必要なのは、各$x$で逆写像を持つだけでなく、$(x, y) \mapsto \mathrm{R}_x^{-1}(y)$を滑らかに選べることである。
+    Corollary 10.27の局所的な逆写像により、近い2点から変位$v = \mathrm{R}_x^{-1}(y)$を選べる。
+    10.5節では、この$v$から曲線$c(t) = \mathrm{R}_x(t v)$を定め、その曲線に沿う平行移動でtransporterを作る。
 }
 
 \section{平行移動（10.3節）}
@@ -508,6 +526,14 @@
         = \mathrm{PT}^c_{t \leftarrow t_0}\qty(\dv{t}z(t))
         = \lim_{\delta \to 0}\frac{\mathrm{PT}^c_{t \leftarrow t + \delta}Z(t + \delta) - Z(t)}{\delta}.
     \end{equation*}
+}
+
+\myBox{平行移動と共変微分：同じ接空間にそろえる}{\\
+    $Z(t + \delta)$と$Z(t)$は異なる接空間に属するので、Proposition 10.37では前者を時刻$t$の接空間へ戻してから差分を取る。
+    リーマン接続による平行移動は内積を保存するため、この比較で長さや角度を変えずに済む。
+    例えば単位球面の大円$c(t) = (\cos t, \sin t, 0)$では、通常の加速度$\dv[2]{c}{t} = -c(t)$は法線方向を向く。
+    その接空間への射影はゼロなので、速度$c'(t)$は曲線に沿って平行である。
+    周囲空間で向きが変わっても、共変微分はゼロになり得る。
 }
 
 \section{Lipschitz条件とTaylor展開（10.4節）}
@@ -611,6 +637,12 @@
     \end{equation*}
 }
 
+\myBox{何の変化を抑えているか}{\\
+    関数値はそのまま引き算できるが、ベクトル場の値は一方を平行移動してから比較する（(10.16)--(10.17)）。
+    また、$f$のLipschitz性は勾配の大きさの一様な上界に対応し、$\operatorname{grad} f$のLipschitz性はヘッセ行列の作用素ノルムの一様な上界に対応する。
+    「勾配が有界」と「勾配の変化が抑えられる」は区別する。
+}
+
 \bookBox{Definition 10.49, Proposition 10.50（pp.279--280）}{\\
     \textbf{Definition 10.49.}
     For each $x \in \mathcal{M}$, let $H(x)\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_x\mathcal{M}$ be linear.
@@ -634,6 +666,12 @@
     where $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$ is the domain of $\operatorname{Exp}$ and $P_s$ denotes parallel transport along $\gamma(t) = \operatorname{Exp}_x(t s)$ from $t = 0$ to $t = 1$.
 }
 
+\myBox{線形作用素は入力と出力をそろえる}{\\
+    $y = \operatorname{Exp}_x(s)$、$P_s\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$とする。
+    (10.21)の$P_s^{-1} H(y) P_s$は、入力を$y$へ運び、$H(y)$を適用してから、出力を$x$へ戻す操作である。
+    これで$H(x)$と同じ$\mathrm{T}_x\mathcal{M}$上の作用素になり、両者の差を測れる。
+}
+
 \bookBox{Proposition 10.53（pp.280--281）}{\\
     For $(x, s) \in \mathcal{O}$ and $\gamma(t) = \operatorname{Exp}_x(t s)$, write
     \begin{equation*}
@@ -653,6 +691,30 @@
         \abs{f(\operatorname{Exp}_x(s)) - f(x) - \langle s, \operatorname{grad} f(x) \rangle}
         \leq \frac{L}{2}\norm{s}^2.
     \end{equation*}
+}
+
+\myBox{Taylor評価：測地線に沿った一変数の計算}{\\
+    Proposition 10.53の仮定の下で、$\gamma(t) = \operatorname{Exp}_x(t s)$、$h(t) \coloneqq f(\gamma(t))$とおく。
+    測地線の速度は平行なので$\gamma'(t) = P_{t s}s$であり、内積保存から
+    \begin{equation}
+        h'(t) = \langle P_{t s}^{-1}\operatorname{grad} f(\gamma(t)), s \rangle.
+        \label{eq:geodesic-function-derivative}
+    \end{equation}
+    \cref{eq:geodesic-function-derivative}に命題の仮定とCauchy--Schwarzを用いると$\abs{h'(t) - h'(0)} \leq L t \norm{s}^2$となる。
+    これを積分すると、微積分の基本定理により
+    \begin{equation}
+        \abs{h(1) - h(0) - h'(0)}
+        \leq \int_0^1 L t \norm{s}^2\,\dd{t}
+        = \frac{L}{2}\norm{s}^2.
+        \label{eq:geodesic-taylor-integral}
+    \end{equation}
+    \cref{eq:geodesic-taylor-integral}に$s = -\alpha\operatorname{grad} f(x)$を代入すると、その移動に命題の仮定が成り立つ場合、
+    \begin{equation}
+        f\bigl(\operatorname{Exp}_x(-\alpha\operatorname{grad} f(x))\bigr)
+        \leq f(x) - \alpha\qty(1 - \frac{L\alpha}{2})\norm{\operatorname{grad} f(x)}^2.
+        \label{eq:exponential-gradient-descent}
+    \end{equation}
+    $L > 0$、$0 < \alpha \leq 1/L$なら、停留点以外で関数値の減少が保証される。
 }
 
 \bookBox{Proposition 10.55（p.282）}{\\
@@ -722,6 +784,12 @@
     such that $\mathrm{T}_{y \leftarrow x}$ is linear from $\mathrm{T}_x\mathcal{M}$ to $\mathrm{T}_y\mathcal{M}$ and $\mathrm{T}_{x \leftarrow x}$ is the identity.
 }
 
+\myBox{Transporterで残す条件}{\\
+    定義の条件は、点の組への滑らかな依存、接ベクトルについての線形性、同一点で恒等写像になることである。
+    内積保存や経路に沿う合成則、定義域全体での可逆性は要求しないため、射影などの計算しやすい写像も含められる。
+    平行移動から作る場合は、点の組ごとに経路を滑らかに選ぶ必要がある。
+}
+
 \bookBox{Propositions 10.62--10.63（pp.286--287）}{\\
     \textbf{Proposition 10.62.}
     For a transporter $\mathrm{T}$ on $\mathcal{V}$, let $\mathcal{V}'$ be the set of pairs $(x, y) \in \mathcal{V}$ such that $\mathrm{T}_{x \leftarrow y}$ is invertible.
@@ -744,6 +812,12 @@
     \end{enumerate}
 }
 
+\myBox{Retractionの微分で運ぶ意味}{\\
+    $y = \mathrm{R}_x(v)$とすると、$\mathrm{D}\mathrm{R}_x(v)[u]$は、変位$v$を方向$u$へ少し変えたときの到着点の変化を表す。
+    したがって、$u \in \mathrm{T}_x\mathcal{M}$を移動先の$\mathrm{T}_y\mathcal{M}$へ送れる。
+    Proposition 10.64では、局所的な逆写像$v = \mathrm{R}_x^{-1}(y)$を使い、これを点の組$(x, y)$の関数にしている。
+}
+
 \bookBox{Proposition 10.66（p.288）}{\\
     \textbf{Proposition 10.66.}
     For an embedded submanifold $\mathcal{M}$ of a Euclidean space $\mathcal{E}$, the maps
@@ -751,6 +825,12 @@
         \mathrm{T}_{y \leftarrow x} = \left.\operatorname{Proj}_y\right|_{\mathrm{T}_x\mathcal{M}},
     \end{equation*}
     define a transporter on $\mathcal{M} \times \mathcal{M}$, where $\operatorname{Proj}_y\colon \mathcal{E} \to \mathrm{T}_y\mathcal{M}$ is the orthogonal projector.
+}
+
+\myBox{球面上の射影：計算は軽いが、長さは保存しない}{\\
+    単位球面では$\operatorname{Proj}_y(v) = v - \langle y, v \rangle y$なので、内積とベクトル演算でtransporterを計算できる。
+    例えば標準基底を用いて$x = e_1$、$y = e_2$、$v = e_2 \in \mathrm{T}_x\mathcal{M}$とすると、$\operatorname{Proj}_y(v) = 0$となる。
+    このように長さを失い、可逆でない場合もあるが、同一点では恒等写像なので、滑らかさから十分近い点の間では可逆になる。
 }
 
 \bookBox{Definition 10.68（pp.290--291）}{\\
@@ -769,6 +849,12 @@
     A transporter and a retraction yield $\mathrm{VT}_{(x, u)} = \mathrm{T}_{\mathrm{R}_x(u) \leftarrow x}$.
     The converse need not hold: $\mathrm{VT}_{(x, u)} \neq \mathrm{VT}_{(x, w)}$ may occur even when $\mathrm{R}_x(u) = \mathrm{R}_x(w)$.
     A vector transport does yield a transporter locally where $(x, u) \mapsto (x, \mathrm{R}_x(u))$ has a smooth inverse (Corollary 10.27).
+}
+
+\myBox{Transporterとvector transportの違い}{\\
+    Transporterは点の組$(x, y)$に依存し、vector transportは移動に使った$(x, u)$に依存する。
+    後者は、同じ到着点$\mathrm{R}_x(u) = \mathrm{R}_x(w)$でも、異なる変位$u, w$を区別できる。
+    局所的に$u = \mathrm{R}_x^{-1}(y)$を滑らかに選べる範囲では、vector transportからもtransporterを作れる。
 }
 
 \end{document}
