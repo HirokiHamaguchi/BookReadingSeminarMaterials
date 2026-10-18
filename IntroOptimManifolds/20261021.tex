@@ -142,8 +142,9 @@
         \begin{itemize}
             \item そもそもの\href{https://ja.wikipedia.org/wiki/\%E5\%85\%B1\%E5\%BD\%B9\%E5\%8B\%BE\%E9\%85\%8D\%E6\%B3\%95}{共役勾配法}は、対称正定値行列を係数とする連立一次方程式を解くためのアルゴリズム
             \item (Solving $Ax = b$ for $A \succ 0$, i.e., minimizing $f(x) = \frac{1}{2}x^\top A x - b^\top x$)
-            \item これは直感的には次元分だけ共役方向($u^\top A v = 0$という関係を満たすベクトルペア、つまり、$A$というヘッセ行列で考えたときの直交関係。実際、$A=I$なら、$u^\top v = 0$となる)を取り除き続けて、解を求める
-            \item これが非線形だと、各イテレーションで別の場所で勾配をとることになる(つまり、$u$や$v$というベクトルの始点が変わる)
+            \item これは直感的にはおよそ次元分だけ共役方向($u^\top A v = 0$という関係を満たすベクトルペア、つまり、$A$というヘッセ行列で考えたときの直交関係。実際、$A=I$なら、$u^\top v = 0$となる)を取り除き続けて、解を求める
+            \item 非線形の場合も、局所的には二次関数に近いと考えて、CGの考え方で最適化し続ける。
+            \item 大事なこととして、この手法では各イテレーションで別の場所で勾配をとることになる(つまり、$u$や$v$というベクトルの始点が変わる)
             \item ``綺麗に''現在の方向から、過去の共役方向の集積物を除去したい。
             \item ユークリッド空間では自明
             \item では、多様体上では?
@@ -159,7 +160,8 @@
             \item では、多様体上では?
         \end{itemize}
         \item ではこの``綺麗さ''をどう定義してどう担保しますか? というのが問題
-        \item 結論としては、今回扱うparallel transportが理論的には最も綺麗。実用的に、transporterを使うこともある。
+        \item 結論としては、今回扱うparallel transportが理論的には最も綺麗で、内積を保存できる。
+            実用的に、より軽く計算できる射影なども含めた一般化としてのtransporterを使うこともある。
         \item Manoptの実装(\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m}{リンク1}, \href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/bfgs/rlbfgs.m}{リンク2}, \href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/sphere/spherefactory.m}{リンク3})でもそれが使われている。
     \end{itemize}
 
@@ -177,12 +179,13 @@
     \end{figure}
 
     \begin{itemize}
-        \item これまた大雑把に言えば、空間がユークリッド空間と比べてどれだけ曲がっているかの度合いに応じて、ベクトルに補正を掛けてから演算すればよい。
-        \item その曲がり具合を測るのが、今回は$\frac{D}{\dd{t}}$という共変微分の概念
-        \item ただ、曲がり方が完璧に分かっていても、それだけではtransporterはwell-definedでない。地球上でベクトルを考える。赤道から直接北極に向かって運ぶのと、赤道から西に行ってから北極に向かうのでは、最終的なベクトルの向きが違う。
-        \item 要は、経路に対する依存性が残るという意味
-        \item その「経路」を、(大雑把に)最短経路である測地線に限定することで、transporterはwell-definedになる
-        \item では測地線の性質(ただし、必ずしもtransportに直結はしないが……)の復習から始めましょう、というのが、今回の輪読の主旨
+        \item これまた大雑把に言えば、点ごとに接空間が変わることを考慮して、ベクトルに補正を掛けてから演算すればよい。
+        \item その接ベクトル場の変化を測る仕組みが、今回は$\frac{D}{\dd{t}}$という共変微分の概念
+        \item ただ、平行移動は経路を指定して初めてwell-definedになる。地球上でベクトルを考える。赤道から直接北極に向かって運ぶのと、赤道から西に行ってから北極に向かうのでは、最終的なベクトルの向きが違う。
+        \item 要は、経路も同時に定義で考慮する必要があるという意味
+        \item その「経路」を、十分近い2点の間では、(大雑把に)最短経路である一意な測地線に限定することで、始点と終点から平行移動がwell-definedになる
+        \item この経路の選択には、指数写像・対数写像が使える(教科書p.272、命題10.64)。
+        \item では最短測地線の存在性の復習から始めましょう、というのが、今回の輪読の主旨
     \end{itemize}
 }
 
