@@ -45,6 +45,7 @@
 \definecolor{cB}{HTML}{EDB120}
 \definecolor{cC}{HTML}{77AC30}
 \definecolor{cD}{HTML}{D95319}
+\definecolor{bookRefAqua}{HTML}{179EAA}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
@@ -98,6 +99,20 @@
         \sffamily\textbf{#1}
     }#2
 }
+\NewTotalTColorBox[auto counter]{\bookRefBox}{ +m +m }{
+    notitle,
+    colback=bookRefAqua!4!white,
+    frame hidden,
+    boxrule=0pt,
+    enhanced,
+    sharp corners,
+    borderline west={4pt}{0pt}{bookRefAqua},
+    breakable,
+}{
+    \textcolor{bookRefAqua}{
+        \sffamily\textbf{#1}
+    }#2
+}
 \NewTotalTColorBox[auto counter]{\myBox}{ +m +m }{
     notitle,
     colback=white,
@@ -128,7 +143,9 @@
 }
 
 % Source: secret/IntroOptimManifolds_Boumal_2023_pages260-306.pdf.
-% Blue boxes contain verbatim excerpts. Green boxes contain Japanese explanations and code.
+% Blue boxes contain textbook statements; aqua boxes contain prerequisites.
+% From Section 10.2 onward, statements are abbreviated, retaining assumptions and formulas.
+% Green boxes contain Japanese explanations and code.
 \begin{document}
 
 \title{10月21日 輪読補足資料\\多様体上の最適化：完備性とManopt}
@@ -195,67 +212,131 @@
 \label{sec:completeness}
 
 % Section 10.1, pp. 261--263.
-% Textbook pp. 261--262.
-\bookBox{Equations (10.1)--(10.2) and Theorem 10.3}{\\
-    Let $\mathcal{M}$ be a Riemannian manifold.
-    Given a piecewise smooth curve segment $c\colon [a, b] \to \mathcal{M}$, we define the length of $c$ as the integral of its speed $\norm{c'(t)}_{c(t)}$:
-    \begin{equation*}
-        L(c) = \int_a^b \norm{c'(t)}_{c(t)}\,\dd{t}.
-        \tag{10.1}\label{eq:curve-length}
-    \end{equation*}
-    The notion of length of a curve leads to a natural notion of distance on $\mathcal{M}$, called the Riemannian distance:
-    \begin{equation*}
-        \operatorname{dist}(x, y) = \inf_c L(c),
-        \tag{10.2}\label{eq:riemannian-distance}
-    \end{equation*}
-    where the infimum is taken over all piecewise regular curve segments on $\mathcal{M}$ which connect $x$ to $y$.
-    It is equivalent to take the infimum over all piecewise smooth curve segments.
-
-    \textbf{Theorem 10.3.}
-    If $\mathcal{M}$ is connected (meaning each pair of points is connected by a curve segment), equation (10.2) defines a distance.
-    Equipped with this distance, $\mathcal{M}$ is a metric space whose metric topology coincides with its atlas topology.
+\myBox{前提の復習：距離と完備性}{\\
+    $\mathcal{M}$を連結な有限次元リーマン多様体とし、$\norm{v}_x \coloneqq \sqrt{\langle v, v \rangle_x}$と書く。
+    \begin{itemize}
+        \item 区分的に滑らかな曲線$c\colon [0, 1] \to \mathcal{M}$の長さと、リーマン距離を次で定義する。
+            \begin{align}
+                L(c) &\coloneqq \int_0^1 \norm{c'(t)}_{c(t)}\,\dd{t},\label{eq:curve-length}\\
+                \operatorname{dist}(x, y) &\coloneqq \inf_{\substack{c(0) = x\\c(1) = y}} L(c).\label{eq:riemannian-distance}
+            \end{align}
+        \item Cauchy列とは、任意の$\varepsilon > 0$に対し、十分大きい$m, n$について$\operatorname{dist}(x_m, x_n) < \varepsilon$となる点列である。
+            すべてのCauchy列が$\mathcal{M}$内に収束するとき、$\mathcal{M}$は距離完備という。
+        \item 曲線$c$に沿うベクトル場$Z(t) \in \mathrm{T}_{c(t)}\mathcal{M}$の共変微分$\frac{D}{\dd{t}}Z$は、リーマン接続(捻れがなく、計量と整合するアフィン接続)$\nabla$から誘導される$\mathbb{R}$線形な演算である。
+            スカラー関数$h$と多様体上のベクトル場$X$に対し、次の性質で特徴づけられる。
+            \begin{align}
+                \frac{D}{\dd{t}}(h Z) &= h' Z + h \frac{D}{\dd{t}}Z,\label{eq:covariant-leibniz}\\
+                \frac{D}{\dd{t}}(X \circ c)(t) &= \nabla_{c'(t)}X.\label{eq:covariant-restriction}
+            \end{align}
+            ユークリッド空間のリーマン部分多様体では、$\frac{D}{\dd{t}}Z(t) = \operatorname{Proj}_{c(t)}(Z'(t))$、つまり通常の微分を接空間に射影したものである。
+        \item 測地線とは、$\frac{D}{\dd{t}}c'(t) = 0$を満たす滑らかな曲線$c$である。
+            すべての測地線が実数全体で定義された測地線に延長できるとき、$\mathcal{M}$は測地的完備という。
+    \end{itemize}
 }
 
-\myBox{測地線の定義}{\\
-    測地線は、速度ベクトル場が$\frac{D}{\dd{t}}c'(t) = 0$を満たす滑らかな曲線$c$である。
-    $\frac{D}{\dd{t}}$は、リーマン接続（Levi--Civita接続）に関する、曲線に沿う共変微分を表す。
-    初期条件$\gamma_v(0) = x$、$\gamma_v'(0) = v$を満たす測地線を$\gamma_v$と書き、その局所的な存在と一意性を用いる。
-}
-
-% Textbook p. 262.
-\bookBox{Theorems 10.4--10.5}{\\
-    If the infimum in (10.2) is attained for some curve segment $c$, we call $c$ a minimizing curve.
-
-    \textbf{Theorem 10.4.}
-    Every minimizing curve admits a constant-speed parameterization such that it is a geodesic, called a minimizing geodesic.
-
-    \textbf{Theorem 10.5.}
-    Every geodesic $\gamma$ on $\mathcal{M}$ is locally minimizing, that is, every $t$ in the domain of $\gamma$ has a neighborhood $I$ in the domain of $\gamma$ such that, if $a, b \in I$ satisfy $a < b$, then the restriction $\gamma|_{[a, b]}$ is a minimizing curve.
-}
-
-% Textbook pp. 262--263.
-\bookBox{Definitions 10.6--10.7 and Theorem 10.8 (Hopf--Rinow)}{\\
-    Recall that a sequence $x_0, x_1, x_2, \ldots$ is Cauchy if for every $\varepsilon > 0$ there exists an integer $k$ such that, for all $m, n > k$, $\operatorname{dist}(x_m, x_n) < \varepsilon$.
-
-    \textbf{Definition 10.6.}
-    A connected Riemannian manifold is metrically complete if it is complete as a metric space equipped with the Riemannian distance, that is, if every Cauchy sequence on the manifold converges on the manifold.
-
-    \textbf{Definition 10.7.}
-    A Riemannian manifold is geodesically complete if every geodesic can be extended to a geodesic defined on the whole real line.
-
+% Textbook p. 263.
+\bookBox{Theorem 10.8 (Hopf--Rinow)}{\\
     \textbf{Theorem 10.8 (Hopf--Rinow).}
     A connected Riemannian manifold $\mathcal{M}$ is metrically complete if and only if it is geodesically complete.
     Additionally, $\mathcal{M}$ is complete (in either sense) if and only if its compact subsets are exactly its closed and bounded subsets.
 }
 
-% Section 10.2, pp. 264--265, introduced here only as needed for the proof.
-% Textbook pp. 263--264.
-\bookBox{Theorem 10.9 and Definition 10.16}{\\
-    \textbf{Theorem 10.9.}
-    If $\mathcal{M}$ is complete, then any two points $x, y$ in the same connected component are connected by a minimizing geodesic segment $c\colon [0, 1] \to \mathcal{M}$ such that $c(0) = x$, $c(1) = y$ and $\operatorname{dist}(x, y) = L(c)$.
+\myBox{定理の読み方}{\\
+    連結で境界のない有限次元リーマン多様体では、次の3条件が同値である。
+    \begin{enumerate}[label=(\arabic*)]
+        \item 閉かつ有界な部分集合はコンパクトである（HB）。
+        \item 距離空間として完備である、すなわちすべてのCauchy列が$\mathcal{M}$内に収束する（MC）。
+        \item 任意の$p \in \mathcal{M}$で指数写像$\operatorname{Exp}_p$が$\mathrm{T}_p\mathcal{M}$全体に定義される、すなわち測地的完備である（GC）。
+    \end{enumerate}
+    さらに、いずれかが成立すれば、任意の2点$x, y \in \mathcal{M}$を結ぶ最短測地線$c$が存在し、距離の下限が$L(c) = \operatorname{dist}(x, y)$として達成される。
+    \href{https://en.wikipedia.org/wiki/Hopf\%E2\%80\%93Rinow_theorem}{参考：Wikipedia「Hopf--Rinow theorem」}
+    \begin{center}
+        \fcolorbox{black}{white}{\includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax]{hopf_rinow_conditions.pdf}}
+    \end{center}
+}
+
+\myBox{Hopf--Rinowの定理の一方向の証明：測地的完備なら距離完備}{\\
+    $\mathcal{M}$を連結で測地的完備（GC）なリーマン多様体とする。
+
+    \textbf{1. $\mathrm{GC} \Rightarrow \mathrm{GC}'$：一点での測地的完備性。}
+    点$p \in \mathcal{M}$を固定し、初期条件$\gamma_v(0) = p$、$\gamma_v'(0) = v$の測地線を$\gamma_v$と書く。
+    指数写像を$\operatorname{Exp}_p(v) \coloneqq \gamma_v(1)$と定める。
+    GCにより、これは$\mathrm{T}_p\mathcal{M}$全体で定義される。
+    このような点$p$が少なくとも一つ存在するという条件をGC$'$と呼ぶ。
+
+    \textbf{2. $\mathrm{GC}' \Rightarrow \mathrm{HB}$：閉かつ有界な集合はコンパクト。}
+    \textbf{GC$'$から、$p$と任意の点を結ぶ最短測地線が存在することは、既知とする（参考資料の補題2.4.1）。}
+    指数写像の連続性と、測地線の速さが一定であることも既知とする。
+    $A \subseteq \mathcal{M}$を閉かつ有界とし、すべての$q \in A$に対して$\operatorname{dist}(p, q) \leq R$となる$R > 0$を取る。
+    接空間の閉球を
+    \begin{equation}
+        K_R \coloneqq \{v \in \mathrm{T}_p\mathcal{M} : \norm{v}_p \leq R\}
+        \label{eq:tangent-ball}
+    \end{equation}
+    とおく。
+    各$q \in A$への定速の最短測地線を$c_q\colon [0, 1] \to \mathcal{M}$とすると、定速性と\cref{eq:curve-length,eq:riemannian-distance}から
+    \begin{equation}
+        \norm{c_q'(0)}_p = L(c_q) = \operatorname{dist}(p, q) \leq R
+        \label{eq:minimizing-vector}
+    \end{equation}
+    なので、\cref{eq:tangent-ball,eq:minimizing-vector}と指数写像の定義から$A \subseteq \operatorname{Exp}_p(K_R)$となる。
+    \textbf{接空間}は有限次元の内積空間なので、Heine--Borelにより$K_R$はコンパクトである。
+    その連続像$\operatorname{Exp}_p(K_R)$もコンパクトで、$A$はその閉部分集合なのでコンパクトである（HB）。
+
+    \textbf{3. $\mathrm{HB} \Rightarrow \mathrm{MC}$：Cauchy列が収束する。}
+    Cauchy列$(x_n)$は有界なので、その点集合の閉包はHBによりコンパクトである。
+    よって収束部分列を持ち、Cauchy性と三角不等式から列全体も同じ極限に収束する。
+    したがって$\mathcal{M}$は距離完備（MC）である。
+}
+\href{https://www.mat.univie.ac.at/~stein/teaching/courses/SoSem16/rg-2017-03-06.pdf}{証明の参考：Kunzinger--Steinbauer、補題2.4.1と定理2.4.2の証明}
+
+% Source: secret/IntroOptimManifolds_Boumal_2023.pdf.
+% Selected statements from Sections 10.2--10.5, with prerequisite excerpts.
+
+\section{指数写像と対数写像（10.2節）}
+\label{sec:exponential-logarithmic}
+
+以下、教科書の主張を簡略表記する（青：今回の範囲、aqua：範囲外の前提事項）。
+
+% Prerequisites: secret/IntroOptimManifolds_Boumal_2023.pdf, Sections 3.5--3.6 and 5.8--5.10.
+\bookRefBox{前提：Definitions 3.42, 3.44（pp.37--38）}{\\
+    \textbf{Definition 3.42.}
+    The tangent bundle is
+    \begin{equation*}
+        \mathrm{T}\mathcal{M} = \{(x, v) : x \in \mathcal{M} \text{ and } v \in \mathrm{T}_x\mathcal{M}\}.
+        \tag{3.30}
+    \end{equation*}
+
+    \textbf{Definition 3.44.}
+    A vector field is a map $V\colon \mathcal{M} \to \mathrm{T}\mathcal{M}$ with $V(x) \in \mathrm{T}_x\mathcal{M}$ for all $x$.
+    Smooth vector fields form $\mathfrak{X}(\mathcal{M})$.
+}
+
+\bookRefBox{前提：Definition 3.47（p.39）}{\\
+    \textbf{Definition 3.47.}
+    A retraction on a manifold $\mathcal{M}$ is a smooth map $\mathrm{R}\colon \mathrm{T}\mathcal{M} \to \mathcal{M}\colon (x, v) \mapsto \mathrm{R}_x(v)$ such that each curve $c(t) = \mathrm{R}_x(t v)$ satisfies $c(0) = x$ and $c'(0) = v$.
+}
+
+\bookRefBox{前提：Definitions 5.36, 5.38, 5.42（pp.105--108）}{\\
+    \textbf{Definition 5.36.}
+    For a smooth curve $c\colon I \to \mathcal{M}$, velocity is $c' \in \mathfrak{X}(c)$ and intrinsic acceleration is $c'' = \frac{D}{\dd{t}}c' \in \mathfrak{X}(c)$.
+
+    \textbf{Definition 5.38.}
+    A geodesic on a Riemannian manifold is a smooth curve $c\colon I \to \mathcal{M}$ with $c''(t) = 0$ for all $t \in I$, where $I \subseteq \mathbb{R}$ is an open interval.
+
+    \textbf{Definition 5.42.}
+    A retraction $\mathrm{R}$ is second-order if $c(t) = \mathrm{R}_x(t v)$ satisfies $c''(0) = 0$ for all $(x, v) \in \mathrm{T}\mathcal{M}$.
+}
+
+% Section 10.2, pp.264--270. Statements are abbreviated without proofs.
+\bookBox{Definition 10.16, Propositions 10.17--10.18（pp.264--265）}{\\
+    For each $(x, v) \in \mathrm{T}\mathcal{M}$, let $\gamma_v$ be the unique maximal geodesic with
+    \begin{equation*}
+        \gamma_v\colon I \to \mathcal{M},\quad \text{with}\quad \gamma_v(0) = x \quad \text{and}\quad \gamma_v'(0) = v.
+    \end{equation*}
 
     \textbf{Definition 10.16.}
-    Consider the following subset of the tangent bundle:
+    Define
     \begin{equation*}
         \mathcal{O} = \{(x, v) \in \mathrm{T}\mathcal{M} : \gamma_v \text{ is defined on an interval containing } [0, 1]\}.
     \end{equation*}
@@ -263,171 +344,431 @@
     \begin{equation*}
         \operatorname{Exp}(x, v) = \operatorname{Exp}_x(v) = \gamma_v(1).
     \end{equation*}
-    By Definition 10.7, a manifold $\mathcal{M}$ is (geodesically) complete exactly if the domain of the exponential map is the whole tangent bundle $\mathrm{T}\mathcal{M}$.
+    The restriction $\operatorname{Exp}_x$ is defined on $\mathcal{O}_x = \{v \in \mathrm{T}_x\mathcal{M} : (x, v) \in \mathcal{O}\}$.
+
+    Since $\gamma_{t v}(1) = \gamma_v(t)$ whenever either is defined,
     \begin{equation*}
         \operatorname{Exp}_x(t v) = \gamma_v(t),
-        \tag{10.3}\label{eq:exponential-geodesic}
+        \tag{10.3}
     \end{equation*}
+
     \textbf{Proposition 10.17.}
     The exponential map is smooth on its domain $\mathcal{O}$, which is open in $\mathrm{T}\mathcal{M}$.
+
+    \textbf{Proposition 10.18.}
+    The exponential map is a second-order retraction, with a possibly restricted domain $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$.
 }
 
-\myBox{Hopf--Rinowの定理の一方向の証明：測地的完備なら距離完備}{\\
-    \textbf{測地的完備性から最短測地線の存在を導く部分は、証明なしで使う。}
-    コンパクト集合の連続像と閉部分集合はコンパクトであり、コンパクトな距離空間の任意の点列はその空間内に収束する部分列を持つことを用いる。
+\bookBox{Definitions 10.19--10.20（pp.265--266）}{\\
+    \textbf{Definition 10.19.}
+    The injectivity radius of a Riemannian manifold $\mathcal{M}$ at a point $x$, denoted by $\operatorname{inj}(x)$, is the supremum over radii $r > 0$ such that $\operatorname{Exp}_x$ is defined and is a diffeomorphism on the open ball $B(x, r) = \{v \in \mathrm{T}_x\mathcal{M} : \norm{v}_x < r\}$.
+    By the inverse function theorem, $\operatorname{inj}(x) > 0$.
 
-    \textbf{1. 閉球がコンパクトになる。}
-    $\mathcal{M}$を連結で測地的完備なリーマン多様体とし、$x \in \mathcal{M}$と$R > 0$を固定する。
-    測地線の速さは一定なので、\cref{eq:curve-length,eq:exponential-geodesic}から
-    \begin{equation}
-        L\qty(t \mapsto \operatorname{Exp}_x(t v),\ t \in [0, 1]) = \norm{v}_x
-        \label{eq:radial-length}
-    \end{equation}
-    が成り立つ。
-    接空間と多様体上の閉球を
-    \begin{align}
-        K_R &\coloneqq \{v \in \mathrm{T}_x\mathcal{M} : \norm{v}_x \leq R\},\label{eq:tangent-ball}\\
-        \overline B(x, R) &\coloneqq \{y \in \mathcal{M} : \operatorname{dist}(x, y) \leq R\}\label{eq:metric-ball}
-    \end{align}
-    とおくと、
-    \begin{equation}
-        \overline B(x, R) = \operatorname{Exp}_x(K_R)
-        \label{eq:ball-image}
-    \end{equation}
-    である。
-    実際、$v \in K_R$なら、\cref{eq:riemannian-distance,eq:radial-length,eq:tangent-ball}から
-    \begin{equation}
-        \operatorname{dist}(x, \operatorname{Exp}_x(v)) \leq \norm{v}_x \leq R
-        \label{eq:ball-inclusion}
-    \end{equation}
-    となり、一方の包含が従う。
-    逆に$y \in \overline B(x, R)$なら、$x$から$y$への定速の最短測地線$c\colon [0, 1] \to \mathcal{M}$を取り、$v \coloneqq c'(0)$とおく。
-    最短性、\cref{eq:radial-length,eq:metric-ball}および初期条件に対する測地線の一意性から
-    \begin{equation}
-        \operatorname{Exp}_x(v) = y,\qquad
-        \norm{v}_x = L(c) = \operatorname{dist}(x, y) \leq R
-        \label{eq:minimizing-vector}
-    \end{equation}
-    となり、もう一方の包含も従う。
-    \textbf{接空間}は有限次元の内積空間なので、Heine--Borelにより$K_R$はコンパクトである。
-    したがって\cref{eq:ball-image}と指数写像の連続性から、閉球もコンパクトである。
-    閉かつ有界な集合はこのような閉球の閉部分集合なので、やはりコンパクトになる。
-
-    \textbf{2. Cauchy列が収束する。}
-    Cauchy列$(x_n)$は有界なので、1で示したコンパクトな閉球に含まれる。
-    よって、ある部分列$(x_{n_k})$が$x \in \mathcal{M}$に収束する。
-    任意の$\varepsilon > 0$に対し、Cauchy性から$m, n \geq N$なら$\operatorname{dist}(x_m, x_n) < \varepsilon/2$となる$N$を取り、さらに$n_k \geq N$かつ$\operatorname{dist}(x_{n_k}, x) < \varepsilon/2$となる$k$を取る。
-    三角不等式から、すべての$n \geq N$について
-    \begin{equation}
-        \operatorname{dist}(x_n, x)
-        \leq \operatorname{dist}(x_n, x_{n_k}) + \operatorname{dist}(x_{n_k}, x)
-        < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
-        \label{eq:cauchy-convergence}
-    \end{equation}
-    となり、列全体が$x$に収束する。
-}
-\href{https://www.mat.univie.ac.at/~stein/teaching/courses/SoSem16/rg-2017-03-06.pdf}{証明の参考：Kunzinger--Steinbauer、補題2.4.1と定理2.4.2の証明}
-
-% Textbook p. 263.
-\bookBox{Examples 10.10--10.11}{\\
-    The converse of Theorem 10.9 does not hold: consider $\mathcal{M} = (0, 1)$ as a Riemannian submanifold of $\mathbb{R}$.
-
-    \textbf{Example 10.10.}
-    Compact Riemannian manifolds are complete.
-
-    \textbf{Example 10.11.}
-    A finite-dimensional Euclidean space $\mathcal{E}$ is connected and complete.
-}
-\myBox{球面と開区間}{\\
-    単位球面はコンパクトなので、例10.10から完備である。
-    一方、ユークリッド計量を制限した$(0, 1)$では、Cauchy列$x_n = 1/(n + 2)$の極限$0$は区間内に属さない。
-    この開区間でも任意の2点間の最短測地線は存在する。
+    \textbf{Definition 10.20.}
+    For $x \in \mathcal{M}$, let $\operatorname{Log}_x$ denote the logarithmic map at $x$,
+    \begin{equation*}
+        \operatorname{Log}_x(y) = \operatorname*{arg\,min}_{v \in \mathcal{O}_x} \norm{v}_x
+        \quad \text{subject to}\quad \operatorname{Exp}_x(v) = y,
+        \tag{10.5}
+    \end{equation*}
+    with domain such that this is uniquely defined.
 }
 
-\myBox{コンパクト性と最小値の存在}{\\
-    $f\colon \mathcal{M} \to \mathbb{R}$を連続とし、初期点$x_0$に対して集合を
-    \begin{equation}
-        \mathcal{L}_0 \coloneqq \{x \in \mathcal{M} : f(x) \leq f(x_0)\}
-        \label{eq:sublevel}
-    \end{equation}
-    とおく。
-    $\mathcal{M}$が完備で$\mathcal{L}_0$が有界なら、連続性による閉性とHopf--Rinowから$\mathcal{L}_0$はコンパクトになる。
-    したがって$f$はこの集合上で最小値を取り、\cref{eq:sublevel}からその点は$\mathcal{M}$全体でも最小点である。
-    また、目的関数値を増やさない反復列は$\mathcal{L}_0$内にとどまるので、収束部分列を持つ。
-    反復列全体の収束や、極限点の停留性には、アルゴリズムに応じた追加の議論が必要である。
+\bookBox{Proposition 10.22（p.267）}{\\
+    \textbf{Proposition 10.22.}
+    If $\norm{v}_x < \operatorname{inj}(x)$, the geodesic $c(t) = \operatorname{Exp}_x(t v)$ on the interval $[0, 1]$ is the minimizing curve connecting $x$ to $y = \operatorname{Exp}_x(v)$, unique up to parameterization.
+    In particular, $\operatorname{dist}(x, y) = \norm{v}_x$, and $\operatorname{Log}_x(y) = v$.
 }
 
-\section{平行移動、transporterと共役勾配法}
-\label{sec:transport}
+\bookBox{Proposition 10.23（p.267）}{\\
+    \textbf{Proposition 10.23.}
+    Let $\mathcal{M}$ be a manifold with retraction $\mathrm{R}$ defined on a neighborhood $\mathcal{O}$ of the zero section of $\mathrm{T}\mathcal{M}$.
+    Consider the following map:
+    \begin{equation*}
+        E\colon \mathcal{O} \to \mathcal{M} \times \mathcal{M}\colon (x, v) \mapsto E(x, v) = (x, \mathrm{R}_x(v)).
+        \tag{10.7}
+    \end{equation*}
+    If $\mathcal{T} \subseteq \mathcal{O}$ is open in $\mathrm{T}\mathcal{M}$ such that, for all $x$, $\mathrm{R}_x$ is a diffeomorphism on $\mathcal{T}_x = \{v \in \mathrm{T}_x\mathcal{M} : (x, v) \in \mathcal{T}\}$, then $\mathcal{V} = E(\mathcal{T})$ is open in $\mathcal{M} \times \mathcal{M}$ and $E\colon \mathcal{T} \to \mathcal{V}$ is a diffeomorphism.
+}
 
-% Section 10.3, pp. 270--273.
-% Textbook pp. 271--272. These formulas are unnumbered in the textbook.
-\bookBox{Definitions 10.33, 10.35 and Proposition 10.36}{\\
+\bookBox{Proposition 10.24, Corollary 10.25（p.268）}{\\
+    \textbf{Proposition 10.24.}
+    On a Riemannian manifold $\mathcal{M}$, the injectivity radius function $\operatorname{inj}\colon \mathcal{M} \to (0, \infty]$ is continuous.
+
+    \textbf{Corollary 10.25.}
+    The map $(x, v) \mapsto (x, \operatorname{Exp}_x(v))$ is a diffeomorphism from
+    \begin{equation*}
+        \mathcal{T} = \{(x, v) \in \mathrm{T}\mathcal{M} : \norm{v}_x < \operatorname{inj}(x)\}
+    \end{equation*}
+    to
+    \begin{equation*}
+        \mathcal{V} = \{(x, y) \in \mathcal{M} \times \mathcal{M} : \operatorname{dist}(x, y) < \operatorname{inj}(x)\}.
+    \end{equation*}
+    Its inverse is $(x, y) \mapsto (x, \operatorname{Log}_x(y))$, smooth from $\mathcal{V}$ to $\mathcal{T}$.
+}
+
+\bookBox{Corollary 10.27（pp.268--269）}{\\
+    For continuous $\Delta\colon \mathcal{M} \to (0, \infty]$, set
+    \begin{equation*}
+        \mathcal{T} = \{(x, v) \in \mathrm{T}\mathcal{M} : \norm{v}_x < \Delta(x)\}.
+        \tag{10.8}
+    \end{equation*}
+
+    \textbf{Corollary 10.27.}
+    For any retraction $\mathrm{R}$, the map $(x, v) \mapsto (x, \mathrm{R}_x(v))$ is a diffeomorphism onto its image on some zero-section neighborhood $\mathcal{T}$ of the form (10.8), with respect to any chosen Riemannian metric.
+}
+
+\section{平行移動（10.3節）}
+\label{sec:parallel-transport}
+
+% Prerequisites: Sections 5.4, 5.6--5.7 of the full textbook.
+\bookRefBox{前提：Definition 5.20（p.97）}{\\
+    \textbf{Definition 5.20.}
+    A connection is an operator $\nabla\colon \mathfrak{X}(\mathcal{M}) \times \mathfrak{X}(\mathcal{M}) \to \mathfrak{X}(\mathcal{M})\colon (U, V) \mapsto \nabla_U V$ satisfying, for smooth fields $U, V, W$, smooth functions $f, g \in \mathfrak{F}(\mathcal{M})$ and $a, b \in \mathbb{R}$:
+    \begin{enumerate}
+        \item $\mathfrak{F}(\mathcal{M})$-linearity in $U$: $\nabla_{f U + g W}V = f \nabla_U V + g \nabla_W V$;
+        \item $\mathbb{R}$-linearity in $V$: $\nabla_U(a V + b W) = a \nabla_U V + b \nabla_U W$; and
+        \item Leibniz rule: $\nabla_U(f V) = (U f)V + f \nabla_U V$.
+    \end{enumerate}
+    Here $\nabla_U V$ is the covariant derivative of $V$ along $U$.
+}
+
+\bookRefBox{前提：Definition 5.5, Theorem 5.6（p.89）}{\\
+    \textbf{Definition 5.5.}
+    For smooth fields $U, V$ and a smooth function $f$ on an open $\mathcal{U} \subseteq \mathcal{M}$, define:
+    \begin{itemize}
+        \item $U f \in \mathfrak{F}(\mathcal{U})$ such that $(U f)(x) = \mathrm{D}f(x)[U(x)]$;
+        \item $[U, V]\colon \mathfrak{F}(\mathcal{U}) \to \mathfrak{F}(\mathcal{U})$ such that $[U, V]f = U(V f) - V(U f)$; and
+        \item $\langle U, V \rangle \in \mathfrak{F}(\mathcal{M})$ such that $\langle U, V \rangle(x) = \langle U(x), V(x) \rangle_x$.
+    \end{itemize}
+
+    \textbf{Theorem 5.6.}
+    On a Riemannian manifold, the Levi-Civita connection is the unique connection satisfying, for all smooth fields $U, V, W$:
+    \begin{enumerate}[start=4]
+        \item Symmetry: $[U, V]f = (\nabla_U V - \nabla_V U)f$ for all $f \in \mathfrak{F}(\mathcal{M})$; and
+        \item Compatibility with the metric: $U\langle V, W \rangle = \langle \nabla_U V, W \rangle + \langle V, \nabla_U W \rangle$.
+    \end{enumerate}
+}
+
+\bookRefBox{前提：Definition 5.28, Theorem 5.29（p.101）}{\\
+    \textbf{Definition 5.28.}
+    For a smooth curve $c\colon I \to \mathcal{M}$ on an open interval, $\mathfrak{X}(c)$ denotes smooth maps $Z\colon I \to \mathrm{T}\mathcal{M}$ with $Z(t) \in \mathrm{T}_{c(t)}\mathcal{M}$.
+
+    \textbf{Theorem 5.29.}
+    A connection $\nabla$ uniquely induces $\frac{D}{\dd{t}}\colon \mathfrak{X}(c) \to \mathfrak{X}(c)$ satisfying, for $Y, Z \in \mathfrak{X}(c)$, $U \in \mathfrak{X}(\mathcal{M})$, smooth $g$ and $a, b \in \mathbb{R}$:
+    \begin{enumerate}
+        \item $\mathbb{R}$-linearity: $\frac{D}{\dd{t}}(a Y + b Z) = a \frac{D}{\dd{t}}Y + b \frac{D}{\dd{t}}Z$;
+        \item Leibniz rule: $\frac{D}{\dd{t}}(g Z) = g' Z + g \frac{D}{\dd{t}}Z$;
+        \item Chain rule: $\frac{D}{\dd{t}}(U \circ c)(t) = \nabla_{c'(t)}U$ for all $t \in I$.
+    \end{enumerate}
+    If $\nabla$ is metric-compatible, also:
+    \begin{enumerate}[start=4]
+        \item Product rule: $\dv{t}\langle Y, Z \rangle = \langle \frac{D}{\dd{t}}Y, Z \rangle + \langle Y, \frac{D}{\dd{t}}Z \rangle$,
+    \end{enumerate}
+    where $\langle Y, Z \rangle \in \mathfrak{F}(I)$ is defined by $\langle Y, Z \rangle(t) = \langle Y(t), Z(t) \rangle_{c(t)}$.
+}
+
+% Section 10.3, pp.270--274.
+\bookBox{Definition 10.33, Theorem 10.34, Definition 10.35（p.271）}{\\
     \textbf{Definition 10.33.}
     A vector field $Z \in \mathfrak{X}(c)$ such that $\frac{D}{\dd{t}}Z = 0$ is parallel.
 
+    \textbf{Theorem 10.34.}
+    Given a connection, a smooth curve $c\colon I \to \mathcal{M}$, $t_0 \in I$ and $u \in \mathrm{T}_{c(t_0)}\mathcal{M}$, there is a unique parallel $Z \in \mathfrak{X}(c)$ with $Z(t_0) = u$.
+
     \textbf{Definition 10.35.}
-    Given a smooth curve $c$ on $\mathcal{M}$, the parallel transport of tangent vectors at $c(t_0)$ to the tangent space at $c(t_1)$ along $c$ is the map
+    Parallel transport along $c$ is
     \begin{equation*}
         \mathrm{PT}^c_{t_1 \leftarrow t_0}\colon \mathrm{T}_{c(t_0)}\mathcal{M} \to \mathrm{T}_{c(t_1)}\mathcal{M}
     \end{equation*}
-    defined by $\mathrm{PT}^c_{t_1 \leftarrow t_0}(u) = Z(t_1)$, where $Z \in \mathfrak{X}(c)$ is the unique parallel vector field such that $Z(t_0) = u$.
-    Parallel transport from $x$ to $y$ depends on the choice of curve connecting $x$ and $y$.
+    defined by $\mathrm{PT}^c_{t_1 \leftarrow t_0}(u) = Z(t_1)$ for the parallel field $Z$ with $Z(t_0) = u$.
 
+    Parallel transport from $x$ to $y$ depends on the choice of curve connecting $x$ and $y$.
+}
+
+\bookBox{Proposition 10.36（p.272）}{\\
     \textbf{Proposition 10.36.}
     The parallel transport operator $\mathrm{PT}^c_{t_1 \leftarrow t_0}$ is linear.
-    If $\mathcal{M}$ is Riemannian and $\nabla$ is compatible with the Riemannian metric, then parallel transport is an isometry, that is,
+    It satisfies $\mathrm{PT}^c_{t_2 \leftarrow t_1} \circ \mathrm{PT}^c_{t_1 \leftarrow t_0} = \mathrm{PT}^c_{t_2 \leftarrow t_0}$, $\mathrm{PT}^c_{t \leftarrow t} = \mathrm{id}$, and $(\mathrm{PT}^c_{t_1 \leftarrow t_0})^{-1} = \mathrm{PT}^c_{t_0 \leftarrow t_1}$.
+    If $\nabla$ is metric-compatible, parallel transport is an isometry:
     \begin{equation*}
-        \forall u, v \in \mathrm{T}_{c(t_0)}\mathcal{M},\qquad
-        \langle u, v \rangle_{c(t_0)} = \big\langle \mathrm{PT}^c_{t_1 \leftarrow t_0}(u), \mathrm{PT}^c_{t_1 \leftarrow t_0}(v) \big\rangle_{c(t_1)}.
+        \forall u, v \in \mathrm{T}_{c(t_0)}\mathcal{M},\quad
+        \langle u, v \rangle_{c(t_0)}
+        = \big\langle \mathrm{PT}^c_{t_1 \leftarrow t_0}(u), \mathrm{PT}^c_{t_1 \leftarrow t_0}(v) \big\rangle_{c(t_1)}.
+    \end{equation*}
+    Its adjoint then equals its inverse.
+}
+
+\bookBox{Proposition 10.37（p.273）}{\\
+    \textbf{Proposition 10.37.}
+    For a smooth curve $c\colon I \to \mathcal{M}$, $Z \in \mathfrak{X}(c)$ and $t_0 \in I$, set $z(t) = \mathrm{PT}^c_{t_0 \leftarrow t}Z(t) \in \mathrm{T}_{c(t_0)}\mathcal{M}$.
+    Then,
+    \begin{equation*}
+        \frac{D}{\dd{t}}Z(t)
+        = \mathrm{PT}^c_{t \leftarrow t_0}\qty(\dv{t}z(t))
+        = \lim_{\delta \to 0}\frac{\mathrm{PT}^c_{t \leftarrow t + \delta}Z(t + \delta) - Z(t)}{\delta}.
     \end{equation*}
 }
 
-\myBox{球面のtransporterとManoptの実装}{\\
-    \Cref{eq:sphere-projection}と命題10.66から、球面では
-    \begin{equation}
-        \mathcal{T}_{y \leftarrow x}(u) = u - y(y^\top u)
-        \label{eq:sphere-transporter}
-    \end{equation}
-    と書ける。
-    \Cref{eq:sphere}より$y^\top \mathcal{T}_{y \leftarrow x}(u) = 0$なので、写像の値は$\mathrm{T}_y\mathcal{M}$に属する。
-    Manoptの\texttt{spherefactory}にも、対応する次の実装がある。
-    \texttt{M.transp}はこの射影であり、別に用意された\texttt{M.paralleltransp}とは区別する。
-}
-\begin{lstlisting}
-M.proj = @(x, d) d - x*(x(:)'*d(:));
-M.transp = @(x1, x2, d) M.proj(x2, d);
-\end{lstlisting}
-\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/manifolds/sphere/spherefactory.m}{Manopt：spherefactory.m}
+\section{Lipschitz条件とTaylor展開（10.4節）}
+\label{sec:lipschitz-taylor}
 
-\myBox{リーマン共役勾配法の探索方向}{\\
-    リーマン共役勾配法（Riemannian Conjugate Gradient, CG）の探索方向は、負のリーマン勾配と、前反復の探索方向にtransporterを適用したベクトルとの線形結合である。
-    $g_k \coloneqq \operatorname{grad} f(x_k)$、$\eta_k \in \mathrm{T}_{x_k}\mathcal{M}$を現在の探索方向とすると、前処理を使わない基本形は
-    \begin{align}
-        x_{k+1} &= R_{x_k}(\alpha_k \eta_k),\label{eq:cg-step}\\
-        \eta_{k+1} &= -g_{k+1} + \beta_k\,\mathcal{T}_{x_{k+1} \leftarrow x_k}(\eta_k)\label{eq:cg-direction}
-    \end{align}
-    となる。
-    ステップ幅$\alpha_k > 0$は、一変数関数$t \mapsto f(R_{x_k}(t \eta_k))$に対する直線探索で選び、$\beta_k$は前反復の探索方向に掛かる実数係数である。
-    \Cref{eq:cg-direction}の$g_{k+1}$と$\mathcal{T}_{x_{k+1} \leftarrow x_k}(\eta_k)$は、どちらも$\mathrm{T}_{x_{k+1}}\mathcal{M}$の元である。
-    $\beta_k$の計算でも、$g_{k+1}$と$\mathcal{T}_{x_{k+1} \leftarrow x_k}(g_k)$の差や内積を用いる場合がある。
-    次は\texttt{conjugategradient.m}から、途中を省略して抜き出した行である。
-    最後の行は\cref{eq:cg-direction}に対応し、\texttt{Pnewgrad}は点\texttt{newx}での勾配に前処理を適用したベクトルを表す。
-}
-\begin{lstlisting}
-oldgrad = M.transp(x, newx, grad);
-desc_dir = M.transp(x, newx, desc_dir);
-desc_dir = M.lincomb(newx, -1, Pnewgrad, beta, desc_dir);
-\end{lstlisting}
-\href{https://github.com/NicolasBoumal/manopt/blob/master/manopt/solvers/conjugategradient/conjugategradient.m}{Manopt：conjugategradient.m}
+% Prerequisites: Sections 3.8 and 5.5 of the full textbook.
+\bookRefBox{前提：Definition 3.58, Definition 5.14, Proposition 5.15（pp.42, 95）}{\\
+    \textbf{Definition 3.58.}
+    For smooth $f\colon \mathcal{M} \to \mathbb{R}$ on a Riemannian manifold, $\operatorname{grad} f$ is uniquely defined by
+    \begin{equation*}
+        \forall (x, v) \in \mathrm{T}\mathcal{M},\qquad
+        \mathrm{D}f(x)[v] = \langle v, \operatorname{grad} f(x) \rangle_x,
+        \tag{3.34}
+    \end{equation*}
 
-\myBox{CGによる数値計算}{\\
-    最急降下法と同じ\texttt{problem}、初期点\texttt{x0}、および\texttt{options}を指定する。
-    \texttt{conjugategradient}は、\texttt{problem.M}に定義された\texttt{M.transp}を用いる。
+    \textbf{Definition 5.14.}
+    With the Riemannian connection $\nabla$, the Hessian of smooth $f$ is $\operatorname{Hess} f(x)\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_x\mathcal{M}$, $\operatorname{Hess} f(x)[u] = \nabla_u \operatorname{grad} f$.
+    On vector fields, $\operatorname{Hess} f[U] = \nabla_U \operatorname{grad} f$.
+
+    \textbf{Proposition 5.15.}
+    The Hessian is self-adjoint: $\langle \operatorname{Hess} f(x)[u], v \rangle_x = \langle u, \operatorname{Hess} f(x)[v] \rangle_x$ for all $x$ and $u, v \in \mathrm{T}_x\mathcal{M}$.
 }
-\begin{lstlisting}
-[xcg, fcg, info_cg] = conjugategradient(problem, x0, options);
-fprintf('CG: f = %.8f, norm(x) = %.8f\n', fcg, norm(xcg));
-\end{lstlisting}
+
+% Section 10.4, pp.274--285.
+\bookBox{10.4節の規約、Definition 10.40, Propositions 10.41, 10.43（pp.274--276）}{\\
+    Throughout Section 10.4, manifolds are Riemannian, metric subscripts are omitted, and differentiability assumptions are stated explicitly.
+
+    For metric spaces $A, B$ and $L \geq 0$, a map $F\colon A \to B$ is $L$-Lipschitz if
+    \begin{equation*}
+        \forall x, y \in A,\qquad
+        \operatorname{dist}_B(F(x), F(y)) \leq L \operatorname{dist}_A(x, y),
+        \tag{10.12}
+    \end{equation*}
+
+    \textbf{Definition 10.40.}
+    A function $f\colon \mathcal{M} \to \mathbb{R}$ on a connected manifold $\mathcal{M}$ is $L$-Lipschitz continuous if
+    \begin{equation*}
+        \forall x, y \in \mathcal{M},\qquad
+        \abs{f(x) - f(y)} \leq L \operatorname{dist}(x, y),
+        \tag{10.13}
+    \end{equation*}
+    If $\mathcal{M}$ is disconnected, we require the condition to hold on each connected component separately.
+
+    \textbf{Proposition 10.41.}
+    A function $f\colon \mathcal{M} \to \mathbb{R}$ is $L$-Lipschitz iff
+    \begin{equation*}
+        \forall (x, s) \in \mathcal{O},\qquad
+        \abs{f(\operatorname{Exp}_x(s)) - f(x)} \leq L \norm{s},
+        \tag{10.14}
+    \end{equation*}
+    Here $\mathcal{O} = \operatorname{dom}(\operatorname{Exp})$.
+
+    \textbf{Proposition 10.43.}
+    If $f$ has a continuous gradient, it is $L$-Lipschitz iff
+    \begin{equation*}
+        \forall x \in \mathcal{M},\qquad \norm{\operatorname{grad} f(x)} \leq L.
+        \tag{10.15}
+    \end{equation*}
+}
+
+\bookBox{Definition 10.44, Proposition 10.45（p.277）}{\\
+    \textbf{Definition 10.44.}
+    A vector field $V$ on a connected manifold $\mathcal{M}$ is $L$-Lipschitz continuous if, for all $x, y \in \mathcal{M}$ with $\operatorname{dist}(x, y) < \operatorname{inj}(x)$,
+    \begin{equation*}
+        \norm{\mathrm{PT}^{\gamma}_{0 \leftarrow 1}V(y) - V(x)} \leq L \operatorname{dist}(x, y),
+        \tag{10.16}
+    \end{equation*}
+    where $\gamma\colon [0, 1] \to \mathcal{M}$ is the unique minimizing geodesic connecting $x$ to $y$.
+    If $\mathcal{M}$ is disconnected, we require the condition on each connected component.
+
+    \textbf{Proposition 10.45.}
+    A vector field $V$ is $L$-Lipschitz iff
+    \begin{equation*}
+        \forall (x, s) \in \mathcal{O},\qquad
+        \norm{P_s^{-1} V(\operatorname{Exp}_x(s)) - V(x)} \leq L \norm{s},
+        \tag{10.17}
+    \end{equation*}
+    where $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$ is the domain of $\operatorname{Exp}$ and $P_s$ denotes parallel transport along $\gamma(t) = \operatorname{Exp}_x(t s)$ from $t = 0$ to $t = 1$.
+}
+
+\bookBox{Proposition 10.46, Corollary 10.47（pp.278--279）}{\\
+    \textbf{Proposition 10.46.}
+    A continuously differentiable vector field $V$ is $L$-Lipschitz iff
+    \begin{equation*}
+        \forall (x, s) \in \mathrm{T}\mathcal{M},\qquad \norm{\nabla_s V} \leq L \norm{s},
+        \tag{10.18}
+    \end{equation*}
+    where $\nabla$ is the Riemannian connection.
+    Then, for any smooth curve $c\colon [0, 1] \to \mathcal{M}$ from $x$ to $y$,
+    \begin{equation*}
+        \norm{\mathrm{PT}^{c}_{0 \leftarrow 1}V(y) - V(x)} \leq L \cdot L(c).
+        \tag{10.19}
+    \end{equation*}
+
+    \textbf{Corollary 10.47.}
+    For twice continuously differentiable $f$, $\operatorname{grad} f$ is $L$-Lipschitz iff, for all $x$,
+    \begin{equation*}
+        \norm{\operatorname{Hess} f(x)}
+        = \max_{\substack{s \in \mathrm{T}_x\mathcal{M}\\\norm{s} = 1}}\norm{\operatorname{Hess} f(x)[s]}
+        \leq L.
+    \end{equation*}
+}
+
+\bookBox{Definition 10.49, Proposition 10.50（pp.279--280）}{\\
+    \textbf{Definition 10.49.}
+    For each $x \in \mathcal{M}$, let $H(x)\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_x\mathcal{M}$ be linear.
+    If $\mathcal{M}$ is connected, we say $H$ is $L$-Lipschitz continuous if for all $x, y \in \mathcal{M}$ such that $\operatorname{dist}(x, y) < \operatorname{inj}(x)$ we have
+    \begin{equation*}
+        \norm{\mathrm{PT}^{\gamma}_{0 \leftarrow 1} \circ H(y) \circ \mathrm{PT}^{\gamma}_{1 \leftarrow 0} - H(x)}
+        \leq L \operatorname{dist}(x, y),
+        \tag{10.20}
+    \end{equation*}
+    where $\norm{\cdot}$ denotes the operator norm with respect to the Riemannian metric, and $\gamma\colon [0, 1] \to \mathcal{M}$ is the unique minimizing geodesic connecting $x$ to $y$.
+    If $\mathcal{M}$ is disconnected, we require the condition on each connected component.
+
+    \textbf{Proposition 10.50.}
+    For each $x \in \mathcal{M}$, let $H(x)\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_x\mathcal{M}$ be linear.
+    The map $H$ is $L$-Lipschitz iff
+    \begin{equation*}
+        \forall (x, s) \in \mathcal{O},\qquad
+        \norm{P_s^{-1} \circ H(\operatorname{Exp}_x(s)) \circ P_s - H(x)} \leq L \norm{s},
+        \tag{10.21}
+    \end{equation*}
+    where $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$ is the domain of $\operatorname{Exp}$ and $P_s$ denotes parallel transport along $\gamma(t) = \operatorname{Exp}_x(t s)$ from $t = 0$ to $t = 1$.
+}
+
+\bookBox{Proposition 10.53（pp.280--281）}{\\
+    For $(x, s) \in \mathcal{O}$ and $\gamma(t) = \operatorname{Exp}_x(t s)$, write
+    \begin{equation*}
+        P_{t s} = \mathrm{PT}^{\gamma}_{t \leftarrow 0}
+        \tag{10.24}
+    \end{equation*}
+    for parallel transport along $\gamma$.
+
+    \textbf{Proposition 10.53.}
+    Let $f\colon \mathcal{M} \to \mathbb{R}$ be continuously differentiable.
+    Let $\gamma(t) = \operatorname{Exp}_x(t s)$ be defined on $[0, 1]$ and assume there exists $L \geq 0$ such that, for all $t \in [0, 1]$,
+    \begin{equation*}
+        \norm{P_{t s}^{-1} \operatorname{grad} f(\gamma(t)) - \operatorname{grad} f(x)} \leq L \norm{t s}.
+    \end{equation*}
+    Then,
+    \begin{equation*}
+        \abs{f(\operatorname{Exp}_x(s)) - f(x) - \langle s, \operatorname{grad} f(x) \rangle}
+        \leq \frac{L}{2}\norm{s}^2.
+    \end{equation*}
+}
+
+\bookBox{Proposition 10.55（p.282）}{\\
+    \textbf{Proposition 10.55.}
+    Let $f\colon \mathcal{M} \to \mathbb{R}$ be twice continuously differentiable.
+    Let $\gamma(t) = \operatorname{Exp}_x(t s)$ be defined on $[0, 1]$ and assume there exists $L \geq 0$ such that, for all $t \in [0, 1]$,
+    \begin{equation*}
+        \norm{P_{t s}^{-1} \circ \operatorname{Hess} f(\gamma(t)) \circ P_{t s} - \operatorname{Hess} f(x)}
+        \leq L \norm{t s}.
+    \end{equation*}
+    Then,
+    \begin{align*}
+        &\abs{f(\operatorname{Exp}_x(s)) - f(x) - \langle s, \operatorname{grad} f(x) \rangle - \frac{1}{2}\langle s, \operatorname{Hess} f(x)[s] \rangle}
+        \leq \frac{L}{6}\norm{s}^3,\\
+        &\norm{P_s^{-1} \operatorname{grad} f(\operatorname{Exp}_x(s)) - \operatorname{grad} f(x) - \operatorname{Hess} f(x)[s]}
+        \leq \frac{L}{2}\norm{s}^2.
+    \end{align*}
+}
+
+\section{Transporters（10.5節）}
+\label{sec:transporters}
+
+% Prerequisites: Sections 3.9 and 8.8 of the full textbook.
+\bookRefBox{前提：Definition 3.68, Proposition 8.51（pp.46, 200）}{\\
+    \textbf{Definition 3.68.}
+    A local frame near $x$ consists of smooth fields $W_1, \ldots, W_n$ such that $W_1(y), \ldots, W_n(y)$ form a basis of $\mathrm{T}_y\mathcal{M}$ at every nearby $y$, where $n = \dim\mathcal{M}$.
+
+    Let $(\mathcal{U}, \varphi)$ be a chart on a $d$-dimensional manifold $\mathcal{M}$.
+    Its coordinate vector fields are
+    \begin{equation*}
+        W_i(x) = \big[t \mapsto \varphi^{-1}(\varphi(x) + t e_i)\big],
+        \qquad i = 1, \ldots, d,
+        \tag{8.15}
+    \end{equation*}
+    where $e_1, \ldots, e_d$ are the standard basis of $\mathbb{R}^d$.
+
+    \textbf{Proposition 8.51.}
+    The coordinate fields $W_1, \ldots, W_d \in \mathfrak{X}(\mathcal{U})$ form a local frame.
+}
+
+% Section 10.5, pp.285--291.
+\bookBox{Proposition 10.60（p.286）}{\\
+    \textbf{Proposition 10.60.}
+    For manifolds $\mathcal{M}$ and $\mathcal{N}$ of dimensions $m$ and $n$, the disjoint union of linear maps from the tangent spaces of $\mathcal{M}$ to those of $\mathcal{N}$,
+    \begin{equation*}
+        \begin{aligned}
+            \mathcal{L}(\mathrm{T}\mathcal{M}, \mathrm{T}\mathcal{N})
+            = \{(x, y, \mathcal{L}) \mid {}&x \in \mathcal{M},\ y \in \mathcal{N} \text{ and}\\
+            &\mathcal{L}\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{N} \text{ is linear}\},
+        \end{aligned}
+    \end{equation*}
+    is itself a manifold, with charts as follows.
+    Given charts $(\mathcal{U}, \varphi)$, $(\mathcal{V}, \psi)$ and their coordinate frames,
+    \begin{equation*}
+        \Phi(x, y, \mathcal{L}) = (\varphi(x), \psi(y), \operatorname{Mat}(\mathcal{L})) \in \mathbb{R}^m \times \mathbb{R}^n \times \mathbb{R}^{n \times m}
+    \end{equation*}
+    is a chart on $\pi^{-1}(\mathcal{U} \times \mathcal{V})$, where $\operatorname{Mat}(\mathcal{L})$ is the matrix in these frames and $\pi(x, y, \mathcal{L}) = (x, y)$.
+}
+
+\bookBox{Definition 10.61（p.286）}{\\
+    \textbf{Definition 10.61.}
+    Given a manifold $\mathcal{M}$, let $\mathcal{V}$ be open in $\mathcal{M} \times \mathcal{M}$ such that $(x, x) \in \mathcal{V}$ for all $x \in \mathcal{M}$.
+    A transporter on $\mathcal{V}$ is a smooth map
+    \begin{equation*}
+        \mathrm{T}\colon \mathcal{V} \to \mathcal{L}(\mathrm{T}\mathcal{M}, \mathrm{T}\mathcal{M})\colon (x, y) \mapsto \mathrm{T}_{y \leftarrow x}
+    \end{equation*}
+    such that $\mathrm{T}_{y \leftarrow x}$ is linear from $\mathrm{T}_x\mathcal{M}$ to $\mathrm{T}_y\mathcal{M}$ and $\mathrm{T}_{x \leftarrow x}$ is the identity.
+}
+
+\bookBox{Propositions 10.62--10.63（pp.286--287）}{\\
+    \textbf{Proposition 10.62.}
+    For a transporter $\mathrm{T}$ on $\mathcal{V}$, let $\mathcal{V}'$ be the set of pairs $(x, y) \in \mathcal{V}$ such that $\mathrm{T}_{x \leftarrow y}$ is invertible.
+    Then, the maps $\mathrm{T}'_{y \leftarrow x} = (\mathrm{T}_{x \leftarrow y})^{-1}\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$ define a transporter $\mathrm{T}'$ on $\mathcal{V}'$.
+
+    \textbf{Proposition 10.63.}
+    Let $\mathrm{T}$ be a transporter on a Riemannian manifold $\mathcal{M}$, with domain $\mathcal{V}$.
+    Then, $\mathrm{T}'$ defined by the maps $\mathrm{T}'_{y \leftarrow x} = (\mathrm{T}_{x \leftarrow y})^*\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$ is a transporter on $\mathcal{V}$.
+    Here $*$ denotes the metric adjoint.
+}
+
+\bookBox{Proposition 10.64（pp.287--288）}{\\
+    \textbf{Proposition 10.64.}
+    For a retraction $\mathrm{R}$ on a manifold $\mathcal{M}$, let $\mathcal{T}$ be a neighborhood of the zero section of $\mathrm{T}\mathcal{M}$ such that $E(x, v) = (x, \mathrm{R}_x(v))$ is a diffeomorphism from $\mathcal{T}$ to $\mathcal{V} = E(\mathcal{T})$---such neighborhoods exist by Corollary 10.27.
+    Its inverse is $(x, y) \mapsto (x, \mathrm{R}_x^{-1}(y))$.
+    \begin{enumerate}
+        \item Assume $\mathcal{T}_x = \{v \in \mathrm{T}_x\mathcal{M} : (x, v) \in \mathcal{T}\}$ is star-shaped around the origin for all $x$.
+            Parallel transport along retraction curves defines a transporter on $\mathcal{V}$ via $\mathrm{T}_{y \leftarrow x} = \mathrm{PT}^c_{1 \leftarrow 0}$, where $c(t) = \mathrm{R}_x(t v)$ and $v = \mathrm{R}_x^{-1}(y)$.
+        \item The differentials of the retraction define a transporter on $\mathcal{V}$ via $\mathrm{T}_{y \leftarrow x} = \mathrm{D}\mathrm{R}_x(v)$, where $v = \mathrm{R}_x^{-1}(y)$.
+    \end{enumerate}
+}
+
+\bookBox{Proposition 10.66（p.288）}{\\
+    \textbf{Proposition 10.66.}
+    For an embedded submanifold $\mathcal{M}$ of a Euclidean space $\mathcal{E}$, the maps
+    \begin{equation*}
+        \mathrm{T}_{y \leftarrow x} = \left.\operatorname{Proj}_y\right|_{\mathrm{T}_x\mathcal{M}},
+    \end{equation*}
+    define a transporter on $\mathcal{M} \times \mathcal{M}$, where $\operatorname{Proj}_y\colon \mathcal{E} \to \mathrm{T}_y\mathcal{M}$ is the orthogonal projector.
+}
+
+\bookBox{Definition 10.68（pp.290--291）}{\\
+    \textbf{Definition 10.68.}
+    A vector transport is a smooth map $(x, u, v) \mapsto \mathrm{VT}_{(x, u)}(v)$ from
+    \begin{equation*}
+        \mathrm{T}\mathcal{M} \oplus \mathrm{T}\mathcal{M} = \{(x, u, v) : x \in \mathcal{M} \text{ and } u, v \in \mathrm{T}_x\mathcal{M}\}
+    \end{equation*}
+    to $\mathrm{T}\mathcal{M}$, satisfying the following for some retraction $\mathrm{R}$ on $\mathcal{M}$:
+    \begin{enumerate}
+        \item $\mathrm{VT}_{(x, u)}$ is a linear map from the tangent space at $x$ to the tangent space at $\mathrm{R}_x(u)$ for all $(x, u) \in \mathrm{T}\mathcal{M}$; and
+        \item $\mathrm{VT}_{(x, 0)}$ is the identity on $\mathrm{T}_x\mathcal{M}$ for all $x \in \mathcal{M}$.
+    \end{enumerate}
+
+    Equivalently, $\mathrm{VT}\colon \mathrm{T}\mathcal{M} \to \mathcal{L}(\mathrm{T}\mathcal{M}, \mathrm{T}\mathcal{M})$ is smooth with the same linearity and identity conditions.
+    A transporter and a retraction yield $\mathrm{VT}_{(x, u)} = \mathrm{T}_{\mathrm{R}_x(u) \leftarrow x}$.
+    The converse need not hold: $\mathrm{VT}_{(x, u)} \neq \mathrm{VT}_{(x, w)}$ may occur even when $\mathrm{R}_x(u) = \mathrm{R}_x(w)$.
+    A vector transport does yield a transporter locally where $(x, u) \mapsto (x, \mathrm{R}_x(u))$ has a smooth inverse (Corollary 10.27).
+}
 
 \end{document}
