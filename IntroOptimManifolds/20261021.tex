@@ -148,7 +148,7 @@
 % Green boxes contain Japanese explanations and code.
 \begin{document}
 
-\title{10月21日 輪読補足資料\\多様体上の最適化：完備性とManopt}
+\title{10月21日 輪読補足資料\\多様体上の最適化:完備性とManopt}
 \author{Hiroki Hamaguchi}
 \date{2026/10/21}
 \maketitle
@@ -159,9 +159,9 @@
         \begin{itemize}
             \item そもそもの\href{https://ja.wikipedia.org/wiki/\%E5\%85\%B1\%E5\%BD\%B9\%E5\%8B\%BE\%E9\%85\%8D\%E6\%B3\%95}{共役勾配法}は、対称正定値行列を係数とする連立一次方程式を解くためのアルゴリズム
             \item (Solving $Ax = b$ for $A \succ 0$, i.e., minimizing $f(x) = \frac{1}{2}x^\top A x - b^\top x$)
-            \item これは直感的にはおよそ次元分だけ共役方向($u^\top A v = 0$という関係を満たすベクトルペア、つまり、$A$というヘッセ行列で考えたときの直交関係。実際、$A=I$なら、$u^\top v = 0$となる)を取り除き続けて、解を求める
+            \item これは直感的にはおよそ次元分だけ共役方向($u^\top A v = 0$ という関係を満たすベクトルペア、つまり、$A$ というヘッセ行列で考えたときの直交関係。実際、$A=I$ なら、$u^\top v = 0$ となる)を取り除き続けて、解を求める
             \item 非線形の場合も、局所的には二次関数に近いと考えて、CGの考え方で最適化し続ける。
-            \item 大事なこととして、この手法では各イテレーションで別の場所で勾配をとることになる(つまり、$u$や$v$というベクトルの始点が変わる)
+            \item 大事なこととして、この手法では各イテレーションで別の場所で勾配をとることになる(つまり、$u$ や $v$ というベクトルの始点が変わる)
             \item ``綺麗に''現在の方向から、過去の共役方向の集積物を除去したい。
             \item ユークリッド空間では自明
             \item では、多様体上では?
@@ -197,7 +197,7 @@
 
     \begin{itemize}
         \item これまた大雑把に言えば、点ごとに接空間が変わることを考慮して、ベクトルに補正を掛けてから演算すればよい。
-        \item その接ベクトル場の変化を測る仕組みが、今回は$\frac{D}{\dd{t}}$という共変微分の概念
+        \item その接ベクトル場の変化を測る仕組みが、今回は $\frac{D}{\dd{t}}$ という共変微分の概念
         \item ただ、平行移動は経路を指定して初めてwell-definedになる。地球上でベクトルを考える。赤道から直接北極に向かって運ぶのと、赤道から西に行ってから北極に向かうのでは、最終的なベクトルの向きが違う。
         \item 要は、経路も同時に定義で考慮する必要があるという意味
         \item その「経路」を、十分近い2点の間では、(大雑把に)最短経路である一意な測地線に限定することで、始点と終点から平行移動がwell-definedになる
@@ -212,25 +212,25 @@
 \label{sec:completeness}
 
 % Section 10.1, pp. 261--263.
-\myBox{前提の復習：距離と完備性}{\\
-    $\mathcal{M}$を連結な有限次元リーマン多様体とし、$\norm{v}_x \coloneqq \sqrt{\langle v, v \rangle_x}$と書く。
+\myBox{前提の復習:距離と完備性}{\\
+    $\mathcal{M}$ を連結な有限次元リーマン多様体とし、$\norm{v}_x \coloneqq \sqrt{\langle v, v \rangle_x}$ と書く。
     \begin{itemize}
-        \item 区分的に滑らかな曲線$c\colon [0, 1] \to \mathcal{M}$の長さと、リーマン距離を次で定義する。
+        \item 区分的に滑らかな曲線 $c\colon [0, 1] \to \mathcal{M}$ の長さと、リーマン距離を次で定義する。
             \begin{align}
                 L(c) &\coloneqq \int_0^1 \norm{c'(t)}_{c(t)}\,\dd{t},\label{eq:curve-length}\\
                 \operatorname{dist}(x, y) &\coloneqq \inf_{\substack{c(0) = x\\c(1) = y}} L(c).\label{eq:riemannian-distance}
             \end{align}
-        \item Cauchy列とは、任意の$\varepsilon > 0$に対し、十分大きい$m, n$について$\operatorname{dist}(x_m, x_n) < \varepsilon$となる点列である。
-            すべてのCauchy列が$\mathcal{M}$内に収束するとき、$\mathcal{M}$は距離完備という。
-        \item 曲線$c$に沿うベクトル場$Z(t) \in \mathrm{T}_{c(t)}\mathcal{M}$の共変微分$\frac{D}{\dd{t}}Z$は、リーマン接続(捻れがなく、計量と整合するアフィン接続)$\nabla$から誘導される$\mathbb{R}$線形な演算である。
-            スカラー関数$h$と多様体上のベクトル場$X$に対し、次の性質で特徴づけられる。
+        \item Cauchy列とは、任意の $\varepsilon > 0$ に対し、十分大きい $m, n$ について $\operatorname{dist}(x_m, x_n) < \varepsilon$ となる点列である。
+            すべてのCauchy列が $\mathcal{M}$ 内に収束するとき、$\mathcal{M}$ は距離完備という。
+        \item 曲線 $c$ に沿うベクトル場 $Z(t) \in \mathrm{T}_{c(t)}\mathcal{M}$ の共変微分 $\frac{D}{\dd{t}}Z$ は、リーマン接続(捻れがなく、計量と整合するアフィン接続)$\nabla$ から誘導される $\mathbb{R}$ 線形な演算である。
+            スカラー関数 $h$ と多様体上のベクトル場 $X$ に対し、次の性質で特徴づけられる。
             \begin{align}
                 \frac{D}{\dd{t}}(h Z) &= h' Z + h \frac{D}{\dd{t}}Z,\label{eq:covariant-leibniz}\\
                 \frac{D}{\dd{t}}(X \circ c)(t) &= \nabla_{c'(t)}X.\label{eq:covariant-restriction}
             \end{align}
             ユークリッド空間のリーマン部分多様体では、$\frac{D}{\dd{t}}Z(t) = \operatorname{Proj}_{c(t)}(Z'(t))$、つまり通常の微分を接空間に射影したものである。
-        \item 測地線とは、$\frac{D}{\dd{t}}c'(t) = 0$を満たす滑らかな曲線$c$である。
-            すべての測地線が実数全体で定義された測地線に延長できるとき、$\mathcal{M}$は測地的完備という。
+        \item 測地線とは、$\frac{D}{\dd{t}}c'(t) = 0$ を満たす滑らかな曲線 $c$ である。
+            すべての測地線が実数全体で定義された測地線に延長できるとき、$\mathcal{M}$ は測地的完備という。
     \end{itemize}
 }
 
@@ -244,62 +244,80 @@
 \myBox{定理の読み方}{\\
     連結で境界のない有限次元リーマン多様体では、次の3条件が同値である。
     \begin{enumerate}[label=(\arabic*)]
-        \item 閉かつ有界な部分集合はコンパクトである（HB）。
-        \item 距離空間として完備である、すなわちすべてのCauchy列が$\mathcal{M}$内に収束する（MC）。
-        \item 任意の$p \in \mathcal{M}$で指数写像$\operatorname{Exp}_p$が$\mathrm{T}_p\mathcal{M}$全体に定義される、すなわち測地的完備である（GC）。
+        \item 閉かつ有界な部分集合はコンパクトである(HB)。
+        \item 距離空間として完備である、すなわちすべてのCauchy列が $\mathcal{M}$ 内に収束する(MC)。
+        \item 任意の $p \in \mathcal{M}$ で指数写像 $\operatorname{Exp}_p$ が $\mathrm{T}_p\mathcal{M}$ 全体に定義される、すなわち測地的完備である(GC)。
     \end{enumerate}
-    さらに、いずれかが成立すれば、任意の2点$x, y \in \mathcal{M}$を結ぶ最短測地線$c$が存在し、距離の下限が$L(c) = \operatorname{dist}(x, y)$として達成される。
-    \href{https://en.wikipedia.org/wiki/Hopf\%E2\%80\%93Rinow_theorem}{参考：Wikipedia「Hopf--Rinow theorem」}
+    さらに、いずれかが成立すれば、任意の2点 $x, y \in \mathcal{M}$ を結ぶ最短測地線 $c$ が存在し、距離の下限が $L(c) = \operatorname{dist}(x, y)$ として達成される。
+    \href{https://en.wikipedia.org/wiki/Hopf\%E2\%80\%93Rinow_theorem}{参考:Wikipedia「Hopf--Rinow theorem」}
     \begin{center}
         \fcolorbox{black}{white}{\includegraphics[width=\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax]{hopf_rinow_conditions.pdf}}
     \end{center}
 }
 
-\myBox{Hopf--Rinowの定理の一方向の証明：測地的完備なら距離完備}{\\
-    $\mathcal{M}$を連結で測地的完備（GC）なリーマン多様体とする。
+\myBox{Hopf--Rinowの定理の一方向の証明:測地的完備なら距離完備}{\\
+    $\mathcal{M}$ を連結で測地的完備(GC)なリーマン多様体とする。
 
-    \textbf{1. $\mathrm{GC} \Rightarrow \mathrm{GC}'$：一点での測地的完備性。}
-    点$p \in \mathcal{M}$を固定し、初期条件$\gamma_v(0) = p$、$\gamma_v'(0) = v$の測地線を$\gamma_v$と書く。
-    指数写像を$\operatorname{Exp}_p(v) \coloneqq \gamma_v(1)$と定める。
-    GCにより、これは$\mathrm{T}_p\mathcal{M}$全体で定義される。
-    このような点$p$が少なくとも一つ存在するという条件をGC$'$と呼ぶ。
+    \textbf{1. $\mathrm{GC} \Rightarrow \mathrm{GC}'$:一点での測地的完備性。}
+    点 $p \in \mathcal{M}$ を固定し、初期条件 $\gamma_v(0) = p$、$\gamma_v'(0) = v$ の測地線を $\gamma_v$ と書く。
+    指数写像を $\operatorname{Exp}_p(v) \coloneqq \gamma_v(1)$ と定める。
+    GCにより、これは $\mathrm{T}_p\mathcal{M}$ 全体で定義される。
+    このような点 $p$ が少なくとも一つ存在するという条件をGC$'$ と呼ぶ。
 
-    \textbf{2. $\mathrm{GC}' \Rightarrow \mathrm{HB}$：閉かつ有界な集合はコンパクト。}
-    \textbf{GC$'$から、$p$と任意の点を結ぶ最短測地線が存在することは、既知とする（参考資料の補題2.4.1）。}
+    \textbf{2. $\mathrm{GC}' \Rightarrow \mathrm{HB}$:閉かつ有界な集合はコンパクト。}
+    \textbf{GC$'$ から、$p$ と任意の点を結ぶ最短測地線が存在することは、既知とする(参考資料の補題2.4.1)。}
     指数写像の連続性と、測地線の速さが一定であることも既知とする。
-    $A \subseteq \mathcal{M}$を閉かつ有界とし、すべての$q \in A$に対して$\operatorname{dist}(p, q) \leq R$となる$R > 0$を取る。
+    $A \subseteq \mathcal{M}$ を閉かつ有界とし、すべての $q \in A$ に対して $\operatorname{dist}(p, q) \leq R$ となる $R > 0$ を取る。
     接空間の閉球を
     \begin{equation}
         K_R \coloneqq \{v \in \mathrm{T}_p\mathcal{M} : \norm{v}_p \leq R\}
         \label{eq:tangent-ball}
     \end{equation}
     とおく。
-    各$q \in A$への定速の最短測地線を$c_q\colon [0, 1] \to \mathcal{M}$とすると、定速性と\cref{eq:curve-length,eq:riemannian-distance}から
+    各 $q \in A$ への定速の最短測地線を $c_q\colon [0, 1] \to \mathcal{M}$ とすると、定速性と\cref{eq:curve-length,eq:riemannian-distance}から
     \begin{equation}
         \norm{c_q'(0)}_p = L(c_q) = \operatorname{dist}(p, q) \leq R
         \label{eq:minimizing-vector}
     \end{equation}
-    なので、\cref{eq:tangent-ball,eq:minimizing-vector}と指数写像の定義から$A \subseteq \operatorname{Exp}_p(K_R)$となる。
-    \textbf{接空間}は有限次元の内積空間なので、Heine--Borelにより$K_R$はコンパクトである。
-    その連続像$\operatorname{Exp}_p(K_R)$もコンパクトで、$A$はその閉部分集合なのでコンパクトである（HB）。
+    なので、\cref{eq:tangent-ball,eq:minimizing-vector}と指数写像の定義から $A \subseteq \operatorname{Exp}_p(K_R)$ となる。
+    \textbf{接空間}は有限次元の内積空間なので、Heine--Borelにより $K_R$ はコンパクトである。
+    その連続像 $\operatorname{Exp}_p(K_R)$ もコンパクトで、$A$ はその閉部分集合なのでコンパクトである(HB)。
 
-    \textbf{3. $\mathrm{HB} \Rightarrow \mathrm{MC}$：Cauchy列が収束する。}
-    Cauchy列$(x_n)$は有界なので、その点集合の閉包はHBによりコンパクトである。
+    \textbf{3. $\mathrm{HB} \Rightarrow \mathrm{MC}$:Cauchy列が収束する。}
+    Cauchy列 $(x_n)$ は有界なので、その点集合の閉包はHBによりコンパクトである。
     よって収束部分列を持ち、Cauchy性と三角不等式から列全体も同じ極限に収束する。
-    したがって$\mathcal{M}$は距離完備（MC）である。
+    したがって $\mathcal{M}$ は距離完備(MC)である。
 }
-\href{https://www.mat.univie.ac.at/~stein/teaching/courses/SoSem16/rg-2017-03-06.pdf}{証明の参考：Kunzinger--Steinbauer、補題2.4.1と定理2.4.2の証明}
+\href{https://www.mat.univie.ac.at/~stein/teaching/courses/SoSem16/rg-2017-03-06.pdf}{証明の参考:Kunzinger--Steinbauer、補題2.4.1と定理2.4.2の証明}
 
 % Source: secret/IntroOptimManifolds_Boumal_2023.pdf.
 % Selected statements from Sections 10.2--10.5, with prerequisite excerpts.
 
-\section{指数写像と対数写像（10.2節）}
+\section{指数写像と対数写像(10.2節)}
 \label{sec:exponential-logarithmic}
 
-以下、教科書の主張を簡略表記する（青：今回の範囲、aqua：範囲外の前提事項）。
+\myBox{\textbf{前提:接束と切断}}
+{\\
+    % hyperref manual, Section 6: escape URL percent signs inside command arguments.
+    % https://tug.ctan.org/macros/latex2e/contrib/hyperref/doc/hyperref-doc.html
+    まず、\href{https://ja.wikipedia.org/wiki/\%E3\%83\%99\%E3\%82\%AF\%E3\%83\%88\%E3\%83\%AB\%E6\%9D\%9F}{接束や切断}について。
+
+    $X \colon p \mapsto X(p) \in \mathrm{T}_p \mathcal{M}$ は、終域を固定した通常の写像としての定式化になっていない。
+    $\mathrm{T}\mathcal{M} \coloneqq \bigsqcup_{p \in \mathcal{M}} \mathrm{T}_p \mathcal{M}$ (非交和)は、接束(tangent bundle)と呼ばれる(自然に滑らかな多様体にも出来る)。
+    これを定義することで、初めて $X \colon \mathcal{M} \to \mathrm{T}\mathcal{M}$ という写像として扱える(左全域的かつ右一意的という条件も満たせる)。
+
+    もう少し分かりやすく言うと、$p \to v_p$ の代わりに、$p \to (p, v_p)$ を考えます、という話に近い。
+
+    これは適切な条件の下で、切断(section)と呼ばれる。
+    その条件とは、ベクトル束の射影 $\pi \colon \mathrm{T}\mathcal{M} \to \mathcal{M}$ つまり $\pi(p, v) = p$ に対して、$\pi(X(p)) = p$ を満たすこと。連続切断なら、これに連続性の条件が足される。
+
+    零切断(zero section)は、$X(p) = (p, 0_p)$ で、$0_p \in \mathrm{T}_p\mathcal{M}$ を満たす切断である。
+}
+
+以下、教科書の主張を簡略表記する(青:今回の範囲、aqua:範囲外の前提事項)。
 
 % Prerequisites: secret/IntroOptimManifolds_Boumal_2023.pdf, Sections 3.5--3.6 and 5.8--5.10.
-\bookRefBox{前提：Definitions 3.42, 3.44（pp.37--38）}{\\
+\bookRefBox{前提:Definitions 3.42, 3.44(pp.37--38)}{\\
     \textbf{Definition 3.42.}
     The tangent bundle is
     \begin{equation*}
@@ -312,12 +330,12 @@
     Smooth vector fields form $\mathfrak{X}(\mathcal{M})$.
 }
 
-\bookRefBox{前提：Definition 3.47（p.39）}{\\
+\bookRefBox{前提:Definition 3.47(p.39)}{\\
     \textbf{Definition 3.47.}
     A retraction on a manifold $\mathcal{M}$ is a smooth map $\mathrm{R}\colon \mathrm{T}\mathcal{M} \to \mathcal{M}\colon (x, v) \mapsto \mathrm{R}_x(v)$ such that each curve $c(t) = \mathrm{R}_x(t v)$ satisfies $c(0) = x$ and $c'(0) = v$.
 }
 
-\bookRefBox{前提：Definitions 5.36, 5.38, 5.42（pp.105--108）}{\\
+\bookRefBox{前提:Definitions 5.36, 5.38, 5.42(pp.105--108)}{\\
     \textbf{Definition 5.36.}
     For a smooth curve $c\colon I \to \mathcal{M}$, velocity is $c' \in \mathfrak{X}(c)$ and intrinsic acceleration is $c'' = \frac{D}{\dd{t}}c' \in \mathfrak{X}(c)$.
 
@@ -329,7 +347,7 @@
 }
 
 % Section 10.2, pp.264--270. Statements are abbreviated without proofs.
-\bookBox{Definition 10.16, Propositions 10.17--10.18（pp.264--265）}{\\
+\bookBox{Definition 10.16, Propositions 10.17--10.18(pp.264--265)}{\\
     For each $(x, v) \in \mathrm{T}\mathcal{M}$, let $\gamma_v$ be the unique maximal geodesic with
     \begin{equation*}
         \gamma_v\colon I \to \mathcal{M},\quad \text{with}\quad \gamma_v(0) = x \quad \text{and}\quad \gamma_v'(0) = v.
@@ -359,13 +377,13 @@
     The exponential map is a second-order retraction, with a possibly restricted domain $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$.
 }
 
-\myBox{指数写像：接ベクトルから移動先を指定する}{\\
-    ユークリッド空間では$\operatorname{Exp}_x(v) = x + v$、$\operatorname{Log}_x(y) = y - x$であり、点と変位を対応させる。
-    多様体では測地線で移動し、(10.3)の$\operatorname{Exp}_x(t v) = \gamma_v(t)$は「初速度$v$で時刻$t$まで進む」ことを表す。
+\myBox{指数写像:接ベクトルから移動先を指定する}{\\
+    ユークリッド空間では $\operatorname{Exp}_x(v) = x + v$、$\operatorname{Log}_x(y) = y - x$ であり、点と変位を対応させる。
+    多様体では測地線で移動し、(10.3)の $\operatorname{Exp}_x(t v) = \gamma_v(t)$ は「初速度 $v$ で時刻 $t$ まで進む」ことを表す。
     また、指数写像は二次のretractionなので、一般のretractionと比較する際の基準になる。
 }
 
-\bookBox{Definitions 10.19--10.20（pp.265--266）}{\\
+\bookBox{Definitions 10.19--10.20(pp.265--266)}{\\
     \textbf{Definition 10.19.}
     The injectivity radius of a Riemannian manifold $\mathcal{M}$ at a point $x$, denoted by $\operatorname{inj}(x)$, is the supremum over radii $r > 0$ such that $\operatorname{Exp}_x$ is defined and is a diffeomorphism on the open ball $B(x, r) = \{v \in \mathrm{T}_x\mathcal{M} : \norm{v}_x < r\}$.
     By the inverse function theorem, $\operatorname{inj}(x) > 0$.
@@ -380,19 +398,39 @@
     with domain such that this is uniquely defined.
 }
 
-\bookBox{Proposition 10.22（p.267）}{\\
+% Source: Boumal (2023), Section 10.2, Definition 10.19 and the preceding paragraph (p.265).
+% https://www.nicolasboumal.net/book/IntroOptimManifolds_Boumal_2023.pdf#page=281
+\myBox{単射半径が正である理由:逆関数定理}{\\
+    点 $x \in \mathcal{M}$ を固定し、$v \in \mathrm{T}_x\mathcal{M}$ を任意に取る。
+    Proposition 10.17より、指数写像 $\operatorname{Exp}_x$ は原点の近傍で滑らかである。
+    式(10.3)と初期条件 $\gamma_v'(0) = v$ より、
+    \begin{equation}
+        \mathrm{D}\operatorname{Exp}_x(0)[v]
+        = \left.\dv{}{t}\operatorname{Exp}_x(t v)\right|_{t = 0}
+        = \gamma_v'(0)
+        = v.
+        \label{eq:exponential-differential-origin}
+    \end{equation}
+    \cref{eq:exponential-differential-origin}より、微分 $\mathrm{D}\operatorname{Exp}_x(0)$ は恒等写像なので可逆である。
+    逆関数定理により、原点の開近傍 $U \subseteq \mathrm{T}_x\mathcal{M}$ が存在し、$\operatorname{Exp}_x|_U$ はその像への微分同相になる。
+    $U$ は原点の開近傍なので、十分小さい $r > 0$ に対して、Definition 10.19の開球 $B(x, r)$ を含む。
+    この開球上でも $\operatorname{Exp}_x$ は微分同相なので、Definition 10.19から $\operatorname{inj}(x) \geq r > 0$ が従う。
+    これは局所的な議論なので、$\mathcal{M}$ の完備性は必要ない。
+}
+
+\bookBox{Proposition 10.22(p.267)}{\\
     \textbf{Proposition 10.22.}
     If $\norm{v}_x < \operatorname{inj}(x)$, the geodesic $c(t) = \operatorname{Exp}_x(t v)$ on the interval $[0, 1]$ is the minimizing curve connecting $x$ to $y = \operatorname{Exp}_x(v)$, unique up to parameterization.
     In particular, $\operatorname{dist}(x, y) = \norm{v}_x$, and $\operatorname{Log}_x(y) = v$.
 }
 
 \myBox{最短測地線の存在と一意性}{\\
-    Hopf--Rinowは、完備な場合に最短測地線の存在を保証するが、一意性までは保証しない（球面の対蹠点が例）。
-    Proposition 10.22の範囲では、最短測地線が一意に選べ、$\operatorname{Log}_x(y)$がその初速度を与える。
-    このとき$\operatorname{dist}(x, y) = \norm{\operatorname{Log}_x(y)}_x$となり、距離を接空間で測れる。
+    Hopf--Rinowは、完備な場合に最短測地線の存在を保証するが、一意性までは保証しない(球面の対蹠点が例)。
+    Proposition 10.22の範囲では、最短測地線が一意に選べ、$\operatorname{Log}_x(y)$ がその初速度を与える。
+    このとき $\operatorname{dist}(x, y) = \norm{\operatorname{Log}_x(y)}_x$ となり、距離を接空間で測れる。
 }
 
-\bookBox{Proposition 10.23（p.267）}{\\
+\bookBox{Proposition 10.23(p.267)}{\\
     \textbf{Proposition 10.23.}
     Let $\mathcal{M}$ be a manifold with retraction $\mathrm{R}$ defined on a neighborhood $\mathcal{O}$ of the zero section of $\mathrm{T}\mathcal{M}$.
     Consider the following map:
@@ -403,7 +441,7 @@
     If $\mathcal{T} \subseteq \mathcal{O}$ is open in $\mathrm{T}\mathcal{M}$ such that, for all $x$, $\mathrm{R}_x$ is a diffeomorphism on $\mathcal{T}_x = \{v \in \mathrm{T}_x\mathcal{M} : (x, v) \in \mathcal{T}\}$, then $\mathcal{V} = E(\mathcal{T})$ is open in $\mathcal{M} \times \mathcal{M}$ and $E\colon \mathcal{T} \to \mathcal{V}$ is a diffeomorphism.
 }
 
-\bookBox{Proposition 10.24, Corollary 10.25（p.268）}{\\
+\bookBox{Proposition 10.24, Corollary 10.25(p.268)}{\\
     \textbf{Proposition 10.24.}
     On a Riemannian manifold $\mathcal{M}$, the injectivity radius function $\operatorname{inj}\colon \mathcal{M} \to (0, \infty]$ is continuous.
 
@@ -419,7 +457,7 @@
     Its inverse is $(x, y) \mapsto (x, \operatorname{Log}_x(y))$, smooth from $\mathcal{V}$ to $\mathcal{T}$.
 }
 
-\bookBox{Corollary 10.27（pp.268--269）}{\\
+\bookBox{Corollary 10.27(pp.268--269)}{\\
     For continuous $\Delta\colon \mathcal{M} \to (0, \infty]$, set
     \begin{equation*}
         \mathcal{T} = \{(x, v) \in \mathrm{T}\mathcal{M} : \norm{v}_x < \Delta(x)\}.
@@ -431,16 +469,16 @@
 }
 
 \myBox{基点も動かしたときの滑らかさ}{\\
-    ここで必要なのは、各$x$で逆写像を持つだけでなく、$(x, y) \mapsto \mathrm{R}_x^{-1}(y)$を滑らかに選べることである。
-    Corollary 10.27の局所的な逆写像により、近い2点から変位$v = \mathrm{R}_x^{-1}(y)$を選べる。
-    10.5節では、この$v$から曲線$c(t) = \mathrm{R}_x(t v)$を定め、その曲線に沿う平行移動でtransporterを作る。
+    ここで必要なのは、各 $x$ で逆写像を持つだけでなく、$(x, y) \mapsto \mathrm{R}_x^{-1}(y)$ を滑らかに選べることである。
+    Corollary 10.27の局所的な逆写像により、近い2点から変位 $v = \mathrm{R}_x^{-1}(y)$ を選べる。
+    10.5節では、この $v$ から曲線 $c(t) = \mathrm{R}_x(t v)$ を定め、その曲線に沿う平行移動でtransporterを作る。
 }
 
-\section{平行移動（10.3節）}
+\section{平行移動(10.3節)}
 \label{sec:parallel-transport}
 
 % Prerequisites: Sections 5.4, 5.6--5.7 of the full textbook.
-\bookRefBox{前提：Definition 5.20（p.97）}{\\
+\bookRefBox{前提:Definition 5.20(p.97)}{\\
     \textbf{Definition 5.20.}
     A connection is an operator $\nabla\colon \mathfrak{X}(\mathcal{M}) \times \mathfrak{X}(\mathcal{M}) \to \mathfrak{X}(\mathcal{M})\colon (U, V) \mapsto \nabla_U V$ satisfying, for smooth fields $U, V, W$, smooth functions $f, g \in \mathfrak{F}(\mathcal{M})$ and $a, b \in \mathbb{R}$:
     \begin{enumerate}
@@ -451,7 +489,7 @@
     Here $\nabla_U V$ is the covariant derivative of $V$ along $U$.
 }
 
-\bookRefBox{前提：Definition 5.5, Theorem 5.6（p.89）}{\\
+\bookRefBox{前提:Definition 5.5, Theorem 5.6(p.89)}{\\
     \textbf{Definition 5.5.}
     For smooth fields $U, V$ and a smooth function $f$ on an open $\mathcal{U} \subseteq \mathcal{M}$, define:
     \begin{itemize}
@@ -468,7 +506,7 @@
     \end{enumerate}
 }
 
-\bookRefBox{前提：Definition 5.28, Theorem 5.29（p.101）}{\\
+\bookRefBox{前提:Definition 5.28, Theorem 5.29(p.101)}{\\
     \textbf{Definition 5.28.}
     For a smooth curve $c\colon I \to \mathcal{M}$ on an open interval, $\mathfrak{X}(c)$ denotes smooth maps $Z\colon I \to \mathrm{T}\mathcal{M}$ with $Z(t) \in \mathrm{T}_{c(t)}\mathcal{M}$.
 
@@ -487,7 +525,7 @@
 }
 
 % Section 10.3, pp.270--274.
-\bookBox{Definition 10.33, Theorem 10.34, Definition 10.35（p.271）}{\\
+\bookBox{Definition 10.33, Theorem 10.34, Definition 10.35(p.271)}{\\
     \textbf{Definition 10.33.}
     A vector field $Z \in \mathfrak{X}(c)$ such that $\frac{D}{\dd{t}}Z = 0$ is parallel.
 
@@ -504,7 +542,7 @@
     Parallel transport from $x$ to $y$ depends on the choice of curve connecting $x$ and $y$.
 }
 
-\bookBox{Proposition 10.36（p.272）}{\\
+\bookBox{Proposition 10.36(p.272)}{\\
     \textbf{Proposition 10.36.}
     The parallel transport operator $\mathrm{PT}^c_{t_1 \leftarrow t_0}$ is linear.
     It satisfies $\mathrm{PT}^c_{t_2 \leftarrow t_1} \circ \mathrm{PT}^c_{t_1 \leftarrow t_0} = \mathrm{PT}^c_{t_2 \leftarrow t_0}$, $\mathrm{PT}^c_{t \leftarrow t} = \mathrm{id}$, and $(\mathrm{PT}^c_{t_1 \leftarrow t_0})^{-1} = \mathrm{PT}^c_{t_0 \leftarrow t_1}$.
@@ -517,7 +555,7 @@
     Its adjoint then equals its inverse.
 }
 
-\bookBox{Proposition 10.37（p.273）}{\\
+\bookBox{Proposition 10.37(p.273)}{\\
     \textbf{Proposition 10.37.}
     For a smooth curve $c\colon I \to \mathcal{M}$, $Z \in \mathfrak{X}(c)$ and $t_0 \in I$, set $z(t) = \mathrm{PT}^c_{t_0 \leftarrow t}Z(t) \in \mathrm{T}_{c(t_0)}\mathcal{M}$.
     Then,
@@ -528,19 +566,19 @@
     \end{equation*}
 }
 
-\myBox{平行移動と共変微分：同じ接空間にそろえる}{\\
-    $Z(t + \delta)$と$Z(t)$は異なる接空間に属するので、Proposition 10.37では前者を時刻$t$の接空間へ戻してから差分を取る。
+\myBox{平行移動と共変微分:同じ接空間にそろえる}{\\
+    $Z(t + \delta)$ と $Z(t)$ は異なる接空間に属するので、Proposition 10.37では前者を時刻 $t$ の接空間へ戻してから差分を取る。
     リーマン接続による平行移動は内積を保存するため、この比較で長さや角度を変えずに済む。
-    例えば単位球面の大円$c(t) = (\cos t, \sin t, 0)$では、通常の加速度$\dv[2]{c}{t} = -c(t)$は法線方向を向く。
-    その接空間への射影はゼロなので、速度$c'(t)$は曲線に沿って平行である。
+    例えば単位球面の大円 $c(t) = (\cos t, \sin t, 0)$ では、通常の加速度 $\dv[2]{c}{t} = -c(t)$ は法線方向を向く。
+    その接空間への射影はゼロなので、速度 $c'(t)$ は曲線に沿って平行である。
     周囲空間で向きが変わっても、共変微分はゼロになり得る。
 }
 
-\section{Lipschitz条件とTaylor展開（10.4節）}
+\section{Lipschitz条件とTaylor展開(10.4節)}
 \label{sec:lipschitz-taylor}
 
 % Prerequisites: Sections 3.8 and 5.5 of the full textbook.
-\bookRefBox{前提：Definition 3.58, Definition 5.14, Proposition 5.15（pp.42, 95）}{\\
+\bookRefBox{前提:Definition 3.58, Definition 5.14, Proposition 5.15(pp.42, 95)}{\\
     \textbf{Definition 3.58.}
     For smooth $f\colon \mathcal{M} \to \mathbb{R}$ on a Riemannian manifold, $\operatorname{grad} f$ is uniquely defined by
     \begin{equation*}
@@ -558,7 +596,7 @@
 }
 
 % Section 10.4, pp.274--285.
-\bookBox{10.4節の規約、Definition 10.40, Propositions 10.41, 10.43（pp.274--276）}{\\
+\bookBox{10.4節の規約、Definition 10.40, Propositions 10.41, 10.43(pp.274--276)}{\\
     Throughout Section 10.4, manifolds are Riemannian, metric subscripts are omitted, and differentiability assumptions are stated explicitly.
 
     For metric spaces $A, B$ and $L \geq 0$, a map $F\colon A \to B$ is $L$-Lipschitz if
@@ -594,7 +632,7 @@
     \end{equation*}
 }
 
-\bookBox{Definition 10.44, Proposition 10.45（p.277）}{\\
+\bookBox{Definition 10.44, Proposition 10.45(p.277)}{\\
     \textbf{Definition 10.44.}
     A vector field $V$ on a connected manifold $\mathcal{M}$ is $L$-Lipschitz continuous if, for all $x, y \in \mathcal{M}$ with $\operatorname{dist}(x, y) < \operatorname{inj}(x)$,
     \begin{equation*}
@@ -614,7 +652,7 @@
     where $\mathcal{O} \subseteq \mathrm{T}\mathcal{M}$ is the domain of $\operatorname{Exp}$ and $P_s$ denotes parallel transport along $\gamma(t) = \operatorname{Exp}_x(t s)$ from $t = 0$ to $t = 1$.
 }
 
-\bookBox{Proposition 10.46, Corollary 10.47（pp.278--279）}{\\
+\bookBox{Proposition 10.46, Corollary 10.47(pp.278--279)}{\\
     \textbf{Proposition 10.46.}
     A continuously differentiable vector field $V$ is $L$-Lipschitz iff
     \begin{equation*}
@@ -638,12 +676,12 @@
 }
 
 \myBox{何の変化を抑えているか}{\\
-    関数値はそのまま引き算できるが、ベクトル場の値は一方を平行移動してから比較する（(10.16)--(10.17)）。
-    また、$f$のLipschitz性は勾配の大きさの一様な上界に対応し、$\operatorname{grad} f$のLipschitz性はヘッセ行列の作用素ノルムの一様な上界に対応する。
+    関数値はそのまま引き算できるが、ベクトル場の値は一方を平行移動してから比較する((10.16)--(10.17))。
+    また、$f$ のLipschitz性は勾配の大きさの一様な上界に対応し、$\operatorname{grad} f$ のLipschitz性はヘッセ行列の作用素ノルムの一様な上界に対応する。
     「勾配が有界」と「勾配の変化が抑えられる」は区別する。
 }
 
-\bookBox{Definition 10.49, Proposition 10.50（pp.279--280）}{\\
+\bookBox{Definition 10.49, Proposition 10.50(pp.279--280)}{\\
     \textbf{Definition 10.49.}
     For each $x \in \mathcal{M}$, let $H(x)\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_x\mathcal{M}$ be linear.
     If $\mathcal{M}$ is connected, we say $H$ is $L$-Lipschitz continuous if for all $x, y \in \mathcal{M}$ such that $\operatorname{dist}(x, y) < \operatorname{inj}(x)$ we have
@@ -667,12 +705,12 @@
 }
 
 \myBox{線形作用素は入力と出力をそろえる}{\\
-    $y = \operatorname{Exp}_x(s)$、$P_s\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$とする。
-    (10.21)の$P_s^{-1} H(y) P_s$は、入力を$y$へ運び、$H(y)$を適用してから、出力を$x$へ戻す操作である。
-    これで$H(x)$と同じ$\mathrm{T}_x\mathcal{M}$上の作用素になり、両者の差を測れる。
+    $y = \operatorname{Exp}_x(s)$、$P_s\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$ とする。
+    (10.21)の $P_s^{-1} H(y) P_s$ は、入力を $y$ へ運び、$H(y)$ を適用してから、出力を $x$ へ戻す操作である。
+    これで $H(x)$ と同じ $\mathrm{T}_x\mathcal{M}$ 上の作用素になり、両者の差を測れる。
 }
 
-\bookBox{Proposition 10.53（pp.280--281）}{\\
+\bookBox{Proposition 10.53(pp.280--281)}{\\
     For $(x, s) \in \mathcal{O}$ and $\gamma(t) = \operatorname{Exp}_x(t s)$, write
     \begin{equation*}
         P_{t s} = \mathrm{PT}^{\gamma}_{t \leftarrow 0}
@@ -693,14 +731,14 @@
     \end{equation*}
 }
 
-\myBox{Taylor評価：測地線に沿った一変数の計算}{\\
-    Proposition 10.53の仮定の下で、$\gamma(t) = \operatorname{Exp}_x(t s)$、$h(t) \coloneqq f(\gamma(t))$とおく。
-    測地線の速度は平行なので$\gamma'(t) = P_{t s}s$であり、内積保存から
+\myBox{Taylor評価:測地線に沿った一変数の計算}{\\
+    Proposition 10.53の仮定の下で、$\gamma(t) = \operatorname{Exp}_x(t s)$、$h(t) \coloneqq f(\gamma(t))$ とおく。
+    測地線の速度は平行なので $\gamma'(t) = P_{t s}s$ であり、内積保存から
     \begin{equation}
         h'(t) = \langle P_{t s}^{-1}\operatorname{grad} f(\gamma(t)), s \rangle.
         \label{eq:geodesic-function-derivative}
     \end{equation}
-    \cref{eq:geodesic-function-derivative}に命題の仮定とCauchy--Schwarzを用いると$\abs{h'(t) - h'(0)} \leq L t \norm{s}^2$となる。
+    \cref{eq:geodesic-function-derivative}に命題の仮定とCauchy--Schwarzを用いると $\abs{h'(t) - h'(0)} \leq L t \norm{s}^2$ となる。
     これを積分すると、微積分の基本定理により
     \begin{equation}
         \abs{h(1) - h(0) - h'(0)}
@@ -708,16 +746,16 @@
         = \frac{L}{2}\norm{s}^2.
         \label{eq:geodesic-taylor-integral}
     \end{equation}
-    \cref{eq:geodesic-taylor-integral}に$s = -\alpha\operatorname{grad} f(x)$を代入すると、その移動に命題の仮定が成り立つ場合、
+    \cref{eq:geodesic-taylor-integral}に $s = -\alpha\operatorname{grad} f(x)$ を代入すると、その移動に命題の仮定が成り立つ場合、
     \begin{equation}
         f\bigl(\operatorname{Exp}_x(-\alpha\operatorname{grad} f(x))\bigr)
         \leq f(x) - \alpha\qty(1 - \frac{L\alpha}{2})\norm{\operatorname{grad} f(x)}^2.
         \label{eq:exponential-gradient-descent}
     \end{equation}
-    $L > 0$、$0 < \alpha \leq 1/L$なら、停留点以外で関数値の減少が保証される。
+    $L > 0$、$0 < \alpha \leq 1/L$ なら、停留点以外で関数値の減少が保証される。
 }
 
-\bookBox{Proposition 10.55（p.282）}{\\
+\bookBox{Proposition 10.55(p.282)}{\\
     \textbf{Proposition 10.55.}
     Let $f\colon \mathcal{M} \to \mathbb{R}$ be twice continuously differentiable.
     Let $\gamma(t) = \operatorname{Exp}_x(t s)$ be defined on $[0, 1]$ and assume there exists $L \geq 0$ such that, for all $t \in [0, 1]$,
@@ -734,11 +772,11 @@
     \end{align*}
 }
 
-\section{Transporters（10.5節）}
+\section{Transporters(10.5節)}
 \label{sec:transporters}
 
 % Prerequisites: Sections 3.9 and 8.8 of the full textbook.
-\bookRefBox{前提：Definition 3.68, Proposition 8.51（pp.46, 200）}{\\
+\bookRefBox{前提:Definition 3.68, Proposition 8.51(pp.46, 200)}{\\
     \textbf{Definition 3.68.}
     A local frame near $x$ consists of smooth fields $W_1, \ldots, W_n$ such that $W_1(y), \ldots, W_n(y)$ form a basis of $\mathrm{T}_y\mathcal{M}$ at every nearby $y$, where $n = \dim\mathcal{M}$.
 
@@ -756,7 +794,7 @@
 }
 
 % Section 10.5, pp.285--291.
-\bookBox{Proposition 10.60（p.286）}{\\
+\bookBox{Proposition 10.60(p.286)}{\\
     \textbf{Proposition 10.60.}
     For manifolds $\mathcal{M}$ and $\mathcal{N}$ of dimensions $m$ and $n$, the disjoint union of linear maps from the tangent spaces of $\mathcal{M}$ to those of $\mathcal{N}$,
     \begin{equation*}
@@ -774,7 +812,7 @@
     is a chart on $\pi^{-1}(\mathcal{U} \times \mathcal{V})$, where $\operatorname{Mat}(\mathcal{L})$ is the matrix in these frames and $\pi(x, y, \mathcal{L}) = (x, y)$.
 }
 
-\bookBox{Definition 10.61（p.286）}{\\
+\bookBox{Definition 10.61(p.286)}{\\
     \textbf{Definition 10.61.}
     Given a manifold $\mathcal{M}$, let $\mathcal{V}$ be open in $\mathcal{M} \times \mathcal{M}$ such that $(x, x) \in \mathcal{V}$ for all $x \in \mathcal{M}$.
     A transporter on $\mathcal{V}$ is a smooth map
@@ -790,7 +828,7 @@
     平行移動から作る場合は、点の組ごとに経路を滑らかに選ぶ必要がある。
 }
 
-\bookBox{Propositions 10.62--10.63（pp.286--287）}{\\
+\bookBox{Propositions 10.62--10.63(pp.286--287)}{\\
     \textbf{Proposition 10.62.}
     For a transporter $\mathrm{T}$ on $\mathcal{V}$, let $\mathcal{V}'$ be the set of pairs $(x, y) \in \mathcal{V}$ such that $\mathrm{T}_{x \leftarrow y}$ is invertible.
     Then, the maps $\mathrm{T}'_{y \leftarrow x} = (\mathrm{T}_{x \leftarrow y})^{-1}\colon \mathrm{T}_x\mathcal{M} \to \mathrm{T}_y\mathcal{M}$ define a transporter $\mathrm{T}'$ on $\mathcal{V}'$.
@@ -801,7 +839,7 @@
     Here $*$ denotes the metric adjoint.
 }
 
-\bookBox{Proposition 10.64（pp.287--288）}{\\
+\bookBox{Proposition 10.64(pp.287--288)}{\\
     \textbf{Proposition 10.64.}
     For a retraction $\mathrm{R}$ on a manifold $\mathcal{M}$, let $\mathcal{T}$ be a neighborhood of the zero section of $\mathrm{T}\mathcal{M}$ such that $E(x, v) = (x, \mathrm{R}_x(v))$ is a diffeomorphism from $\mathcal{T}$ to $\mathcal{V} = E(\mathcal{T})$---such neighborhoods exist by Corollary 10.27.
     Its inverse is $(x, y) \mapsto (x, \mathrm{R}_x^{-1}(y))$.
@@ -813,12 +851,12 @@
 }
 
 \myBox{Retractionの微分で運ぶ意味}{\\
-    $y = \mathrm{R}_x(v)$とすると、$\mathrm{D}\mathrm{R}_x(v)[u]$は、変位$v$を方向$u$へ少し変えたときの到着点の変化を表す。
-    したがって、$u \in \mathrm{T}_x\mathcal{M}$を移動先の$\mathrm{T}_y\mathcal{M}$へ送れる。
-    Proposition 10.64では、局所的な逆写像$v = \mathrm{R}_x^{-1}(y)$を使い、これを点の組$(x, y)$の関数にしている。
+    $y = \mathrm{R}_x(v)$ とすると、$\mathrm{D}\mathrm{R}_x(v)[u]$ は、変位 $v$ を方向 $u$ へ少し変えたときの到着点の変化を表す。
+    したがって、$u \in \mathrm{T}_x\mathcal{M}$ を移動先の $\mathrm{T}_y\mathcal{M}$ へ送れる。
+    Proposition 10.64では、局所的な逆写像 $v = \mathrm{R}_x^{-1}(y)$ を使い、これを点の組 $(x, y)$ の関数にしている。
 }
 
-\bookBox{Proposition 10.66（p.288）}{\\
+\bookBox{Proposition 10.66(p.288)}{\\
     \textbf{Proposition 10.66.}
     For an embedded submanifold $\mathcal{M}$ of a Euclidean space $\mathcal{E}$, the maps
     \begin{equation*}
@@ -827,13 +865,13 @@
     define a transporter on $\mathcal{M} \times \mathcal{M}$, where $\operatorname{Proj}_y\colon \mathcal{E} \to \mathrm{T}_y\mathcal{M}$ is the orthogonal projector.
 }
 
-\myBox{球面上の射影：計算は軽いが、長さは保存しない}{\\
-    単位球面では$\operatorname{Proj}_y(v) = v - \langle y, v \rangle y$なので、内積とベクトル演算でtransporterを計算できる。
-    例えば標準基底を用いて$x = e_1$、$y = e_2$、$v = e_2 \in \mathrm{T}_x\mathcal{M}$とすると、$\operatorname{Proj}_y(v) = 0$となる。
+\myBox{球面上の射影:計算は軽いが、長さは保存しない}{\\
+    単位球面では $\operatorname{Proj}_y(v) = v - \langle y, v \rangle y$ なので、内積とベクトル演算でtransporterを計算できる。
+    例えば標準基底を用いて $x = e_1$、$y = e_2$、$v = e_2 \in \mathrm{T}_x\mathcal{M}$ とすると、$\operatorname{Proj}_y(v) = 0$ となる。
     このように長さを失い、可逆でない場合もあるが、同一点では恒等写像なので、滑らかさから十分近い点の間では可逆になる。
 }
 
-\bookBox{Definition 10.68（pp.290--291）}{\\
+\bookBox{Definition 10.68(pp.290--291)}{\\
     \textbf{Definition 10.68.}
     A vector transport is a smooth map $(x, u, v) \mapsto \mathrm{VT}_{(x, u)}(v)$ from
     \begin{equation*}
@@ -852,9 +890,9 @@
 }
 
 \myBox{Transporterとvector transportの違い}{\\
-    Transporterは点の組$(x, y)$に依存し、vector transportは移動に使った$(x, u)$に依存する。
-    後者は、同じ到着点$\mathrm{R}_x(u) = \mathrm{R}_x(w)$でも、異なる変位$u, w$を区別できる。
-    局所的に$u = \mathrm{R}_x^{-1}(y)$を滑らかに選べる範囲では、vector transportからもtransporterを作れる。
+    Transporterは点の組 $(x, y)$ に依存し、vector transportは移動に使った $(x, u)$ に依存する。
+    後者は、同じ到着点 $\mathrm{R}_x(u) = \mathrm{R}_x(w)$ でも、異なる変位 $u, w$ を区別できる。
+    局所的に $u = \mathrm{R}_x^{-1}(y)$ を滑らかに選べる範囲では、vector transportからもtransporterを作れる。
 }
 
 \end{document}
