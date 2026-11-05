@@ -1,0 +1,887 @@
+% !LW recipe=uplatex
+\documentclass[12pt,dvipdfmx]{article}
+\usepackage[margin=1.0truein]{geometry}
+\usepackage{ifdraft}
+\usepackage{subfiles}
+
+% Math
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{optidef}
+\usepackage{physics}
+% https://qiita.com/rityo_masu/items/efd44bc8f9229e014237
+\allowdisplaybreaks[4]
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+% https://tex.stackexchange.com/questions/28836/typesetting-the-define-equals-symbol
+% https://tex.stackexchange.com/questions/5502/how-to-get-a-mid-binary-relation-that-grows
+\newcommand{\relmiddle}[1]{\mathrel{}\middle#1\mathrel{}}
+
+% Theorem environments
+\usepackage{amsthm}
+\usepackage{thm-restate}
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{assumption}{Assumption}
+\newtheorem{condition}{Condition}
+\newtheorem{corollary}{Corollary}
+
+% Figure, Table, Algorithm
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+% \usepackage{mathptmx}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{tikz}
+\definecolor{cA}{HTML}{0072BD}
+\definecolor{cB}{HTML}{EDB120}
+\definecolor{cC}{HTML}{77AC30}
+\definecolor{cD}{HTML}{D95319}
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\cyan}[1]{\textcolor{cyan}{#1}}
+\newcommand{\gray}[1]{\textcolor{gray}{#1}}
+\newcommand{\green}[1]{\textcolor{green}{#1}}
+\newcommand{\brown}[1]{\textcolor{brown}{#1}}
+\newcommand{\black}[1]{\textcolor{black}{#1}}
+\newcommand{\orange}[1]{\textcolor{orange}{#1}}
+
+% References
+\usepackage{hyperref}
+\usepackage{cleveref}
+% cleveref fails to accurately capture pseudo-code line numbers. We define a custom reference command for lines in algorithms.
+\crefname{assumption}{Assumption}{Assumptions}
+\newcommand{\refLine}[1]{Line~\ref{#1}}
+\newcommand{\refLines}[2]{Lines~\ref{#1} and \ref{#2}}
+
+% Other packages
+\usepackage{appendix}
+\usepackage{cancel}
+\usepackage{enumitem}
+\usepackage{fancybox}
+\usepackage{ifthen}
+\usepackage{lipsum}
+\usepackage{pifont}
+\usepackage{xparse}
+
+% https://www.reddit.com/r/LaTeX/comments/111e7gn/can_someone_help_me_replicate_these_boxes_in_latex/
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\NewTotalTColorBox[auto counter]{\bookBox}{ +m +m }{
+    notitle,
+    colback=white,
+    frame hidden,
+    boxrule=0pt,
+    enhanced,
+    sharp corners,
+    borderline west={4pt}{0pt}{cA},
+    breakable,
+}{
+    \textcolor{cA}{
+        \sffamily\textbf{#1}
+    }#2
+}
+\NewTotalTColorBox[auto counter]{\myBox}{ +m +m }{
+    notitle,
+    colback=white,
+    frame hidden,
+    boxrule=0pt,
+    enhanced,
+    sharp corners,
+    borderline west={4pt}{0pt}{cC},
+    breakable,
+}{
+    \textcolor{cC}{
+        \sffamily\textbf{#1}
+    }#2
+}
+
+\begin{document}
+
+\title{Supplemental Material for 11/09\\Book Reading Seminar}
+\author{Hiroki Hamaguchi}
+\date{2026/11/09}
+\maketitle
+
+\begin{abstract}
+    \begin{center}
+        This is the supplemental material for the book reading seminar.
+
+        If necessary, please also refer to my \href{https://github.com/hari64boli64/BookReadingSeminarMaterials}{repository}.
+
+        The textbook link of Springer is \href{https://link.springer.com/book/10.1007/b97543}{here}.
+    \end{center}
+\end{abstract}
+
+\noindent
+本資料は教科書のSection~5.4以降を対象とする。
+青のboxは教科書の定義・結果の要約であり、逐語訳ではない。
+緑のboxは既出事項の復習、結果の解釈、証明の要点を記す。
+定理番号とページ番号は教科書のものを用いる。
+既出と同じ発想の証明は参照先を示して省略し、仮定や結論の追加は明示する。
+
+\section{Parametric Problems (Section 5.4)}
+\label{sec:parametric}
+
+\subsection{設定と既出事項の復習}
+\label{sec:review}
+
+\myBox{復習: VI, AVI, CPとnormal map (Chapters 1, 2)}{\\
+    $K \subseteq \mathbb R^n$ は閉凸集合、$\Pi_K$ はユークリッド射影とする。
+    \begin{itemize}[nosep, leftmargin=*]
+        \item VI (Variational Inequality): 次を満たす $x$ を求める問題で、解集合は $\operatorname{SOL}(K, F)$。
+    \begin{equation*}
+        x \in K, \qquad (y - x)^\top F(x) \geq 0 \quad (y \in K)
+    \end{equation*}
+        \item AVI (Affine VI): $K$ が多面体、$F(x) = q + Mx$ の場合。
+        \item CP (Complementarity Problem): 閉凸錐 $C$ 上の $C \ni x \perp F(x) \in C^*$。
+        $C^* \coloneqq \{w : w^\top v \geq 0\ (v \in C)\}$ であり、$C = \mathbb R_+^n$ の場合がNCP (Nonlinear CP)。
+    \end{itemize}
+    Natural mapとnormal mapは
+    \begin{align*}
+        F_K^{\mathrm{nat}}(x) &\coloneqq x - \Pi_K(x - F(x)), \\
+        F_K^{\mathrm{nor}}(z) &\coloneqq F(\Pi_K(z)) + z - \Pi_K(z)
+    \end{align*}
+    であり、$F_K^{\mathrm{nor}}(z) = 0$ は $x = \Pi_K(z) \in \operatorname{SOL}(K, F)$、$z = x - F(x)$ と同値。
+}
+
+パラメータを $p \in P \subseteq \mathbb R^r$ と書き、$x^* \in \operatorname{SOL}(K(p^*), F(\cdot, p^*))$ を固定する。
+教科書ではパラメータの次元にも $p$ を使うが、本資料では混同を避けて $r$ と書く。
+局所解集合と基準normal変数を
+\begin{equation*}
+    S_N(p) \coloneqq \operatorname{SOL}(K(p), F(\cdot, p)) \cap N,
+    \qquad z^* \coloneqq x^* - F(x^*, p^*)
+\end{equation*}
+と定義する。
+射影 $\Pi_{K(p)}(z)$ は特殊なVI $\operatorname{VI}(K(p), I - z)$ の解であり、Chapter~4は本節の特殊例に当たる。
+
+\bookBox{有限個の不等式による表現とKKT乗数 (5.4.6--7)}{\\
+    以下では主に
+    \begin{equation*}
+        K(p) = \{x \in \mathbb R^n : g(x, p) \leq 0\}
+    \end{equation*}
+    を扱う。
+    等式制約は省略し、各 $g_i(\cdot, p)$ は凸とする。
+    有効制約集合を $I(x, p) \coloneqq \{i : g_i(x, p) = 0\}$ と定義する。
+    Karush--Kuhn--Tucker (KKT)系とその乗数集合は
+    \begin{align*}
+        L(x, \lambda, p) &\coloneqq F(x, p) + \sum_{i=1}^m \lambda_i \nabla_x g_i(x, p), \\
+        \mathcal M(x, p) &\coloneqq \{\lambda : L(x, \lambda, p) = 0,\
+        \ 0 \leq \lambda \perp g(x, p) \leq 0\}
+    \end{align*}
+    である。
+    ここで $L$ はベクトル値写像であり、$J_xL$ と $J_pL$ はそのJacobianである。
+    $F = \nabla_x \theta$ の場合には、$J_xL$ は通常のスカラーLagrangianの $x$ に関するHessianになる。
+    $\mathcal M^e(x, p)$ は乗数多面体の極点の集合であり、$\operatorname{supp}(\lambda) \coloneqq \{i : \lambda_i > 0\}$ に対応する制約勾配が線形独立な乗数からなる。
+}
+
+\myBox{復習: 制約想定 (Section 3.2, Section 4.7)}{\\
+    不等式制約のみを考え、$A_i \coloneqq \nabla_x g_i(x^*, p^*)$、$I \coloneqq I(x^*, p^*)$ とおく。
+    CQはConstraint Qualificationの略。
+    \begin{itemize}[nosep, leftmargin=*]
+        \item MFCQ (Mangasarian--Fromovitz): $A_i^\top d < 0\ (i \in I)$ を満たす $d$ が存在。
+        解では乗数集合の非空性・有界性と同値。
+        \item LICQ (Linear Independence): 有効制約勾配 $\{A_i : i \in I\}$ が線形独立。
+        \item SMFCQ (Strict Mangasarian--Fromovitz): KKT対 $(x^*, \lambda)$ で、$\alpha = \operatorname{supp}(\lambda)$ 上の勾配が線形独立、かつ $A_i^\top d = 0\ (i \in \alpha)$、$A_i^\top d < 0\ (i \in I \setminus \alpha)$ となる $d$ が存在。
+        解では乗数の一意性と同値。
+        \item CRCQ (Constant Rank): 任意の $J \subseteq I$ に対応する勾配のrankが近傍で一定。
+        固定集合では近傍の実行可能点上で考え、本資料のパラメータ付き設定では近傍の全ての $(x, p)$ における $x$ 勾配について仮定する。
+        \item SBCQ (Sequentially Bounded): 固定VIの解列 $x^k \to x^*$ に沿って有界な乗数列を選べる。
+    \end{itemize}
+    LICQ $\Rightarrow$ SMFCQ $\Rightarrow$ MFCQ、LICQ $\Rightarrow$ CRCQ、MFCQまたはCRCQ $\Rightarrow$ SBCQ。
+    線形制約ではCRCQは自動的に成立するが、CRCQだけでは乗数の有界性は保証されない。
+}
+
+\myBox{復習: 臨界錐と行列条件 (Sections 2.5, 3.3)}{\\
+    $T(x^*; K)$ を接錐とし、臨界錐を
+    \begin{equation*}
+        C(x^*; K, F) \coloneqq T(x^*; K) \cap F(x^*)^\perp
+    \end{equation*}
+    と定義する。
+    MFCQの下で、任意の $\lambda \in \mathcal M(x^*, p^*)$ について
+    \begin{equation*}
+        C = \{v : A_i^\top v = 0\ (i \in \operatorname{supp}(\lambda)),\
+        A_i^\top v \leq 0\ (i \in I \setminus \operatorname{supp}(\lambda))\}
+    \end{equation*}
+    と表せる。
+    \begin{itemize}[nosep, leftmargin=*]
+        \item $R_0$ pair: $\operatorname{SOL}(C, M) = \{0\}$。
+        \item Strict copositivity: $v^\top Mv > 0\ (0 \ne v \in C)$。
+        \item $P$ matrix: 全ての主小行列式が正。
+    \end{itemize}
+}
+
+\myBox{復習: PC$^1$ 性と安定性 (Sections 3.1, 4.5, 5.3)}{\\
+    \begin{itemize}[nosep, leftmargin=*]
+        \item PC$^1$ (piecewise $C^1$): 有限個の $C^1$ 写像からなる連続な選択写像。
+        PA (piecewise affine)は各pieceがアフィンな場合。
+        \item PC$^1$ 写像は局所LipschitzかつB微分可能:
+    \begin{equation*}
+        H(a + h) = H(a) + H'(a; h) + o(\norm{h})
+    \end{equation*}
+        $H'(a; h)$ が $h$ に関して線形ならFr\'echet微分可能(F微分可能)。
+        \item Semistability: 固定 $K$ の孤立解 $x^*$ について、小さい摂動 $G$ の近傍解 $x$ が $\norm{x - x^*} \leq c\norm{F(x) - G(x)}$ を満たす。
+        定数摂動 $G = F + q$ だけで要求するsemiregularityと同値。
+        \item Stability: semistabilityに、全ての小さい摂動に対する近傍解の存在を追加。
+        \item Strong stability: stabilityに、異なる摂動の解の評価 $\norm{x - \widetilde x} \leq c\norm{e(x) - \widetilde e(\widetilde x)}$ を追加($e = F - G$、$\widetilde e = F - \widetilde G$)。
+        定数摂動に制限したstrong regularityと同値で、その局所解は一意かつLipschitz。
+    \end{itemize}
+    最後の一意性は定数摂動についての主張である。
+}
+
+\subsection{存在、一次の変位評価、\texorpdfstring{PC$^1$}{PC1}解写像}
+\label{sec:existence}
+
+\bookBox{命題5.4.1・注意5.4.2: 動く集合に対する解の存在}{\\
+    $F(x, p)$ は連続、$K(p)$ は閉凸値で $K(p) \to K(p^*)$ とする。
+    $x^*$ は基準VIの孤立解であり、$\operatorname{ind}(F_{K(p^*)}^{\mathrm{nor}}(\cdot, p^*), z^*) \ne 0$ を仮定する。
+    また、基準点の近傍で一様に
+    \begin{align*}
+        \norm{F(x, p) - F(x, p^*)} &\leq L\norm{p - p^*}, \\
+        \norm{F(x, p^*) - F(y, p^*)} &\leq L'\norm{x - y}
+    \end{align*}
+    とする。
+    このとき十分小さい $p$ の摂動について近傍解が存在する。
+    さらに $\overline N$ 内の基準VIの解が $x^*$ だけならば
+    \begin{equation*}
+        S_N(p) \ne \varnothing, \qquad
+        \sup_{x \in S_N(p)} \norm{x - x^*} \longrightarrow 0
+        \quad (p \to p^*)
+    \end{equation*}
+    が成立する。
+}
+
+\myBox{復習: 写像度と今回の証明で追加する点}{\\
+    \begin{itemize}[nosep, leftmargin=*]
+        \item 写像度 $\deg(H, Z, 0)$: $Z$ は有界開集合、境界に零点なし。
+        非零なら内部に零点が存在し、境界を零点が通らない連続変形で不変。
+        \item 指数 $\operatorname{ind}(H, z^*)$: 孤立零点の小近傍での写像度。
+    \end{itemize}
+    命題5.4.1の証明は系5.1.5と同様なので省略する。
+    追加点は $\Pi_{K(p)}$ の連続性を使い、動く集合のnormal mapを固定した $z$ 空間で比較すること。
+}
+
+\bookBox{命題5.4.3: 乗数集合の評価}{\\
+    $g$ は $C^1$、$F$ は連続であり、$(x^*, p^*)$ でMFCQを仮定する。
+    ある $c > 0$ により、十分近い解 $(x, p)$ について
+    \begin{align*}
+        \varnothing \ne \mathcal M(x, p)
+        &\subseteq \mathcal M(x^*, p^*) + c\gamma(x, p)\mathbb B, \\
+        \gamma(x, p) &\coloneqq \norm{F(x, p) - F(x^*, p^*)}
+        + \sum_{i \in I} \norm{\nabla_x g_i(x, p) - A_i}
+    \end{align*}
+    が成立する。
+    $\mathbb B$ は単位開球とする。
+    凸性を必要としない結果であり、命題3.2.2にパラメータを追加したものなので証明は省略する。
+    背景はHoffmanの不等式と系3.2.5である。
+}
+
+以降の5.4の結果では、$P$ は開集合、$F$ は $C^1$、$g$ は $C^2$、各 $g_i(\cdot, p)$ は凸とする。
+また、基準解でMFCQを仮定する。
+これを\textbf{共通設定}と呼ぶ。
+定理5.4.4--5の教科書の仮定は $F$ についてこれより弱いが、以下では十分な形で統一する。
+\begin{equation*}
+    C \coloneqq C(x^*; K(p^*), F(\cdot, p^*)), \qquad
+    G(\lambda) \coloneqq I_n + \sum_i \lambda_i \nabla_{xx}^2 g_i(x^*, p^*)
+\end{equation*}
+とおく。
+
+\bookBox{定理5.4.4--5: 変位評価に至る二つの仮定}{\\
+    共通設定の下で、次の二通りの結果がある。
+    \begin{enumerate}[label=(\alph*)]
+        \item 全ての $\lambda \in \mathcal M^e(x^*, p^*)$ と $\tau \geq 0$ について
+        $(C, J_xL(x^*, \lambda, p^*) + \tau G(\lambda))$ が $R_0$ pairなら、近傍解が存在して $x^*$ へ収束する。
+        さらに全ての $\lambda \in \mathcal M(x^*, p^*)$ で $J_xL(x^*, \lambda, p^*)$ が $C$ 上strictly copositiveなら、ある $c > 0$ により
+        \begin{equation}
+            \varnothing \ne S_N(p), \qquad
+            \sup_{x \in S_N(p)}\norm{x - x^*} \leq c\norm{p - p^*}
+            \label{eq:pointwise-bound}
+        \end{equation}
+        が十分近い $p$ で成立する(定理5.4.4)。
+        \item CRCQを追加すれば、ある一つの $\lambda \in \mathcal M(x^*, p^*)$ について全ての $\tau \geq 0$ で上の $R_0$ 条件を満たせばよい。
+        Strict copositivityを追加せずに\cref{eq:pointwise-bound}まで得られる(定理5.4.5)。
+    \end{enumerate}
+}
+
+\myBox{省略する証明と、仮定が変わる理由}{\\
+    定理5.4.4の存在部分は補題5.3.9と命題5.4.1による。
+    変位評価は、評価が破れる解列を正規化し、非零の臨界方向 $v$ について $v^\top J_xL v \leq 0$ を導く背理法である。
+    系5.1.8と同じ方針だが、制約の $p$ 依存と乗数差の処理を命題5.4.3で補う。
+    詳細なTaylor展開は省略する。
+    定理5.4.5では、4.7.5によるパラメータ付き射影のLipschitz性と、4.5.3による乗数の選択自由度を利用する。
+    なお\cref{eq:pointwise-bound}は $p^*$ との比較であり、二つの任意のパラメータ $p, \widetilde p$ 間のLipschitz評価や一意性ではない。
+}
+
+\bookBox{定理5.4.6: パラメータ付きVIの陰関数定理}{\\
+    共通設定に加えCRCQを仮定する。
+    $x^*$ が固定した基準VI $\operatorname{VI}(K(p^*), F(\cdot, p^*))$ のstrongly stable solutionなら、近傍 $N, W$ とPC$^1$ 写像 $x_N : W \to N$ が存在して
+    \begin{equation*}
+        x_N(p^*) = x^*, \qquad S_N(p) = \{x_N(p)\} \quad (p \in W)
+    \end{equation*}
+    が成立する。
+    これは4.7.5のPC$^1$ 射影と4.6の局所逆写像理論を一般VIへ適用した結果である。
+}
+
+証明の要点は、$\Xi(z, p) \coloneqq (F_{K(p)}^{\mathrm{nor}}(z, p), p - p^*)$ の局所逆写像を作ることである。
+強安定性が $z$ 方向の可逆性を保証し、PC$^1$ 逆写像から $z(p)$、さらに $x_N(p) = \Pi_{K(p)}(z(p))$ を得る。
+逆写像の構成の詳細は既出なので省略する。
+
+\subsection{Directional Differentiability (Section 5.4.1)}
+\label{sec:directional}
+
+\bookBox{方向付き臨界集合と乗数の選択 (命題5.4.7)}{\\
+    共通設定の下で $dp \in \mathbb R^r$ を固定する。
+    以下では $A_i = \nabla_x g_i(x^*, p^*)$、$b_i \coloneqq \nabla_p g_i(x^*, p^*)^\top dp$ とおく。
+    $\lambda \in \mathcal M(x^*, p^*)$ と $\beta \coloneqq I \setminus \operatorname{supp}(\lambda)$ に対して
+    \begin{equation*}
+        \mathcal C(\lambda; dp) \coloneqq
+        \{v : A_i^\top v + b_i = 0\ (i \in \operatorname{supp}(\lambda)),\
+        A_i^\top v + b_i \leq 0\ (i \in \beta)\}
+    \end{equation*}
+    と定義する。
+    $dp = 0$ なら元の臨界錐 $C$ になるが、一般には錐ではなく、空となることもある。
+    次の互いに双対な線形計画を考える。
+    \begin{align*}
+        &\text{maximize}_{\lambda \in \mathcal M(x^*, p^*)}
+        &&\sum_i \lambda_i b_i, \\
+        &\text{minimize}_{v \in \mathbb R^n}
+        &&F(x^*, p^*)^\top v
+        \quad\text{subject to } A_i^\top v + b_i \leq 0\ (i \in I).
+    \end{align*}
+    それぞれの最適解集合を $\mathcal M^c(dp)$、$\mathcal D^c(dp)$ と書く。
+    MFCQの下では両者は非空であり、
+    \begin{equation*}
+        \mathcal C(\lambda; dp) =
+        \begin{cases}
+            \mathcal D^c(dp), & \lambda \in \mathcal M^c(dp), \\
+            \varnothing, & \lambda \notin \mathcal M^c(dp)
+        \end{cases}
+    \end{equation*}
+    となる。
+    これは線形計画の双対性と相補性から従うので、証明の詳細は省略する。
+}
+
+\myBox{追加点: 基準点の乗数を任意に選べるとは限らない}{\\
+    動く制約では、$dp$ に応じた線形計画で選ばれる乗数を使う。
+    例えば $K(p) = \{x : x \leq p,\ x \leq -p\}$、$F(x, p) = -1$ とする。
+    解は $x(p) = -\abs{p}$ であり、基準点 $(x^*, p^*) = (0, 0)$ で
+    \begin{equation*}
+        \mathcal M(0, 0) = \{\lambda \geq 0 : \lambda_1 + \lambda_2 = 1\}
+    \end{equation*}
+    となる。
+    $dp = 1$ では目的関数は $-\lambda_1 + \lambda_2$ なので、$\mathcal M^c(1) = \{(0, 1)\}$ である。
+    $(1, 0)$ を使うと方向制約は $v = 1$ かつ $v \leq -1$ となり、臨界集合が空になる。
+    適切な乗数では $\mathcal D^c(1) = \{-1\}$ となり、$x'(0; 1) = -1$ と一致する。
+}
+
+\bookBox{命題5.4.8・系5.4.9: 差分商の極限をAVIで記述する}{\\
+    共通設定の下で $p^k \to p^*$、$x^k \in S_N(p^k)$、$x^k \to x^*$ とし、
+    \begin{equation*}
+        \frac{p^k - p^*}{\norm{p^k - p^*}} \to dp, \qquad
+        \frac{x^k - x^*}{\norm{p^k - p^*}} \to v
+    \end{equation*}
+    と仮定する。
+    このとき、ある $\lambda \in \mathcal M^c(dp)$ について $v$ は
+    \begin{equation}
+        \operatorname{AVI}\bigl(\mathcal D^c(dp),\
+        J_pL(x^*, \lambda, p^*)dp,\ J_xL(x^*, \lambda, p^*)\bigr)
+        \label{eq:derivative-avi}
+    \end{equation}
+    を解く(命題5.4.8)。
+    さらに、その乗数は $\mathcal M^c(dp)$ 上で
+    \begin{equation*}
+        \sum_i \lambda_i
+        \begin{pmatrix}v\\dp\end{pmatrix}^{\!\top}
+        \nabla^2_{(x,p)(x,p)} g_i(x^*, p^*)
+        \begin{pmatrix}v\\dp\end{pmatrix}
+    \end{equation*}
+    を最大化するものに選べる。
+
+    方向 $dp$ を固定し、近傍解 $x(t) \in S_N(p^* + tdp)$ が存在して $\norm{x(t) - x^*} \leq ct$ とする。
+    全ての $\lambda \in \mathcal M^c(dp)$ について\cref{eq:derivative-avi}が同じ一意解 $v$ をもてば
+    \begin{equation*}
+        \sup_{x(t) \in S_N(p^* + tdp)}
+        \frac{\norm{x(t) - x^* - tv}}{t} \longrightarrow 0 \quad (t \downarrow 0)
+    \end{equation*}
+    が成立する(系5.4.9)。
+    SMFCQにより乗数が一意なら、その一つについて確認すればよい。
+}
+
+\myBox{証明の対応: 補題4.4.3と同じ部分、追加する部分}{\\
+    命題5.4.8はKKT系と制約のTaylor展開から一次の相補性条件を取り出す。
+    基本手法は補題4.4.3と同じなので展開計算は省略する。
+    追加される項は $\nabla_p g_i^\top dp$ と $J_pL\,dp$ であり、乗数は $\mathcal M^c(dp)$ に属さなければならない。
+    一般の $F$ では $J_xL$ が対称とは限らず、射影の場合の凸二次最適化をそのまま用いることはできない。
+    また、命題5.4.8は差分商の収束を仮定した必要条件であり、それ自体で方向微分の存在を保証しない。
+    系5.4.9は、有界な差分商の集積点が一つしかないという議論である。
+    固定集合なら $\mathcal D^c(dp) = C$、$\mathcal M^c(dp) = \mathcal M(x^*, p^*)$、$J_pL = J_pF$ となり、方向付き線形計画が不要になる。
+}
+
+\bookBox{定理5.4.10: PC$^1$ 解写像の方向微分}{\\
+    共通設定、CRCQ、基準解のstrong stabilityを仮定し、定理5.4.6の解写像 $x_N$ を考える。
+    任意の $dp$ と任意の $\lambda \in \mathcal M^c(dp)$ について、$x_N'(p^*; dp)$ は\cref{eq:derivative-avi}の解である。
+    証明は定理4.5.3と同じ乗数集合の修正によるもので、教科書でも省略されている。
+    この段階ではAVIの解の一意性までは主張していない。
+}
+
+\subsection{Strong Coherent Orientation Condition (Section 5.4.2)}
+\label{sec:scoc}
+
+\myBox{復習: Coherent orientationと今回強める点 (Sections 4.2--4.3)}{\\
+    \begin{itemize}[nosep, leftmargin=*]
+        \item Coherent orientation: PA写像の全次元pieceの線形部分が、同じ非零の行列式符号をもつこと。
+        \item AVIのnormal mapでは、全右辺に対する一意可解性と同値(定理4.3.2)。
+    \end{itemize}
+    SCOCは、$dp$ ごとに変わる $\mathcal D^c(dp)$ に必要な行列をまとめて検査する十分条件。
+}
+
+\bookBox{定義5.4.11: SCOC}{\\
+    共通設定の下で、SCOC index setの族を
+    \begin{equation*}
+        \mathcal B \coloneqq
+        \{J \subseteq I : \{A_i : i \in J\}\text{は線形独立},\
+        \exists\lambda \in \mathcal M(x^*, p^*),\
+        \operatorname{supp}(\lambda) \subseteq J\}
+    \end{equation*}
+    と定義する。
+    各 $J \in \mathcal B$ に対応する乗数 $\lambda^J$ は一意で極点である。
+    $A_J$ を行が $A_i^\top\ (i \in J)$ である行列とし、
+    \begin{equation*}
+        \Lambda_J \coloneqq
+        \begin{pmatrix}
+            J_xL(x^*, \lambda^J, p^*) & A_J^\top \\
+            -A_J & 0
+        \end{pmatrix}
+    \end{equation*}
+    とおく。
+    全ての $J \in \mathcal B$ に対する $\det\Lambda_J$ が同じ非零符号をもつことをStrong Coherent Orientation Condition (SCOC)という。
+}
+
+\bookBox{定理5.4.12: SCOCの二つの帰結}{\\
+    共通設定にCRCQとSCOCを加えると、基準解はstrongly stableであり、局所解写像 $x_N$ はPC$^1$ となる。
+    さらに各 $dp$ と
+    $\lambda \in \mathcal M^e(x^*, p^*) \cap \mathcal M^c(dp)$ について、\cref{eq:derivative-avi}の解は一意で $x_N'(p^*; dp)$ に等しい。
+    証明はSCOCの行列族が各方向付き臨界集合に必要な行列族を含むことを確認し、定理4.3.2と5.3.24を適用するものであり、詳細は省略する。
+}
+
+\myBox{NCPでは既出のstrong b-regularityに帰着する (pp.491--492)}{\\
+    $0 \leq x \perp F(x, p) \geq 0$ について、$M \coloneqq J_xF(x^*, p^*)$、
+    $\gamma \coloneqq \{i : x_i^* > 0\}$、$\beta \coloneqq \{i : x_i^* = F_i(x^*, p^*) = 0\}$ とおく。
+    SCOCは $M_{\gamma\gamma}$ が正則であり、Schur補行列
+    \begin{equation*}
+        M_{\beta\beta} - M_{\beta\gamma}
+        M_{\gamma\gamma}^{-1}M_{\gamma\beta}
+    \end{equation*}
+    が $P$ matrixであることと同値になる。
+    これは系5.3.20のstrong b-regularityの条件である。
+    $\gamma$ が空ならSchur補行列は $M_{\beta\beta}$ と解釈する。
+    証明は各主小行列式をSchurの行列式公式で分解する既出の計算なので省略する。
+}
+
+\bookBox{定理5.4.13・系5.4.14: いつFr\'echet微分可能か}{\\
+    共通設定、CRCQ、SCOCを仮定する。
+    全ての有効制約の一次変化を等号にした集合を
+    \begin{equation*}
+        \mathcal E(dp) \coloneqq \{v : A_i^\top v + b_i = 0\ (i \in I)\}
+    \end{equation*}
+    と定義する。
+    次は同値である(定理5.4.13の(a), (b), (e))。
+    \begin{enumerate}[label=(\alph*)]
+        \item $x_N$ は $p^*$ でFr\'echet微分可能である。
+        \item 全ての $dp$ について $x_N'(p^*; dp) \in \mathcal E(dp)$ である。
+        \item ある $\lambda \in \mathcal M^e(x^*, p^*)$ と、そのsupportを含む $\mathcal B$ の極大元 $J$ を固定すると、全ての $dp$ について $x_N'(p^*; dp)$ は正則な線形系
+        \begin{equation}
+            \begin{pmatrix}J_xL & A_J^\top\\ -A_J & 0\end{pmatrix}
+            \begin{pmatrix}v\\d\lambda_J\end{pmatrix}
+            = \begin{pmatrix}-J_pL\,dp\\ b_J\end{pmatrix}
+            \label{eq:smooth-system}
+        \end{equation}
+        の $v$ 成分に一致する。
+        $L$ の微分は $(x^*, \lambda, p^*)$ で評価する。
+    \end{enumerate}
+    これらが成立すると、全ての $dp$ で $\mathcal M^c(dp) = \mathcal M(x^*, p^*)$ となる。
+
+    特に $K(p) = K$ が固定され、$J_xF(x^*, p^*)C$ が $J_pF(x^*, p^*)$ の列空間に含まれるなら、
+    \begin{equation*}
+        x_N\text{がFr\'echet微分可能}
+        \ \Longleftrightarrow\ C\text{が線形部分空間}
+        \ \Longleftrightarrow\ x^*\text{がnondegenerate}
+    \end{equation*}
+    である(系5.4.14)。
+}
+
+\myBox{証明の要点とnondegeneracyの復習}{\\
+    Fr\'echet微分可能なら $x_N'(p^*; -dp) = -x_N'(p^*; dp)$ となる。
+    正負両方向の実行可能性から全ての有効制約の一次変化が等号になる。
+    逆に\cref{eq:smooth-system}で方向微分を表せれば、それは $dp$ に関して線形なのでFr\'echet微分可能となる。
+    この点だけを確認し、添字集合の縮約に関する計算は省略する。
+
+    VIの解がnondegenerateであるとは $-F(x^*) \in \operatorname{ri}N(x^*; K)$ であることをいう(定義3.4.1)。
+    ここで $N(x^*; K)$ はnormal cone、$\operatorname{ri}$ はrelative interiorである。
+    これは臨界錐が線形部分空間となることと同値である(命題3.4.2)。
+    系5.4.14の列空間条件は必要であり、パラメータが解の非滑らかな変化を検出できるだけ広く動くことを要求している。
+    例えば $F(x, p) = \widetilde F(x) + p$ ならこの条件を満たす。
+}
+
+\subsection{\texorpdfstring{PC$^1$}{PC1} Multipliers and More on SCOC (Section 5.4.3)}
+\label{sec:multipliers}
+
+\bookBox{定理5.4.15: 乗数の感度解析}{\\
+    共通設定にLICQとSCOCを加え、基準乗数を $\lambda^*$ とする。
+    局所解とその一意な乗数を与えるPC$^1$ 写像 $(x_N(p), \lambda(p))$ が存在する。
+    各方向 $dp$ に対する解と乗数の方向微分をそれぞれ $v, \eta$ と書く。
+    $\beta \coloneqq I \setminus \operatorname{supp}(\lambda^*)$ とおくと、この対は次の系の一意解である。
+    \begin{align*}
+        J_xL\,v + J_pL\,dp + \sum_{i \in I}\eta_i A_i &= 0, \\
+        A_i^\top v + b_i &= 0 &&(i \in \operatorname{supp}(\lambda^*)), \\
+        0 \leq \eta_i \perp A_i^\top v + b_i &\leq 0 &&(i \in \beta), \\
+        \eta_i &= 0 &&(i \notin I).
+    \end{align*}
+    $L$ の微分は $(x^*, \lambda^*, p^*)$ で評価する。
+    正の乗数が付く制約では $\eta_i$ の符号は制限されない。
+    さらに $\lambda^* - g(x^*, p^*) > 0$、すなわちstrict complementarityが成立すれば、解・乗数写像は近傍で $C^1$ となる。
+}
+
+LICQの下で $A_I(p)$ を $x_N(p)$ で評価した制約Jacobianとすると、乗数は
+\begin{equation*}
+    \lambda_I(p) = -\bigl(A_I(p)A_I(p)^\top\bigr)^{-1}A_I(p)F(x_N(p), p)
+\end{equation*}
+と表せる。
+この式とKKT系の方向微分から定理5.4.15が従うため、証明の詳細は省略する。
+
+\bookBox{補題5.4.16・命題5.4.17: 既出の行列条件との対応}{\\
+    ここではパラメータを落とした $C^1$ 写像 $F$ と $C^2$ 制約 $g$ のKKT系を考え、制約の凸性は仮定しない。
+    $\alpha = \operatorname{supp}(\lambda)$ に対し
+    \begin{equation*}
+        B(\lambda) \coloneqq
+        \begin{pmatrix}J_xL(x^*, \lambda) & A_\alpha^\top\\ -A_\alpha & 0\end{pmatrix}
+    \end{equation*}
+    とおく。
+    MFCQの下で、SCOCは、全ての極端乗数について $B(\lambda)$ が同じ非零行列式符号をもち、各 $\Lambda_J$ の対応するSchur補行列の行列式が正であることと同値である(補題5.4.16)。
+
+    KKT対 $(x^*, \lambda^*)$ において、次は同値である(命題5.4.17)。
+    \begin{enumerate}[label=(\alph*)]
+        \item LICQとSCOCが成立する。
+        \item $B(\lambda^*)$ は正則であり、$\beta = I \setminus \operatorname{supp}(\lambda^*)$ に対し
+        \begin{equation*}
+            \begin{pmatrix}A_\beta & 0\end{pmatrix}
+            B(\lambda^*)^{-1}
+            \begin{pmatrix}A_\beta^\top\\0\end{pmatrix}
+        \end{equation*}
+        が $P$ matrixである。
+    \end{enumerate}
+    これは系5.3.22のKKT系の強安定性条件をLICQとSCOCで表したものである。
+    証明はSchurの行列式公式と主小行列式の対応なので省略する。
+}
+
+\section{Solution Set Stability (Section 5.5)}
+\label{sec:solution-set}
+
+\subsection{定義と誤差評価}
+\label{sec:error-bound}
+
+本節では $K$ を固定した閉凸集合、$F : \mathbb R^n \to \mathbb R^n$ を連続写像とし、$S \coloneqq \operatorname{SOL}(K, F) \ne \varnothing$ を仮定する。
+孤立解の近傍だけでなく、解集合全体を含む任意の開集合を考える。
+
+\bookBox{定義5.5.1: 解集合のsemistabilityとstability}{\\
+    任意の開集合 $U \supseteq S$ に対して $c, \varepsilon > 0$ が存在し、連続写像 $G$ が
+    \begin{equation*}
+        \omega_U(G) \coloneqq
+        \sup_{x \in K \cap \overline U}\norm{G(x) - F(x)} < \varepsilon
+    \end{equation*}
+    を満たすとき
+    \begin{equation*}
+        \operatorname{SOL}(K, G) \cap U \subseteq S + c\omega_U(G)\mathbb B
+    \end{equation*}
+    が成立することを、VIまたは解集合 $S$ のsemistabilityという。
+    さらに全てのそのような $G$ について $\operatorname{SOL}(K, G) \cap U \ne \varnothing$ も要求するとstabilityという。
+    $U$ は非有界でもよい。
+    定数 $c, \varepsilon$ は $U$ に依存してよい。
+}
+
+\myBox{例5.5.2: 一つの解が強安定でも、解集合は半安定とは限らない}{\\
+    $K = \mathbb R$、$F(t) = \min(t, e^{-t})$ とする。
+    零点は $0$ だけで、原点近くでは $F(t) = t$ なので局所的に強安定である。
+    しかし $G_\delta(t) = F(t) - \delta$ は一様誤差 $\delta$ の摂動であり、$0 < \delta < e^{-1}$ なら $t = -\log\delta$ にも零点をもつ。
+    $\delta \downarrow 0$ でこの零点は無限遠へ動く。
+    したがって $U = \mathbb R$ について解集合の半安定性は成立しない。
+    局所解の安定性では、遠方に現れる解を制御していなかったことが相違点である。
+}
+
+\bookBox{命題5.5.3・系5.5.4: 摂動の測り方}{\\
+    $S$ が有界なら、任意の $U \supseteq S$ に対する摂動後の可解性について、一様に小さい摂動を許すことと、ある $\delta > 0$ に対して
+    \begin{equation}
+        \norm{G(x) - F(x)} < \delta(1 + \norm{x})
+        \quad (x \in K \cap \overline U)
+        \label{eq:weighted-perturbation}
+    \end{equation}
+    を満たす摂動を許すことは同値である。
+    後者から前者への含意には $S$ の有界性は不要である。
+    この同値性は\textbf{解の存在}についての主張であり、誤差評価まで同値と主張していない。
+    特に安定なAVIの解集合が有界なら、小さい $(q, M)$ の摂動後も、元の解集合を含む任意の有界開集合内に解が存在する(系5.5.4)。
+    証明は $U$ 内に有界な解集合の近傍を選ぶ議論なので省略する。
+}
+
+\bookBox{命題5.5.5: 半安定性と誤差評価の同値性}{\\
+    本節の設定の下で、次の三つは同値である。
+    \begin{enumerate}[label=(\alph*)]
+        \item 解集合 $S$ はsemistableである。
+        \item ある $c, \varepsilon > 0$ により、$\norm{q} < \varepsilon$ なら
+        \begin{equation*}
+            \operatorname{SOL}(K, F + q) \subseteq S + c\norm{q}\mathbb B
+        \end{equation*}
+        となる。
+        \item ある $c, \varepsilon > 0$ により、全ての $z \in \mathbb R^n$ について
+        \begin{equation}
+            \norm{F_K^{\mathrm{nor}}(z)} < \varepsilon
+            \ \Longrightarrow\
+            \operatorname{dist}(\Pi_K(z), S) \leq c\norm{F_K^{\mathrm{nor}}(z)}
+            \label{eq:set-error-bound}
+        \end{equation}
+        となる。
+    \end{enumerate}
+}
+
+\myBox{短い証明: 残差を定数摂動とみなす}{\\
+    (a)$\Rightarrow$(b)は $G = F + q$ を選べばよい。
+    (b)$\Rightarrow$(c)では $q = -F_K^{\mathrm{nor}}(z)$ と置くと $\Pi_K(z) \in \operatorname{SOL}(K, F + q)$ となる。
+    (c)$\Rightarrow$(a)では $x \in \operatorname{SOL}(K, G) \cap U$ に対し $z = x - G(x)$ と置く。
+    このとき $\Pi_K(z) = x$、$F_K^{\mathrm{nor}}(z) = F(x) - G(x)$ なので\cref{eq:set-error-bound}を適用できる。
+    この結果は5.3の局所評価と似ているが、$z$ を一つの解の近傍に制限しない点が新しい。
+    「local error bound」のlocalはここでは残差が小さい範囲を指す。
+}
+
+\bookBox{定理5.5.6: 局所評価を集合全体へ広げる有界性条件}{\\
+    ある $\varepsilon > 0$ について
+    \begin{equation*}
+        S_\varepsilon \coloneqq
+        \bigcup_{\norm{q} < \varepsilon}\operatorname{SOL}(K, F + q)
+    \end{equation*}
+    が有界であるとき、VIは $\varepsilon$-solution boundedであるという。
+    これは $\{z : \norm{F_K^{\mathrm{nor}}(z)} < \varepsilon\}$ の有界性と同値である。
+    \begin{enumerate}[label=(\alph*)]
+        \item $S$ が有界かつsemistableなら、ある $\varepsilon > 0$ について $\varepsilon$-solution boundedである。
+        \item 逆に、ある $\varepsilon > 0$ について $\varepsilon$-solution boundedで、全ての解がsemiregularなら、$S$ は有限集合でありsemistableである。
+    \end{enumerate}
+    証明は有界列の集積点で局所的semiregularityを適用する背理法なので省略する。
+    各解での評価だけでなく、摂動解が無限遠へ動かない条件が必要となる。
+}
+
+\subsection{多面体性と摂動後の可解性}
+\label{sec:polyhedral}
+
+\bookBox{命題5.5.7・定理5.5.8・系5.5.9}{\\
+    グラフ $\operatorname{gph}\Phi = \{(q, x) : x \in \Phi(q)\}$ が有限個の多面体の和集合である多価写像をpolyhedral multifunctionという。
+    定理5.5.8によれば、そのような写像は全ての $q$ でpointwise upper Lipschitz continuousである。
+    すなわち、各 $q$ に対して $c, \varepsilon > 0$ が存在し、
+    \begin{equation*}
+        \norm{q' - q} < \varepsilon
+        \ \Longrightarrow\
+        \Phi(q') \subseteq \Phi(q) + c\norm{q' - q}\mathbb B
+    \end{equation*}
+    となる。
+    多面体 $K$ と行列 $M$ に対し、$(M_K^{\mathrm{nor}})^{-1}$ はpolyhedral multifunctionである(命題5.5.7)。
+    したがって、非空な解集合をもつ任意のAVIはsemistableである(系5.5.9)。
+    一意性や非退化性を仮定しない点が重要である。
+}
+
+\myBox{証明の対応と、上側Lipschitz性の限界}{\\
+    命題5.5.7は定理2.5.15または4.2のPA写像の多面体表現を用いるだけなので省略する。
+    定理5.5.8では、グラフを有限個の多面体 $P_j$ に分解し、各断面 $P_j(q)$ にHoffmanの評価(系3.2.5)を適用する。
+    有限個の定数の最大値を取ればよいので、こちらも詳細は省略する。
+    系5.5.9は射影の非拡大性と命題5.5.5から従う。
+    上の包含関係は $\Phi(q') = \varnothing$ でも成立するため、摂動後の可解性は別途必要である。
+}
+
+\bookBox{定理5.5.10・系5.5.11: 非零写像度による存在}{\\
+    $S \ne \varnothing$ とし、normal mapの零点集合全体を含む有界開集合 $\Omega$ が存在して
+    \begin{equation*}
+        \deg(F_K^{\mathrm{nor}}, \Omega, 0) \ne 0
+    \end{equation*}
+    と仮定する。
+    任意の開集合 $U \supseteq S$ について、十分小さい\cref{eq:weighted-perturbation}を満たす全ての $G$ に対し、$\operatorname{SOL}(K, G) \cap U \ne \varnothing$ となる(定理5.5.10)。
+    AVIでは半安定性が既に成立するため、この条件からstabilityまで従う(系5.5.11)。
+    証明は命題5.1.4と同じ写像度の摂動不変性なので省略する。
+    今回は一つの孤立零点ではなく零点集合全体を囲む点が異なる。
+}
+
+\bookBox{系5.5.12--14: 存在と安定性を保証する条件}{\\
+    本節の設定の下で、次の結果がある。
+    \begin{enumerate}[label=(\alph*)]
+        \item ある $x^{\mathrm{ref}} \in K$ について
+        $\{x \in K : F(x)^\top(x - x^{\mathrm{ref}}) \leq 0\}$ が有界なら、解集合は非空有界であり、小さい\cref{eq:weighted-perturbation}に対する近傍解が存在する(系5.5.12)。
+        半安定性までは主張しない。
+        \item ある $x^{\mathrm{ref}} \in K$ について
+        \begin{equation*}
+            \liminf_{x \in K,\ \norm{x} \to \infty}
+            \frac{F(x)^\top(x - x^{\mathrm{ref}})}{\norm{x}} > 0
+        \end{equation*}
+        かつ全ての解がsemiregularなら、VIはstableである(命題5.5.13)。
+        \item $S$ がsemistableな有限集合で、対応するnormal mapの各零点の指数が全て非零かつ同符号なら、VIはstableである(系5.5.14)。
+    \end{enumerate}
+    (a)はChapter~2の存在条件とhomotopy、(b)は定理5.5.6、(c)は指数の加法性と定理5.5.10を組み合わせる。
+    既出の道具の組合せなので証明は省略する。
+}
+
+\subsection{Partitioned VIs with \texorpdfstring{$P_0$}{P0} Pairs (Section 5.5.3)}
+\label{sec:pzero}
+
+\myBox{復習: ブロック分割に関する $P_0$ 性とweak univalence (Sections 3.5--3.6)}{\\
+    $K = \prod_{\nu=1}^N K_\nu$、$x = (x_\nu)_\nu$、$F = (F_\nu)_\nu$ とする。
+    任意の異なる $x, y \in K$ について、あるブロック $\nu$ が存在して
+    \begin{equation*}
+        x_\nu \ne y_\nu, \qquad
+        (x_\nu - y_\nu)^\top(F_\nu(x) - F_\nu(y)) \geq 0
+    \end{equation*}
+    となるとき、$F$ はこの分割に関する $P_0$ functionである(定義3.5.8)。
+    \begin{itemize}[nosep, leftmargin=*]
+        \item $x_\nu \ne y_\nu$ の条件は省略不可。
+        単調写像は $P_0$ であり、$P_0$ 写像 $F$ に対し $F + \varepsilon I$ は $P$ function ($\varepsilon > 0$)。
+        \item $P_0$ matrix: $Mx$ がこの分割に関する $P_0$ functionとなる行列。
+        一次元ブロックなら通常の $P_0$ matrix。
+        \item Weakly univalent: 連続単射の列により有界部分集合上一様に近似できる連続写像。
+        $P_0$ 型VIではこの理論から写像度とlevel setの有界性を得る。
+    \end{itemize}
+}
+
+\bookBox{定理5.5.15: $P_0$ 型VIでは有界性が存在の安定性を特徴づける}{\\
+    各 $K_\nu$ を閉凸集合とし、$F$ は $K = \prod_\nu K_\nu$ 上で連続な $P_0$ function、$S \ne \varnothing$ とする。
+    次の三つは同値である。
+    \begin{enumerate}[label=(\alph*)]
+        \item 任意の開集合 $U \supseteq S$ について、十分小さい\cref{eq:weighted-perturbation}を満たす全ての $G$ に対し、$\operatorname{SOL}(K, G) \cap U \ne \varnothing$ である。
+        \item $S$ は有界である。
+        \item normal mapの零点集合全体を囲む有界開集合上で写像度が非零である。
+    \end{enumerate}
+    さらに $F$ が単調なら、これらは小さい全ての定数ベクトル $q$ に対する $\operatorname{SOL}(K, F + q) \cap U \ne \varnothing$ とも同値である。
+    単調とは $(x - y)^\top(F(x) - F(y)) \geq 0$ が全ての $x, y \in K$ で成立することをいう。
+}
+
+\myBox{既出の3.6.6との差と、証明で残す点}{\\
+    定理3.6.6には既に、コンパクトな解集合をもつ $P_0$ 型VIに小さい定数摂動を加えた場合の可解性がある。
+    今回は一般の小さい写像摂動を扱い、有界性・非零写像度と同値であることまで示す。
+    (b)$\Rightarrow$(c)は3.6のweak univalence、(c)$\Rightarrow$(a)は定理5.5.10なので省略する。
+    (a)$\Rightarrow$(b)では、非有界な解列 $x^k$ があると仮定し、各座標で狭義単調増加かつ $g(x^k) \to 0$ となる写像 $g$ を構成する。
+    $F + \varepsilon g$ は $P$ functionとなり、仮定からそのVIには一意解が存在する。
+    3.6の結果からnatural mapの小残差level setは有界だが、非拡大性によりそのlevel setに $x^k$ が入って矛盾する。
+    この摂動の構成が逆向きの含意の要点であり、座標ごとのarctangentの式は省略する。
+    単調な場合の逆向きは、非有界解列の極限方向と逆向きの小さい定数摂動を選び、単調性とVI条件を組み合わせて矛盾させる。
+}
+
+\bookBox{命題5.5.16--17: 収束と線形の場合の結論}{\\
+    定理5.5.15の設定で $S$ が有界なら、任意の開集合 $U \supseteq S$ について十分小さい摂動後の近傍解が存在し、
+    \begin{equation*}
+        \sup\{\operatorname{dist}(x, S) : x \in \operatorname{SOL}(K, G) \cap U\}
+        \longrightarrow 0 \quad (\omega_U(G) \to 0)
+    \end{equation*}
+    となる(命題5.5.16)。
+    これは $O(\omega_U(G))$ の誤差評価を要求するsemistabilityより弱い。
+
+    $K$ が多面体の直積で $M$ が対応する分割に関する $P_0$ matrixなら、
+    \begin{equation*}
+        \operatorname{VI}(K, q, M)\text{がstable}
+        \ \Longleftrightarrow\
+        \operatorname{SOL}(K, q, M)\text{が非空かつ有界}
+    \end{equation*}
+    となる(命題5.5.17)。
+    前者の証明は3.6のlevel setの有界性による集積点の議論、後者は定理5.5.15と系5.5.9の組合せなので省略する。
+}
+
+\section{Exercisesからの補足 (Section 5.6, 暫定)}
+\label{sec:exercises}
+
+以下は発表に残すか判断するための補足であり、全演習の解答ではない。
+
+\bookBox{演習5.6.6--8: Aubin propertyという別のLipschitz性}{\\
+    多価写像 $\Phi$ が $(u^0, v^0) \in \operatorname{gph}\Phi$ でAubin propertyをもつとは、近傍 $U \times V$ と $L > 0$ が存在して
+    \begin{equation*}
+        \Phi(u) \cap V \subseteq \Phi(u') + L\norm{u - u'}\mathbb B
+        \quad (u, u' \in U)
+    \end{equation*}
+    となることをいう。
+    5.5.8のpointwise upper Lipschitz性では比較先の $u^0$ を固定したが、こちらは近傍の任意の二点を比較する。
+    また、値を $v^0$ の近傍に局所化している。
+    一般の多価写像について単一値性を意味する条件ではない。
+
+    多面体上のAVIについて $\Phi(q) = \operatorname{SOL}(K, q, M)$ とすると、$(q^0, x^0)$ でのAubin propertyと $x^0$ のstrong stabilityは同値である(演習5.6.7)。
+    $C^1$ 写像による多面体上のVIでは、normal mapの逆のAubin propertyと強安定性を対応させられ、線形化してもその性質が保存される(演習5.6.8)。
+    証明は今回の本論から外れるため省略する。
+}
+
+\bookBox{演習5.6.14--16: 多価な解から安定な単一値量を得る}{\\
+    単一値のpolyhedral multifunctionは、その定義域上で連続かつPAである。
+    定義域が凸なら、その全体でLipschitz連続となる(演習5.6.14)。
+    したがって解自体が一意でなくても、解から一意に定まる量が安定な場合がある。
+    例えば多面体 $K$ と対称半正定値行列 $E$ について
+    \begin{equation*}
+        \Phi(q) = EAx, \qquad
+        x \in \operatorname{SOL}(K, q, A^\top EA)
+    \end{equation*}
+    は解の選び方によらず、その定義域上でLipschitz連続となる(演習5.6.15)。
+    一意性は二つの解のVI条件を足して
+    $(A(x - y))^\top E A(x - y) = 0$ を得ることから従う。
+    演習5.6.16は同様の性質を凸凹二次鞍点問題に適用する。
+}
+
+\bookBox{演習5.6.18: 局所的semiregularityを一様化する}{\\
+    $S \ne \varnothing$ で全ての解がsemiregularであるとする。
+    任意のコンパクト集合 $Q$ について、ある $c, \varepsilon > 0$ により
+    \begin{equation*}
+        \operatorname{SOL}(K, F + q) \cap Q
+        \subseteq S + c\norm{q}\mathbb B \quad (\norm{q} < \varepsilon)
+    \end{equation*}
+    となる。
+    さらにnatural mapが $K$ 上norm-coercive、すなわち $\norm{x} \to \infty$ で $\norm{F_K^{\mathrm{nat}}(x)} \to \infty$ なら、解集合はsemistableとなる。
+    特に $K$ がコンパクトならこの結論を得る。
+    これは5.5.2の反例で不足していた、遠方の小残差点を除く条件を明確にする補足である。
+}
+
+\myBox{その他の演習の位置づけ (紹介のみ)}{\\
+    演習5.6.1は強安定なVIの局所解写像を微分方程式へ代入する応用である。
+    初期微分を別途指定する場合は右辺との整合性が必要となるため、ここでは原文の初期条件をそのまま定理として転記しない。
+    演習5.6.2--3はPA写像や非退化AVIで、孤立性・安定性・強安定性が一致する場合を整理する。
+    演習5.6.4は複数の強安定解をもつ具体的なAVIで、強安定性がstrict copositivityより広いことを示す。
+    演習5.6.9--13は線形化、mixed CP、最適化の二階条件との対応である。
+    演習5.6.17, 19は錐上のCPの安定性・有界性、5.6.20--21はimplicit horizontal CPへの拡張を扱う。
+    演習5.6.22--23はB-subdifferentialの合成則とLorentz錐の射影を扱い、Chapter~4の射影の微分理論に接続する。
+    今回はこれらの計算・解答には立ち入らない。
+}
+
+\section{Notes and Commentsからの補足 (Section 5.7, 暫定)}
+\label{sec:notes}
+
+\bookBox{古典的陰関数定理から非滑らかな解写像へ (pp.525--529)}{\\
+    教科書の解説によれば、Fiacco--McCormickの古典的感度解析はLICQとstrict complementarityの下で滑らかな陰関数定理を適用する。
+    Strict complementarityを外すと有効制約が切り替わるため、解写像のPC$^1$ 性や方向微分を扱う必要がある。
+    Robinsonのstrong regularityはgeneralized equationの理論、Kojimaのstrong stabilityは写像度による解析として発展した。
+    本資料の仮定の下では、これらに対応する局所的性質をnormal mapとPC$^1$ 写像で扱える。
+    ただし一般VIではJacobianが対称でないため、最適化の感度解析の結果をそのまま移すことはできない。
+}
+
+\bookBox{解集合全体の安定性と応用 (pp.529--530)}{\\
+    解集合の安定性の背景には、線形計画の主双対解集合が非空有界であることと安定性との対応、ならびにRobinsonの多面体多価写像の上側Lipschitz性がある。
+    5.5.17はその考え方を $P_0$ 型AVIで表した結果である。
+    一方、非線形VIで連続体をなす解集合のsemistabilityを示すことは、孤立解の解析より難しい。
+    教科書ではその先の例をChapter~6の誤差評価へつないでいる。
+
+    感度解析はMathematical Programs with Equilibrium Constraints (MPECs)、すなわち制約にVIや相補性条件を含む最適化問題にも用いられる。
+    局所解写像と方向微分によって、均衡制約のパラメータ変化を扱えるためである。
+    文献史上の「現在」「未解決」といった記述は教科書刊行時点の説明であり、現在の研究状況を調査した主張ではない。
+}
+
+\myBox{発表準備用: 原文の表記に関する注意}{\\
+    定理5.4.13の $dp$ の次元は $\mathbb R^r$ と読む。
+    同定理(c)のAVI (5.4.25)は原文では $\mathcal D^c$ 上に書かれているが、続く線形系との同値性の説明からは $\mathcal E$ 上のAVIを意図したと考えられる。
+    実際、$K = \mathbb R_+$、$F(x, p) = x - p$ なら $x(p) = \max(p, 0)$ であり、$\mathcal D^c$ 上の微分AVIは全方向で一意可解でもFr\'echet微分可能ではない。
+    そこで本資料では問題の(c)を用いず、(a), (b), (e)による記述を採用した。
+    また、原文(5.4.29)の乗数の式には制約Jacobianの因子が欠けているため、KKT式から得られる式を記した。
+    定理5.4.15の証明中に現れる正の乗数の方向微分への符号制約も採用せず、定理本文のKKT系を用いた。
+}
+
+\end{document}
