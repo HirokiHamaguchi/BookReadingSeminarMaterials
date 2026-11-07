@@ -130,10 +130,10 @@
 \myBox{Section 5.4概略}{\\
     そもそも、Section 5.1も5.4も感度分析。一番の違いは、
     \begin{align*}
-        \{ \mathrm{VI}(K, F(\cdot, p)) : p \in \mathcal{P} \} &&& (\text{5.1.5節あたり})\\
-        \{ \mathrm{VI}(K(p), F(\cdot, p)) : p \in \mathcal{P} \} &&& (\text{5.4.1})
+        \{ \mathrm{VI}(K, F(\cdot, \mathbf{p})) : \mathbf{p} \in \mathcal{P} \} &&& (\text{5.1.5節あたり})\\
+        \{ \mathrm{VI}(K(\mathbf{p}), F(\cdot, \mathbf{p})) : \mathbf{p} \in \mathcal{P} \} &&& (\text{5.4.1})
     \end{align*}
-    と、集合$K$が動くかどうか。
+    と、集合 $K$ が動くかどうか。
     それに応じて、追加で射影の値がどう変化するかなどを考慮する必要が出てくる(命題5.4.1の証明など)。
 }
 
@@ -167,110 +167,119 @@
 }
 
 \bookBox{Section 5.4.1に入る前まで}{\\
-    集合 $K(p)$ が動くというのは、不等式制約で$K$を表す場合には、
+    集合 $K(\mathbf{p})$ が動くというのは、不等式制約で $K$ を表す場合には、
     \begin{equation*}
-        K(p) \equiv \{ x \in \mathbb{R}^n : g(x, p) \leq 0 \} \quad (5.4.6)
+        K(\mathbf{p}) \equiv \{ x \in \mathbb{R}^n : g(x, \mathbf{p}) \leq 0 \} \quad (5.4.6)
     \end{equation*}
-    などと、各不等式を表す関数がパラメータ$p$に依存することを意味する。
-    そうすると、KKT条件やその乗数にも$p$が入ってくる(Proposition 5.4.3の前辺り)。
+    などと、各不等式を表す関数がパラメータ $\mathbf{p}$ に依存することを意味する。
+    そうすると、KKT条件やその乗数にも $\mathbf{p}$ が入ってくる(命題5.4.3の前辺り)。
 
-    これを前提にすると、Proposition 5.4.3は、MFCQの下で解集合が高々どのくらい動くかを論じている(Proposition 3.2.2のパラメータ付き版で、証明はCorollary 3.2.5と同じ)。
-    Theorem 5.4.4はColloary 5.1.8とほぼ同じで、同様に解の変動を抑えている。$K$, つまり$g$に付随する$p$依存を丁寧に抑えていく。
+    これを前提にすると、命題5.4.3は、MFCQの下で乗数集合が高々どのくらい動くかを論じている(命題3.2.2のパラメータ付き版で、証明は系3.2.5と同じ)。
+    定理5.4.4は系5.1.8とほぼ同じで、同様に解の変動を抑えている。
+    $K$、つまり $g$ に付随する $\mathbf{p}$ 依存を丁寧に抑えていく。
 }
 
 \subsection{Directional Differentiability (Section 5.4.1)}
 \label{sec:directional}
 
-ここで言いたいことは、パラメータ$p$の変化に対して、解$x$がどのように変化するかは、方向微分の形で表すことができるが、それがAVIの解として表現できる、ということ。大雑把には、KKT条件の言い換えがAVIになるということ。
+ここで言いたいことは、パラメータ $\mathbf{p}$ の変化に対して、解 $x$ がどのように変化するかは、方向微分が存在すればその形で表すことができるが、それがAVIの解として表現できる、ということ。
+大雑把には、KKT条件の一次近似がAVIになるということ。
 
-\bookBox{命題5.4.8}{\\
-    適切な設定の下、$p^k \to p^*$、$x^k \in S_N(p^k)$、$x^k \to x^*$ とし、
+\bookBox{命題5.4.8 (正確な定義や主張はp.484--485を参照)}{\\
+    適切な設定の下、$S_{\mathcal{N}}(\mathbf{p}) \coloneqq \operatorname{SOL}(K(\mathbf{p}), F(\cdot, \mathbf{p})) \cap \mathcal{N}$ とおき、$\mathbf{p}^k \to \mathbf{p}^*$、$x^k \in S_{\mathcal{N}}(\mathbf{p}^k)$、$x^k \to x^*$ とし、
     \begin{equation*}
-        \frac{p^k - p^*}{\norm{p^k - p^*}} \to dp, \qquad
-        \frac{x^k - x^*}{\norm{p^k - p^*}} \to v
+        \frac{\mathbf{p}^k - \mathbf{p}^*}{\norm{\mathbf{p}^k - \mathbf{p}^*}} \to d\mathbf{p}, \qquad
+        \frac{x^k - x^*}{\norm{\mathbf{p}^k - \mathbf{p}^*}} \to v
     \end{equation*}
     と仮定する。
-    このとき、ある $\lambda \in \mathcal M^c(dp)$ について $v$ は
+    このとき、ある $\lambda \in \mathcal M^c(d\mathbf{p})$ について $v$ は
     \begin{equation}
-        \operatorname{AVI}\bigl(\mathcal D^c(dp),\
-        J_p L(x^*, \lambda, p^*)dp,\ J_x L(x^*, \lambda, p^*)\bigr)
+        \operatorname{AVI}\bigl(\mathcal D^c(d\mathbf{p}),\
+        J_{\mathbf{p}} \mathbf{L}(x^*, \lambda, \mathbf{p}^*)\,d\mathbf{p},\ J_x \mathbf{L}(x^*, \lambda, \mathbf{p}^*)\bigr)
         \label{eq:derivative-avi}
     \end{equation}
     を解く。
-    ただし、$L$は以下のように定義されている(p.476):
-    }
-    \begin{figure}[htbp]
-        \centering
-        \fbox{\includegraphics[width=0.8\columnwidth]{L_def.png}}
-    \end{figure}
+    ただし、$\mathbf{L}$ は以下のように定義されている(p.476):
+    % Floats cannot be nested in a box; center the image directly instead.
+    \begin{center}
+        \fbox{\includegraphics[width=0.8\linewidth]{L_def.png}}
+    \end{center}
+}
 
-解の変化の一次応答がどのようなものか分かるので嬉しい、という話の、$K$にもパラメータ依存が入った版、とも言える。
+解の変化の一次応答がどのようなものか分かるので嬉しいという話の、$K$ にもパラメータ依存が入った版、とも言える。
 
 \subsection{Strong Coherent Orientation Condition (Section 5.4.2)}
 \label{sec:scoc}
 
 そのAVIの解が一意であるための十分条件として、SCOCという条件がある。
 
-\begin{figure}[htbp]
-    \centering
-    \fbox{\includegraphics[width=0.8\columnwidth]{SCOC.png}}
-\end{figure}
+\bookBox{定義5.4.11: SCOC (正確な定義はp.491を参照)}{\\
+    \begin{center}
+        \fbox{\includegraphics[width=0.8\linewidth]{SCOC.png}}
+    \end{center}
+}
 
-\myBox{既出概念との関連}{\\
-p.489: coherent orientationとの関係\\
+\myBox{既出概念との関連: coherent orientation (p.489)}{\\
 系4.3.2と命題4.2.7を引用し、normal mapのcoherent orientationを、行列族の「同じ非零の行列式符号」で判定する議論からSCOCを導入している。
 
-つまり、既出の概念を、パラメータ方向 $dp$ ごとに変わるAVIにまとめて適用するために変更したものと言える。
+つまり、既出の概念を、パラメータ方向 $d\mathbf{p}$ ごとに変わるAVIにまとめて適用するために変更したものと言える。
+}
 
-p.492: strong b-regularityとの関係\\
-$\gamma \coloneqq \{i : x_i^* > 0\}$、$\beta \coloneqq \{i : x_i^* = F_i(x^*, p^*) = 0\}$ とする。
-Nonlinear Complementarity Problem(NCP)の場合、SCOCはbasic matrixが正則である、つまり、$\det J_x F(x^*, p^*)_{\gamma\gamma} \ne 0$ かつ、対応するSchur complementが$P$行列である、つまり、$A_{\beta\beta} - A_{\beta\gamma} A_{\gamma\gamma}^{-1} A_{\gamma\beta}$ の全ての非空な主小行列式が正であることに同値。
+\myBox{既出概念との関連: strong b-regularity (p.492)}{\\
+$\gamma \coloneqq \{i : x_i^* > 0\}$、$\beta \coloneqq \{i : x_i^* = F_i(x^*, \mathbf{p}^*) = 0\}$、$A \coloneqq J_x F(x^*, \mathbf{p}^*)$ とする。
+Nonlinear Complementarity Problem (NCP)の場合、SCOCはbasic matrixが正則である、つまり、$\det A_{\gamma\gamma} \ne 0$ かつ、対応するSchur complementが $P$ 行列である、つまり、$A_{\beta\beta} - A_{\beta\gamma} A_{\gamma\gamma}^{-1} A_{\gamma\beta}$ の全ての非空な主小行列式が正であることに同値。
 
-これらはstrong b-regularityの定義条件そのものであり、系5.3.20によって解の強安定性とも同値だと述べています。
+これらはstrong b-regularityの定義条件そのものであり、系5.3.20によって解の強安定性とも同値である。
 }
 
 \bookBox{定理5.4.12: SCOCの二つの帰結}{\\
-    適切な設定とSCOCの下で、基準解 $x^*$ はstrongly stableであり、局所解写像 $x_{\mathcal{N}}$ はPC$^1$ (Piecewise Continuously Differentiable) となる($x^*$の近傍$\mathcal{N}$内にある、パラメータ$p$に対応する解が$x_{\mathcal{N}}(p)$)。
+    適切な設定とSCOCの下で、基準解 $x^*$ はstrongly stableであり、局所解写像 $x_{\mathcal{N}}$ はPC$^1$ (Piecewise Continuously Differentiable) となる($x^*$ の近傍 $\mathcal{N}$ 内にある、パラメータ $\mathbf{p}$ に対応する解が $x_{\mathcal{N}}(\mathbf{p})$)。
 
-    さらに各 $dp$ と $\lambda$ について、\cref{eq:derivative-avi}の解は一意。
+    さらに各 $d\mathbf{p}$ と $\lambda \in \mathcal M^e(x^*, \mathbf{p}^*) \cap \mathcal M^c(x^*, \mathbf{p}^*; d\mathbf{p})$ について、\cref{eq:derivative-avi}の解は一意。
 }
 
-証明はSCOCの行列族が各方向付き臨界集合に必要な行列族を含むことを確認し、定理4.3.2と5.3.24を適用するものであり、詳細は省略する。
+証明はSCOCの行列族が各方向付き臨界集合に必要な行列族を含むことを確認し、系4.3.2と定理5.3.24を適用するものであり、詳細は省略する。
 
 \subsection{\texorpdfstring{PC$^1$}{PC1} Multipliers and More on SCOC (Section 5.4.3)}
 \label{sec:multipliers}
 
 \bookBox{p.496}{\\
-    $x^*$ においてLICQが成立するとき、乗数集合 $\mathcal{M}(x^*, p^*)$ は一元集合である。
-    さらに、$p^*$ に十分近い全ての $p$ に対して、$x_N(p)$ においてもLICQが成立する。
-    したがって、VI $(K(p), F(\cdot, p))$ の陰的な解関数 $x_N(p)$ に加えて、この解関数に対応する一価の乗数関数が存在する。
-    この乗数関数もPC$^1$ であり、AVI (5.4.21)を解く際に、その方向微分も副産物として得られる。
+    $x^*$ においてLICQが成立するとき、乗数集合 $\mathcal{M}(x^*, \mathbf{p}^*)$ は一元集合である。
+    さらに、$\mathbf{p}^*$ に十分近い全ての $\mathbf{p}$ に対して、$x_{\mathcal{N}}(\mathbf{p})$ においてもLICQが成立する。
+    したがって、VI $(K(\mathbf{p}), F(\cdot, \mathbf{p}))$ の陰的な解関数 $x_{\mathcal{N}}(\mathbf{p})$ に加えて、この解関数に対応する一価の乗数関数が存在する。
+    さらにSCOCの下では、この乗数関数もPC$^1$ であり、AVI (5.4.21)を解く際に、その方向微分も副産物として得られる。
 }
 
 \section{Solution Set Stability (Section 5.5)}
 \label{sec:solution-set}
 
-ここでは再び$K$は固定する。
+ここでは再び $K$ は固定する。
 
 \myBox{Section 5.5概略}{\\
     そもそも、Section 5.2,3も5.5も解の安定性。
     一番の違いは、
     \begin{align*}
-        x\in\operatorname{SOL}(K,G)\cap N \quad\Longrightarrow\quad \|x-x^*\|\leq c \text{($G$の摂動量)} &&& (\text{5.2節あたり})\\
-        \operatorname{dist}(x,  \operatorname{SOL}(K,F))\leq c \text{($F$の摂動量)} &&& (\text{5.5節あたり})
+        x \in \operatorname{SOL}(K, G) \cap \mathcal{N} \quad\Longrightarrow\quad \norm{x - x^*} \leq c \norm{F(x) - G(x)} &&& (\text{5.3節あたり})\\
+        x \in \operatorname{SOL}(K, G) \cap U \quad\Longrightarrow\quad
+        \begin{aligned}[t]
+            &\operatorname{dist}(x, \operatorname{SOL}(K, F))\\
+            &\quad\leq c \sup_{y \in K \cap \overline U} \norm{F(y) - G(y)}
+        \end{aligned}
+        &&& (\text{5.5節あたり})
     \end{align*}
-    と、解の近傍だけでなく、解集合全体を含む任意の開集合を考える点です。
+    と、解の近傍だけでなく、解集合全体を含む任意の開集合を考える点である。
 }
 
 \subsection{Section 5.5.1に入る前まで}
 
-\myBox{復習: Definition 5.3.1}{\\
-    Semistable: 摂動後の解$x$が近傍に存在するなら、$|x-x^*|\leq c|F(x)-G(x)|$。
+\myBox{復習: 定義5.3.1}{\\
+    Semistable: 摂動後の解 $x$ が近傍に存在するなら、$\norm{x - x^*} \leq c \norm{F(x) - G(x)}$。
 
     Stable: 上の評価に加え、十分小さい摂動後にも近傍に解が存在する。
 }
 
 \bookBox{定義5.5.1: 解集合のsemistabilityとstability}{\\
+    $S \coloneqq \operatorname{SOL}(K, F) \ne \emptyset$ とする。
     任意の開集合 $U \supseteq S$ に対して $c, \varepsilon > 0$ が存在し、連続写像 $G$ が
     \begin{equation*}
         \omega_U(G) \coloneqq
@@ -281,11 +290,12 @@ Nonlinear Complementarity Problem(NCP)の場合、SCOCはbasic matrixが正則�
         \operatorname{SOL}(K, G) \cap U \subseteq S + c\omega_U(G)\mathbb B
     \end{equation*}
     が成立することを、VIまたは解集合 $S$ のsemistabilityという。
+    ここで $\mathbb B \coloneqq \{v \in \mathbb{R}^n : \norm{v} \leq 1\}$ はユークリッドノルムに関する閉単位球で、$S + r\mathbb B = \{s + rv : s \in S,\ v \in \mathbb B\}$ ($r \geq 0$)である。
 
-    さらに全てのそのような $G$ について $\operatorname{SOL}(K, G) \cap U \ne \varnothing$ も要求するとstabilityという。
+    さらに全てのそのような $G$ について $\operatorname{SOL}(K, G) \cap U \ne \emptyset$ も要求するとstabilityという。
 }
 
-\myBox{例5.5.2: 一つの解が強安定でも、解集合は半安定とは限らない}{\\
+\bookBox{例5.5.2: 一つの解が強安定でも、解集合は半安定とは限らない}{\\
     $K = \mathbb R$、$F(t) = \min(t, e^{-t})$ とする。
     零点は $0$ だけで、原点近くでは $F(t) = t$ なので局所的に強安定である。
     しかし $G_\delta(t) = F(t) - \delta$ は一様誤差 $\delta$ の摂動であり、$0 < \delta < e^{-1}$ なら $t = -\log\delta$ にも零点をもつ。
@@ -322,17 +332,408 @@ Nonlinear Complementarity Problem(NCP)の場合、SCOCはbasic matrixが正則�
     \end{tikzpicture}
 \end{center}
 
-\subsection{5.5.1 Semistability}
+\subsection{Semistability (Section 5.5.1)}
 
 半安定性を「残差が小さければ解集合に近い」という誤差評価と結び付ける。特にAVIでは半安定性が成立する。
 
-\subsection{5.5.2 Solvability of perturbed problems and stability}
+\subsection{Solvability of Perturbed Problems and Stability (Section~5.5.2)}
 
 写像度が非零であることなどを使い、摂動後の解の存在を保証する。半安定性と合わせて安定性を得る。
 
-\subsection{5.5.3 Partitioned VIs with $P_0$ pairs}
+\subsection{Partitioned VIs with \texorpdfstring{$P_0$}{P0} Pairs (Section 5.5.3)}
 
-$P_0$型のVIでは、非空な解集合の有界性が「小さな摂動後にも解が存在すること」を特徴付ける。ただし一般には半安定性の線形な距離評価までは得られない。
+\myBox{復習: $P_0$ function (定義3.5.8)}{\\
+    $K = \prod_{\nu=1}^N K_\nu$、$x = (x_\nu)_{\nu=1}^N$、$F = (F_\nu)_{\nu=1}^N$ とする。
+    任意の異なる $x, y \in K$ に対し、ある $\nu \in \{1, \ldots, N\}$ が存在して
+    \begin{equation*}
+        x_\nu \ne y_\nu, \qquad
+        (x_\nu - y_\nu)^\top (F_\nu(x) - F_\nu(y)) \geq 0
+    \end{equation*}
+    を満たすとき、$F$ はこの分割に関する $P_0$ functionであり、$(K, F)$ を $P_0$ pairという。
+    $x_\nu \ne y_\nu$ の条件は省略できない。
+}
 
+$P_0$ 型のVIでは、非空な解集合の有界性が「小さな摂動後にも解が存在すること」を特徴付ける。ただし一般には半安定性の線形な距離評価までは得られない。
+
+
+\clearpage
+
+\section{General Discussion (Section 6.1)}
+\label{sec:error-general}
+
+Chapter 6では、残差から解集合までの距離を評価するerror boundを扱う。
+ここでは教科書のSection 6.1 (pp.531--539)に沿って、定義と命題6.1.1--6.1.5を証明も含めて確認する。
+Section 5.5の半安定性と関連するが、対象はVIの解集合に限らず、一般の集合でよい。
+
+\subsection{Residual Functions and Error Bounds}
+\label{sec:error-residual}
+
+\bookBox{残差関数とerror bound (pp.531--533)}{\\
+    非空な集合 $X \subseteq \mathbb{R}^n$ と、評価したい点の集合 $S \subseteq \mathbb{R}^n$ を考える。
+    非負の関数 $r : S \cup X \to \mathbb{R}_+$ が
+    \begin{equation*}
+        r(x) = 0 \quad\Longleftrightarrow\quad x \in X
+    \end{equation*}
+    を満たすとき、$r$ を $X$ の残差関数(residual function)と呼ぶ。
+    $S$ をtest setと呼ぶ。
+    残差関数であることだけでは、次の不等式の成立は保証されない。
+    その上で
+    \begin{equation}
+        c_1 r(x)^{\gamma_1}
+        \leq \operatorname{dist}(x, X)
+        \leq c_2 r(x)^{\gamma_2}
+        \quad (x \in S)
+        \tag{6.1.1}
+        \label{eq:error-two-sided}
+    \end{equation}
+    を満たす正の定数 $c_1, c_2, \gamma_1, \gamma_2$ を求めたい。
+    このような不等式を、test set $S$ 上での、残差 $r$ に関する $X$ のerror bound(誤差評価)と呼ぶ。
+}
+
+距離 $\operatorname{dist}(x, X)$ を直接計算するには、未知の解集合 $X$ への最短距離を求める必要がある。
+一方、残差は制約違反や方程式の左辺から計算できるので、反復法の停止判定に使いやすい。
+ただし、残差の零点集合が解集合に一致しても、残差が小さい点が解に近いとは限らない。
+残差から距離の上界を得るには、\cref{eq:error-two-sided}の右側の不等式が必要になる。
+
+例えば $X = \{x : g(x) \leq 0,\ h(x) = 0\}$ なら、
+\begin{equation*}
+    r(x) = \norm{g(x)_+} + \norm{h(x)},
+    \qquad (g(x)_+)_i \coloneqq \max(0, g_i(x))
+\end{equation*}
+が残差になる。
+
+VIでは、閉凸集合 $K$ と連続写像 $F$ に対するnatural residual
+\begin{equation*}
+    r(x) = \norm{F_K^{\mathrm{nat}}(x)},
+    \qquad F_K^{\mathrm{nat}}(x) \coloneqq x - \Pi_K(x - F(x))
+\end{equation*}
+が $X = \operatorname{SOL}(K, F)$ の残差になる。
+一方、normal map
+\begin{equation*}
+    F_K^{\mathrm{nor}}(z) \coloneqq F(\Pi_K(z)) + z - \Pi_K(z)
+\end{equation*}
+のノルムをnormal residualと呼び、これは $Z \coloneqq (F_K^{\mathrm{nor}})^{-1}(0)$ の残差である。
+
+\myBox{残差が小さくても解から遠い例 (p.532)}{\\
+    一次元NCPで $F(x) = e^{-x}$ とすると、$F(x) > 0$ なので、相補条件を満たす解は $x = 0$ だけである。
+    残差 $r(x) = \abs{\min(x, e^{-x})}$ に対し、正整数 $k$ では
+    \begin{equation*}
+        r(k) = e^{-k} \to 0,
+        \qquad \operatorname{dist}(k, \{0\}) = k \to \infty.
+    \end{equation*}
+    したがって、残差が小さいだけでは解集合までの距離が小さいとは限らない。
+}
+
+\begin{center}
+    \begin{tikzpicture}[x=1.65cm, y=2.7cm, >=stealth, font=\small]
+        % Restrict to x >= 0 so the residual and distance can be compared on one plot.
+        \draw[->] (-0.15, 0) -- (4.4, 0) node[right] {$x$};
+        \draw[->] (0, -0.12) -- (0, 1.25);
+        \draw[cA, thick, domain=0:0.567143, samples=2] plot (\x, {\x});
+        \draw[cA, thick, domain=0.567143:4.1, samples=100] plot (\x, {exp(-\x)});
+        \node[cA, anchor=west] at (0.9, 0.75) {$r(x) = \min(x, e^{-x}) \quad (x \geq 0)$};
+        \fill[cA] (0, 0) circle (1.7pt) node[below left] {$0$: 唯一の解};
+        \draw[cD, dashed] (3, 0) -- (3, {exp(-3)});
+        \fill[cA] (3, {exp(-3)}) circle (1.7pt);
+        \node[above right] at (3, {exp(-3)}) {残差 $e^{-k} \to 0$};
+        \node[below] at (3, 0) {$k$};
+        \draw[cD, <->] (0, -0.4) -- (3, -0.4)
+            node[midway, below] {解までの距離 $k \to \infty$};
+        \draw[->] (3.2, -0.17) -- (4.1, -0.17) node[midway, below] {$k \to \infty$};
+    \end{tikzpicture}
+\end{center}
+
+\subsection{Absolute and Relative Error Bounds}
+\label{sec:error-relative}
+
+\cref{eq:error-two-sided}は距離そのものを評価するabsolute error boundである。
+基準点 $a \notin X$ での距離で割った比 $\operatorname{dist}(x, X)/\operatorname{dist}(a, X)$ に対する評価をrelative error boundと呼ぶ。
+
+残差 $r$ が $S \cup X$ 上でH\"older連続なら、ある $L, \eta > 0$ に対して、$x \in S$、$y \in X$ で
+\begin{equation*}
+    r(x) = \abs{r(x) - r(y)} \leq L \norm{x - y}^{\eta}
+\end{equation*}
+が成立する。
+$y \in X$ について下限を取ると
+\begin{equation*}
+    r(x) \leq L \operatorname{dist}(x, X)^{\eta},
+    \qquad
+    L^{-1/\eta} r(x)^{1/\eta} \leq \operatorname{dist}(x, X)
+\end{equation*}
+となる。
+\cref{eq:error-two-sided}の左側はこのように得られることが多く、以降では主に右側の評価を考える。
+
+\bookBox{命題6.1.1: 相対誤差への変換}{\\
+    \cref{eq:error-two-sided}を仮定する。
+    任意の $a \in S \setminus X$ で $\operatorname{dist}(a, X) > 0$ となるものに対し、
+    \begin{equation*}
+        \frac{c_1 r(x)^{\gamma_1}}{c_2 r(a)^{\gamma_2}}
+        \leq \frac{\operatorname{dist}(x, X)}{\operatorname{dist}(a, X)}
+        \leq \frac{c_2 r(x)^{\gamma_2}}{c_1 r(a)^{\gamma_1}}
+        \quad (x \in S).
+    \end{equation*}
+    特に $X$ が閉集合なら、$a \notin X$ から距離の正値性が従う。
+}
+
+\begin{proof}
+    分子には $x$ での評価を、分母には $a$ での評価を使う。
+    下から評価するときには分母を大きく、上から評価するときには分母を小さく取ればよい。
+    全ての分母が正なので、
+    \begin{equation*}
+        \frac{\operatorname{dist}(x, X)}{\operatorname{dist}(a, X)}
+         \geq \frac{c_1 r(x)^{\gamma_1}}{c_2 r(a)^{\gamma_2}}, \qquad
+        \frac{\operatorname{dist}(x, X)}{\operatorname{dist}(a, X)}
+         \leq \frac{c_2 r(x)^{\gamma_2}}{c_1 r(a)^{\gamma_1}}
+    \end{equation*}
+    となる。
+\end{proof}
+
+\subsection{Global, Local, and Pointwise Error Bounds}
+\label{sec:error-kinds}
+
+以降、$X$ は非空閉集合、$r$ はその残差とし、上からの評価
+\begin{equation}
+    \operatorname{dist}(x, X) \leq c r(x)^{\gamma}
+    \quad (x \in S)
+    \tag{6.1.2}
+    \label{eq:error-upper}
+\end{equation}
+を考える。
+ここで $c, \gamma > 0$ は $x \in S$ に依存しない定数である。
+$\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH\"olderian error boundと呼ぶ。
+
+\bookBox{test setによる三つの区別 (pp.534--535)}{\\
+    \begin{itemize}[nosep, leftmargin=*]
+        \item Global error bound: $S = \mathbb{R}^n$ 上で\cref{eq:error-upper}が成立する。
+        \item Local error bound: ある $\varepsilon > 0$ に対し、$S = \{x : r(x) \leq \varepsilon\}$ 上で成立する。
+        \item $x^*$ の近傍でのpointwise error bound: $x^* \in X$ に対し、ある $\varepsilon > 0$ について、$S = \{x : \norm{x - x^*} \leq \varepsilon\}$ 上で成立する。
+    \end{itemize}
+}
+
+この教科書のlocalは「ある解の近く」ではなく、「残差が小さい点全体」を指す。
+その集合は非有界でもよい。
+一方、pointwiseでは解ごとに近傍や定数が異なってよいので、全ての解でpointwiseな評価があっても、直ちにlocalな評価にはならない。
+
+$x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist}(x, X) = \norm{x - x^*}$ である。
+実際、$X \cap \{y : \norm{y - x^*} < \rho\} = \{x^*\}$ とし、$\norm{x - x^*} < \rho/2$ とすれば、他の解 $y$ について
+\begin{equation*}
+    \norm{x - y} \geq \norm{y - x^*} - \norm{x - x^*}
+    \geq \rho - \norm{x - x^*} > \norm{x - x^*}
+\end{equation*}
+となる。
+逆に、近傍内で $\norm{x - x^*} \leq c r(x)^{\gamma}$ が成立すれば、その近傍にある零点は $x^*$ だけなので、$x^*$ は孤立する。
+これがSection 5.3の一つの解についての評価とつながる。
+
+\subsection{Proposition 6.1.2: Comparing the Test Sets}
+\label{sec:error-comparison}
+
+\bookBox{命題6.1.2}{\\
+    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r : \mathbb{R}^n \to \mathbb{R}_+$ は連続な残差とする。
+    次の条件について、$(a) \Rightarrow (b) \Rightarrow (c) \Rightarrow (d)$ が成立する。
+    \begin{enumerate}[label=(\alph*), nosep, leftmargin=*]
+        \item ある $c, \varepsilon > 0$ に対し、$r(x) \leq \varepsilon$ なら $\operatorname{dist}(x, X) \leq c r(x)$。
+        \item ある $c' > 0$ に対し、全ての $x$ で $\operatorname{dist}(x, X) \leq c'(1 + \norm{x}) r(x)$。
+        \item 任意のコンパクト集合 $S$ ごとに $c_S > 0$ が存在し、全ての $x \in S$ で $\operatorname{dist}(x, X) \leq c_S r(x)$。
+        \item 各 $x^* \in X$ の近傍で、Lipschitzian error boundが成立する。
+    \end{enumerate}
+    さらに、ある $\bar\varepsilon > 0$ に対し $\{x : r(x) \leq \bar\varepsilon\}$ が有界なら、四条件は同値になる。
+}
+
+\begin{proof}
+    まず $(a) \Rightarrow (b)$ を示す。
+    $a \in X$ を一つ固定すると、全ての $x$ に対して
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq \norm{x - a}
+        \leq \norm{x} + \norm{a}
+        \leq \max(1, \norm{a})(1 + \norm{x})
+    \end{equation*}
+    である。
+    $r(x) > \varepsilon$ の場合には右辺に $r(x)/\varepsilon > 1$ を掛けられるので、
+    \begin{equation*}
+        \operatorname{dist}(x, X)
+        \leq \frac{\max(1, \norm{a})}{\varepsilon}(1 + \norm{x}) r(x).
+    \end{equation*}
+    $r(x) \leq \varepsilon$ の場合には(a)を使えばよいので、
+    $c' = \max\{c,\ \varepsilon^{-1}\max(1, \norm{a})\}$ で(b)が従う。
+    教科書では単位球の内外に分けているが、この評価では同じ議論をまとめている。
+
+    $(b) \Rightarrow (c)$ は、コンパクトな $S$ 上で $1 + \norm{x}$ が有界だから従う。
+    $(c) \Rightarrow (d)$ は、各解を中心とする閉球を $S$ に選べばよい。
+
+    有界な残差レベル集合が存在するとき、$(d) \Rightarrow (a)$ を示す。
+    (a)が偽なら、各正整数 $k$ に対して
+    \begin{equation*}
+        r(x^k) \leq \min(\bar\varepsilon, 1/k),
+        \qquad \operatorname{dist}(x^k, X) > k r(x^k)
+    \end{equation*}
+    となる $x^k$ を選べる。
+    この列は有界な閉レベル集合に含まれるため、部分列を取って $x^k \to x^\infty$ とできる。
+    $r$ の連続性から $r(x^\infty) = 0$、したがって $x^\infty \in X$ である。
+    (d)による $x^\infty$ の近傍での評価を使うと、ある $c_\infty > 0$ に対して十分大きい $k$ で
+    \begin{equation*}
+        \operatorname{dist}(x^k, X) \leq c_\infty r(x^k)
+    \end{equation*}
+    となり、$k > c_\infty$ で矛盾する。
+\end{proof}
+
+残差レベル集合の有界性により、反例となる列から解に収束する部分列を取れるので、その解の近傍でのpointwiseな評価を適用できる。
+
+\subsection{Proposition 6.1.3: Convex Residuals}
+\label{sec:error-convex}
+
+\bookBox{命題6.1.3}{\\
+    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r : \mathbb{R}^n \to \mathbb{R}_+$ は凸な残差とする。
+    ある $c, \varepsilon > 0$ と $\gamma \geq 0$ に対して
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq c\bigl(r(x) + r(x)^{\gamma}\bigr)
+        \quad (r(x) \leq \varepsilon)
+    \end{equation*}
+    が成立するなら、ある $C > 0$ に対し同じ形の評価が全空間で成立する。
+    $\gamma = 0$ の場合は定数項 $r(x)^0 = 1$ と解釈する。
+}
+
+\begin{proof}
+    $r$ の凸性と非負性から、零点集合 $X$ も凸である。
+    既に評価がある $r(x) \leq \varepsilon$ の場合を除き、$r(x) > \varepsilon$ とする。
+    $\bar x = \Pi_X(x)$、$t = \varepsilon/(2r(x)) \in (0, 1)$ とおき、
+    \begin{equation*}
+        y = (1 - t)\bar x + tx
+    \end{equation*}
+    とする。
+    凸性と $r(\bar x) = 0$ から、$r(y) \leq t r(x) = \varepsilon/2$ となり、$y$ では局所評価を使える。
+    また、射影の特徴付け $(x - \bar x)^\top(z - \bar x) \leq 0$ ($z \in X$)を $t$ 倍すれば、$\bar x = \Pi_X(y)$ である。
+    したがって
+    \begin{equation*}
+        t\operatorname{dist}(x, X)
+        = \norm{y - \bar x} = \operatorname{dist}(y, X).
+    \end{equation*}
+    局所評価と $r(y) \leq \varepsilon/2$ を使うと
+    \begin{equation*}
+        \operatorname{dist}(y, X)
+        \leq c\bigl(r(y) + r(y)^{\gamma}\bigr)
+        \leq c\bigl(\varepsilon/2 + (\varepsilon/2)^{\gamma}\bigr).
+    \end{equation*}
+    $t$ で割ると
+    \begin{equation*}
+        \operatorname{dist}(x, X)
+        \leq c\bigl(1 + (\varepsilon/2)^{\gamma - 1}\bigr) r(x).
+    \end{equation*}
+    よって $C = \max\{c,\ c(1 + (\varepsilon/2)^{\gamma - 1})\}$ を取れば、全ての $x$ で
+    $\operatorname{dist}(x, X) \leq C(r(x) + r(x)^{\gamma})$ が成立する。
+\end{proof}
+
+証明では、$x$ とその射影を結ぶ線分上に残差の小さい点 $y$ を取り、$y$ での距離評価から $x$ での評価を導いている。
+ここで必要なのは集合 $X$ の凸性だけでなく、残差 $r$ 自体の凸性である。
+特に $\gamma = 1$ なら、local Lipschitzian error boundからglobalなものが得られる。
+
+\newpage
+\subsection{Proposition 6.1.4: Slater Points}
+\label{sec:error-slater}
+
+\bookBox{命題6.1.4}{\\
+    $g : \mathbb{R}^n \to \mathbb{R}$ は凸関数とし、$X = \{x : g(x) \leq 0\}$ とおく。
+    $g(\hat x) < 0$ を満たす点をSlater点と呼ぶ。
+    Slater点 $\hat x$ が存在すれば、$r(x) = g(x)_+ = \max(0, g(x))$ に対し
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq C(1 + \norm{x}) r(x)
+        \quad (x \in \mathbb{R}^n)
+    \end{equation*}
+    となる $C > 0$ が存在する。
+    さらに $X$ が有界なら、$1 + \norm{x}$ を除いたglobal Lipschitzian error boundが成立する。
+}
+
+\begin{proof}
+    $x \in X$ では距離がゼロなので、$g(x) > 0$ とする。
+    $\delta = g(x)/(g(x) - g(\hat x)) \in (0, 1)$ とおき、$x_\delta = (1 - \delta)x + \delta\hat x$ とする。
+    凸性と $\delta$ の選び方から
+    \begin{equation*}
+        g(x_\delta) \leq (1 - \delta)g(x) + \delta g(\hat x) = 0
+    \end{equation*}
+    なので、$x_\delta \in X$ である。
+    この実行可能点までの距離で評価すると
+    \begin{equation*}
+        \operatorname{dist}(x, X)
+        \leq \norm{x - x_\delta} = \delta\norm{x - \hat x}
+        \leq \frac{\norm{x - \hat x}}{-g(\hat x)} g(x).
+    \end{equation*}
+    三角不等式と $g(x) = r(x)$ から
+    \begin{equation*}
+        \operatorname{dist}(x, X)
+        \leq \frac{\norm{x} + \norm{\hat x}}{-g(\hat x)} r(x)
+        \leq \frac{\max(1, \norm{\hat x})}{-g(\hat x)}(1 + \norm{x}) r(x).
+    \end{equation*}
+    これで前半が従う。
+
+    次に $X$ が有界なら、各 $\varepsilon_0 > 0$ に対する残差レベル集合 $\{x : r(x) \leq \varepsilon_0\}$ も有界になることを確認する。
+    ある $\varepsilon_0 > 0$ のレベル集合が非有界だと仮定し、$r(x^k) \leq \varepsilon_0$、$\norm{x^k - \hat x} \to \infty$ となる列を取る。
+    部分列に沿って $(x^k - \hat x)/\norm{x^k - \hat x} \to d$、$\norm{d} = 1$ とできる。
+    任意の固定した $t > 0$ に対して、十分大きい $k$ では凸性から
+    \begin{equation*}
+        r\left(\hat x + t\frac{x^k - \hat x}{\norm{x^k - \hat x}}\right)
+        \leq \frac{t}{\norm{x^k - \hat x}} r(x^k) \to 0.
+    \end{equation*}
+    有限値凸関数 $r$ は連続なので、$r(\hat x + td) = 0$ である。
+    全ての $t > 0$ で $\hat x + td \in X$ となり、$X$ の有界性に矛盾する。
+
+    有界なレベル集合上では、前半の $1 + \norm{x}$ を定数で抑えられるので、local Lipschitzian error boundを得る。
+    最後に $r = \max(0, g)$ の凸性と命題6.1.3を使えば、globalな評価になる。
+\end{proof}
+
+前半では、Slater点 $\hat x$ との凸結合によって実行可能点を構成し、そこまでの距離を違反量 $g(x)_+$ で評価している。
+後半では、残差レベル集合の有界性から局所評価を得て、命題6.1.3によって大域的な評価を導いている。
+
+\newpage
+\subsection{Proposition 6.1.5: Combining Two Residuals}
+\label{sec:error-composite}
+
+\bookBox{命題6.1.5}{\\
+    $X \subseteq \mathbb{R}^n$ を非空閉集合、$r_1, r_2 : \mathbb{R}^n \to \mathbb{R}_+$ を非負関数とする。
+    ある $c, \varepsilon > 0$ に対して
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq c(r_1(x) + r_2(x))
+        \quad (r_1(x) \leq \varepsilon)
+    \end{equation*}
+    が成立するとする。
+    また、$r_1(x^k) > \varepsilon$ を満たす任意の非有界列に対し
+    \begin{equation*}
+        \limsup_{k \to \infty} \frac{r_2(x^k)}{\norm{x^k}} > 0
+    \end{equation*}
+    と仮定する(必要なら非零の点からなる末尾を考える)。
+    このとき、ある $\eta > 0$ に対し
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq \eta(r_1(x) + r_2(x))
+        \quad (x \in \mathbb{R}^n)
+    \end{equation*}
+    が成立する。
+}
+
+\begin{proof}
+    結論が偽なら、各正整数 $k$ に対して
+    \begin{equation*}
+        \operatorname{dist}(x^k, X) > k(r_1(x^k) + r_2(x^k))
+    \end{equation*}
+    となる点を選べる。
+    $k > c$ のとき $r_1(x^k) \leq \varepsilon$ では仮定の評価に矛盾するので、$r_1(x^k) > \varepsilon$ である。
+    $a \in X$ を一つ固定すると
+    \begin{equation*}
+        \norm{x^k} + \norm{a}
+        \geq \norm{x^k - a}
+        \geq \operatorname{dist}(x^k, X)
+        > k(\varepsilon + r_2(x^k)).
+    \end{equation*}
+    特に $\norm{x^k} \to \infty$ である。
+    また、同じ不等式から
+    \begin{equation*}
+        0 \leq \frac{r_2(x^k)}{\norm{x^k}}
+        < \frac{1}{k}\left(1 + \frac{\norm{a}}{\norm{x^k}}\right) \to 0
+    \end{equation*}
+    となり、増大性の仮定に矛盾する。
+\end{proof}
+
+$r_1$ が小さい領域では最初の評価を使い、その外側では $r_2$ の増大条件によって反例となる非有界列の存在を否定している。
+例えば $r_1 = r$、$r_2(x) = \norm{x}r(x)$ とすれば、$r_1(x^k) > \varepsilon$ の領域では $r_2(x^k)/\norm{x^k} > \varepsilon$ となり、命題6.1.2の $(a) \Rightarrow (b)$ が得られる。
+
+Section 6.1では、残差による評価の成立範囲を明確にし、有界性・凸性・Slater条件・無限遠での増大性によって、その範囲を広げる方法を整理した。
+次のSection 6.2では、この枠組みをVIやKKT条件の解集合へ適用する。
 
 \end{document}

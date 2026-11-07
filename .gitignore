@@ -26,3 +26,5 @@ wheels/
 *.nav
 *.snm
 *.synctex.gz
+
+tmp
