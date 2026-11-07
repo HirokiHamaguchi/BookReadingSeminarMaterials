@@ -461,7 +461,7 @@ $y \in X$ について下限を取ると
     L^{-1/\eta} r(x)^{1/\eta} \leq \operatorname{dist}(x, X)
 \end{equation*}
 となる。
-\cref{eq:error-two-sided}の左側はこのように得られることが多く、以降では主に右側の評価を考える。
+\cref{eq:error-two-sided}の左側はこのように得られることが多い。
 
 \bookBox{命題6.1.1: 相対誤差への変換}{\\
     \cref{eq:error-two-sided}を仮定する。
@@ -476,16 +476,7 @@ $y \in X$ について下限を取ると
 }
 
 \begin{proof}
-    分子には $x$ での評価を、分母には $a$ での評価を使う。
-    下から評価するときには分母を大きく、上から評価するときには分母を小さく取ればよい。
-    全ての分母が正なので、
-    \begin{equation*}
-        \frac{\operatorname{dist}(x, X)}{\operatorname{dist}(a, X)}
-         \geq \frac{c_1 r(x)^{\gamma_1}}{c_2 r(a)^{\gamma_2}}, \qquad
-        \frac{\operatorname{dist}(x, X)}{\operatorname{dist}(a, X)}
-         \leq \frac{c_2 r(x)^{\gamma_2}}{c_1 r(a)^{\gamma_1}}
-    \end{equation*}
-    となる。
+    分母が正なので \cref{eq:error-two-sided} より直ちに従う。
 \end{proof}
 
 \subsection{Global, Local, and Pointwise Error Bounds}
@@ -510,25 +501,58 @@ $\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH
     \end{itemize}
 }
 
-この教科書のlocalは「ある解の近く」ではなく、「残差が小さい点全体」を指す。
-その集合は非有界でもよい。
-一方、pointwiseでは解ごとに近傍や定数が異なってよいので、全ての解でpointwiseな評価があっても、直ちにlocalな評価にはならない。
+ここでのlocalな集合は非有界でもよいし、pointwiseでは解ごとに近傍や定数が異なってよいので、全ての解でpointwiseな評価があっても、直ちにlocalな評価にはならない。
 
-$x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist}(x, X) = \norm{x - x^*}$ である。
-実際、$X \cap \{y : \norm{y - x^*} < \rho\} = \{x^*\}$ とし、$\norm{x - x^*} < \rho/2$ とすれば、他の解 $y$ について
-\begin{equation*}
-    \norm{x - y} \geq \norm{y - x^*} - \norm{x - x^*}
-    \geq \rho - \norm{x - x^*} > \norm{x - x^*}
-\end{equation*}
-となる。
-逆に、近傍内で $\norm{x - x^*} \leq c r(x)^{\gamma}$ が成立すれば、その近傍にある零点は $x^*$ だけなので、$x^*$ は孤立する。
-これがSection 5.3の一つの解についての評価とつながる。
+\bookBox{孤立点でのerror boundの性質 (p.535)}{\\
+    $X \subseteq \mathbb{R}^n$ を非空閉集合、$r$ を $X$ の残差関数とする。
+    $x^* \in X$ と定数 $c, \gamma > 0$ を固定すると、次の二条件は同値である。
+    \begin{enumerate}[label=(\alph*), leftmargin=*]
+        \item $x^*$ は $X$ の孤立点で、ある $\varepsilon > 0$ に対して
+        \begin{equation*}
+            \norm{x - x^*} \leq \varepsilon
+            \quad\Longrightarrow\quad
+            \operatorname{dist}(x, X) \leq c r(x)^\gamma.
+        \end{equation*}
+        \item ある $\varepsilon' > 0$ に対して
+        \begin{equation*}
+            \norm{x - x^*} \leq \varepsilon'
+            \quad\Longrightarrow\quad
+            \norm{x - x^*} \leq c r(x)^\gamma.
+        \end{equation*}
+    \end{enumerate}
+}
+
+\begin{proof}
+    教科書p.535の議論に沿い、孤立性と距離の評価が従う理由を補足する。
+    $(a) \Rightarrow (b)$ を示す。
+    孤立性から、ある $\rho > 0$ に対して
+    $X \cap \{y : \norm{y - x^*} < \rho\} = \{x^*\}$ である。
+    $\varepsilon' = \min(\varepsilon, \rho/3)$ とおく。
+    $\norm{x - x^*} \leq \varepsilon'$ なら、任意の $y \in X \setminus \{x^*\}$ に対して
+    \begin{equation*}
+        \norm{x - y} \geq \norm{y - x^*} - \norm{x - x^*}
+        \geq 2\rho/3 > \norm{x - x^*}.
+    \end{equation*}
+    したがって $\operatorname{dist}(x, X) = \norm{x - x^*}$ なので、(a)の評価から(b)が従う。
+
+    $(b) \Rightarrow (a)$ を示す。
+    $y \in X$、$\norm{y - x^*} \leq \varepsilon'$ なら、$r(y) = 0$ と(b)から
+    \begin{equation*}
+        \norm{y - x^*} \leq c r(y)^\gamma = 0.
+    \end{equation*}
+    よって $y = x^*$ であり、$x^*$ は孤立点である。
+    また、$x^* \in X$ なので、$\norm{x - x^*} \leq \varepsilon'$ のとき
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq \norm{x - x^*} \leq c r(x)^\gamma.
+    \end{equation*}
+    したがって $\varepsilon = \varepsilon'$ とすれば(a)が従う。
+\end{proof}
 
 \subsection{Proposition 6.1.2: Comparing the Test Sets}
 \label{sec:error-comparison}
 
 \bookBox{命題6.1.2}{\\
-    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r : \mathbb{R}^n \to \mathbb{R}_+$ は連続な残差とする。
+    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r \colon \mathbb{R}^n \to \mathbb{R}_+$ は連続な残差とする。
     次の条件について、$(a) \Rightarrow (b) \Rightarrow (c) \Rightarrow (d)$ が成立する。
     \begin{enumerate}[label=(\alph*), nosep, leftmargin=*]
         \item ある $c, \varepsilon > 0$ に対し、$r(x) \leq \varepsilon$ なら $\operatorname{dist}(x, X) \leq c r(x)$。
@@ -540,7 +564,7 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
 }
 
 \begin{proof}
-    まず $(a) \Rightarrow (b)$ を示す。
+    まず $(a) \Rightarrow (b)$ を示す(ここだけ教科書と少し違う示し方をする、こちらの方が分かりやすいので)。
     $a \in X$ を一つ固定すると、全ての $x$ に対して
     \begin{equation*}
         \operatorname{dist}(x, X) \leq \norm{x - a}
@@ -555,56 +579,68 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
     \end{equation*}
     $r(x) \leq \varepsilon$ の場合には(a)を使えばよいので、
     $c' = \max\{c,\ \varepsilon^{-1}\max(1, \norm{a})\}$ で(b)が従う。
-    教科書では単位球の内外に分けているが、この評価では同じ議論をまとめている。
 
     $(b) \Rightarrow (c)$ は、コンパクトな $S$ 上で $1 + \norm{x}$ が有界だから従う。
     $(c) \Rightarrow (d)$ は、各解を中心とする閉球を $S$ に選べばよい。
 
-    有界な残差レベル集合が存在するとき、$(d) \Rightarrow (a)$ を示す。
-    (a)が偽なら、各正整数 $k$ に対して
+    ある $\bar\varepsilon > 0$ に対して
     \begin{equation*}
-        r(x^k) \leq \min(\bar\varepsilon, 1/k),
+        T \coloneqq r^{-1}([0, \bar\varepsilon])
+        = \{x \in \mathbb{R}^n : r(x) \leq \bar\varepsilon\}
+    \end{equation*}
+    が有界であると仮定し、$(d) \Rightarrow (a)$ を示す。
+    (d)が成立して(a)が偽なら、正数列 $\varepsilon_k \to 0$ と点列 $\{x^k\}$ を、各 $k$ に対して
+    \begin{equation*}
+        r(x^k) \leq \varepsilon_k,
         \qquad \operatorname{dist}(x^k, X) > k r(x^k)
     \end{equation*}
     となる $x^k$ を選べる。
-    この列は有界な閉レベル集合に含まれるため、部分列を取って $x^k \to x^\infty$ とできる。
+    十分大きい $k$ では $\varepsilon_k \leq \bar\varepsilon$ なので $x^k \in T$ である。
+    $T$ は有界であるため、点列 $\{x^k\}$ から適切に選んだ部分列で点列全体を置き換えることで、$x^k \to x^\infty \in T$ としてよい。
     $r$ の連続性から $r(x^\infty) = 0$、したがって $x^\infty \in X$ である。
-    (d)による $x^\infty$ の近傍での評価を使うと、ある $c_\infty > 0$ に対して十分大きい $k$ で
+    (d)より、$x^\infty$ の近傍 $\mathcal{N}$ と定数 $c' > 0$ が存在し、$\mathcal{N}$ 上でerror boundが成立する。
+    十分大きい $k$ では $x^k \in \mathcal{N}$ なので
     \begin{equation*}
-        \operatorname{dist}(x^k, X) \leq c_\infty r(x^k)
+        \operatorname{dist}(x^k, X) \leq c' r(x^k)
     \end{equation*}
-    となり、$k > c_\infty$ で矛盾する。
+    となり、$k > c'$ で矛盾する。
 \end{proof}
 
-残差レベル集合の有界性により、反例となる列から解に収束する部分列を取れるので、その解の近傍でのpointwiseな評価を適用できる。
+次の結果は、残差関数 $r$ が凸なら、局所的なerror boundから大域的なerror boundが得られることを示す(p.536)。
 
 \subsection{Proposition 6.1.3: Convex Residuals}
 \label{sec:error-convex}
 
 \bookBox{命題6.1.3}{\\
-    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r : \mathbb{R}^n \to \mathbb{R}_+$ は凸な残差とする。
+    $X \subseteq \mathbb{R}^n$ は非空閉集合で、$r \colon \mathbb{R}^n \to \mathbb{R}_+$ は凸な残差とする。
     ある $c, \varepsilon > 0$ と $\gamma \geq 0$ に対して
     \begin{equation*}
         \operatorname{dist}(x, X) \leq c\bigl(r(x) + r(x)^{\gamma}\bigr)
         \quad (r(x) \leq \varepsilon)
     \end{equation*}
-    が成立するなら、ある $C > 0$ に対し同じ形の評価が全空間で成立する。
+    が成立するなら、ある $c' > 0$ が存在し、
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq c'\bigl(r(x) + r(x)^\gamma\bigr)
+        \quad (x \in \mathbb{R}^n)
+    \end{equation*}
+    が成立する。
     $\gamma = 0$ の場合は定数項 $r(x)^0 = 1$ と解釈する。
 }
 
 \begin{proof}
-    $r$ の凸性と非負性から、零点集合 $X$ も凸である。
+    一般に、凸関数の劣位集合は凸であり、かつ $r$ の凸性と非負性から、零点集合 $X$ も凸である。
     既に評価がある $r(x) \leq \varepsilon$ の場合を除き、$r(x) > \varepsilon$ とする。
-    $\bar x = \Pi_X(x)$、$t = \varepsilon/(2r(x)) \in (0, 1)$ とおき、
+    $\bar x = \Pi_X(x)$ とおき、
     \begin{equation*}
-        y = (1 - t)\bar x + tx
+        y \coloneqq \left(1 - \frac{\varepsilon}{2r(x)}\right)\bar x
+        + \frac{\varepsilon}{2r(x)}x
     \end{equation*}
     とする。
-    凸性と $r(\bar x) = 0$ から、$r(y) \leq t r(x) = \varepsilon/2$ となり、$y$ では局所評価を使える。
-    また、射影の特徴付け $(x - \bar x)^\top(z - \bar x) \leq 0$ ($z \in X$)を $t$ 倍すれば、$\bar x = \Pi_X(y)$ である。
+    $0 < \varepsilon/(2r(x)) < 1$ かつ $r$ の凸性と $r(\bar x) = 0$ から $r(y) \leq \frac{\varepsilon}{2r(x)}r(x) = \varepsilon/2$ となり、$y$ では局所評価を使える。
+    また、閉凸集合への射影は、点とその射影を結ぶ線分上でも同じ点になるので、$\bar x = \Pi_X(y)$ である。
     したがって
     \begin{equation*}
-        t\operatorname{dist}(x, X)
+        \frac{\varepsilon}{2r(x)}\operatorname{dist}(x, X)
         = \norm{y - \bar x} = \operatorname{dist}(y, X).
     \end{equation*}
     局所評価と $r(y) \leq \varepsilon/2$ を使うと
@@ -613,36 +649,55 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
         \leq c\bigl(r(y) + r(y)^{\gamma}\bigr)
         \leq c\bigl(\varepsilon/2 + (\varepsilon/2)^{\gamma}\bigr).
     \end{equation*}
-    $t$ で割ると
+    $2r(x)/\varepsilon$ を掛けると
     \begin{equation*}
         \operatorname{dist}(x, X)
         \leq c\bigl(1 + (\varepsilon/2)^{\gamma - 1}\bigr) r(x).
     \end{equation*}
-    よって $C = \max\{c,\ c(1 + (\varepsilon/2)^{\gamma - 1})\}$ を取れば、全ての $x$ で
-    $\operatorname{dist}(x, X) \leq C(r(x) + r(x)^{\gamma})$ が成立する。
+    ここで $c' \coloneqq c(1 + (\varepsilon/2)^{\gamma - 1})$ とおくと、$c' \geq c$ なので、$r(x) \leq \varepsilon$ の場合の仮定と合わせて
+    \begin{equation*}
+        \operatorname{dist}(x, X) \leq c'\bigl(r(x) + r(x)^\gamma\bigr)
+        \quad (x \in \mathbb{R}^n)
+    \end{equation*}
+    が成立する。
 \end{proof}
 
-証明では、$x$ とその射影を結ぶ線分上に残差の小さい点 $y$ を取り、$y$ での距離評価から $x$ での評価を導いている。
-ここで必要なのは集合 $X$ の凸性だけでなく、残差 $r$ 自体の凸性である。
-特に $\gamma = 1$ なら、local Lipschitzian error boundからglobalなものが得られる。
+\begin{center}
+    \begin{tikzpicture}[x=1cm, y=1cm, >=stealth, font=\small]
+        % The half-plane illustrates the geometry; the residual labels describe the general proof.
+        \fill[cA!12] (-2, -0.8) rectangle (2, 0);
+        \draw[thick] (-2, 0) -- (2, 0);
+        \node at (-1, -0.4) {$X$};
+        \draw[thick] (0, 0) -- (0, 2.8);
+        \fill (0, 0) circle (2pt) node[below right] {$\bar x$};
+        \fill[cD] (0, 2.8) circle (2pt) node[right] {$x$: $r(x) > \varepsilon$};
+        \fill[cA] (0, 0.8) circle (2pt) node[right] {$y$: $r(y) \leq \varepsilon/2$};
+    \end{tikzpicture}
+\end{center}
 
-\newpage
+命題6.1.2によれば、局所的なerror boundから、係数に $1 + \norm{x}$ を含む大域的な評価が得られる。
+次の結果は、Slater点を持つ凸不等式の劣位集合についても、この形の大域的な評価が成立することを示す(p.537)。
+
 \subsection{Proposition 6.1.4: Slater Points}
 \label{sec:error-slater}
 
 \bookBox{命題6.1.4}{\\
-    $g : \mathbb{R}^n \to \mathbb{R}$ は凸関数とし、$X = \{x : g(x) \leq 0\}$ とおく。
+    $g \colon \mathbb{R}^n \to \mathbb{R}$ は凸関数とし、$X = \{x : g(x) \leq 0\}$ とおく。
     $g(\hat x) < 0$ を満たす点をSlater点と呼ぶ。
-    Slater点 $\hat x$ が存在すれば、$r(x) = g(x)_+ = \max(0, g(x))$ に対し
+    Slater点 $\hat x$ が存在すれば、$r(x) = g(x)_+ = \max(0, g(x))$ に対して命題6.1.2(b)が成立する。
+    すなわち、ある $C > 0$ が存在し、
     \begin{equation*}
         \operatorname{dist}(x, X) \leq C(1 + \norm{x}) r(x)
         \quad (x \in \mathbb{R}^n)
     \end{equation*}
-    となる $C > 0$ が存在する。
+    が成立する。
     さらに $X$ が有界なら、$1 + \norm{x}$ を除いたglobal Lipschitzian error boundが成立する。
 }
 
 \begin{proof}
+    教科書pp.537--538の証明に沿う。
+    後半の残差レベル集合の有界性は、教科書では結論のみ述べているので、ここでは背理法による証明を補足する。
+    全空間で使う定数は $C$ と書く。
     $x \in X$ では距離がゼロなので、$g(x) > 0$ とする。
     $\delta = g(x)/(g(x) - g(\hat x)) \in (0, 1)$ とおき、$x_\delta = (1 - \delta)x + \delta\hat x$ とする。
     凸性と $\delta$ の選び方から
@@ -679,15 +734,14 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
     最後に $r = \max(0, g)$ の凸性と命題6.1.3を使えば、globalな評価になる。
 \end{proof}
 
-前半では、Slater点 $\hat x$ との凸結合によって実行可能点を構成し、そこまでの距離を違反量 $g(x)_+$ で評価している。
-後半では、残差レベル集合の有界性から局所評価を得て、命題6.1.3によって大域的な評価を導いている。
+次の結果では、一方が局所的なerror boundを与え、他方が一定の増大条件を満たす二つの関数を使って、大域的なerror boundを導く。
+命題6.1.2の $(a) \Rightarrow (b)$ は、$r_2(x) = \norm{x}r_1(x)$ とすることで得られる(p.538)。
 
-\newpage
 \subsection{Proposition 6.1.5: Combining Two Residuals}
 \label{sec:error-composite}
 
 \bookBox{命題6.1.5}{\\
-    $X \subseteq \mathbb{R}^n$ を非空閉集合、$r_1, r_2 : \mathbb{R}^n \to \mathbb{R}_+$ を非負関数とする。
+    $X \subseteq \mathbb{R}^n$ を非空閉集合、$r_1, r_2 \colon \mathbb{R}^n \to \mathbb{R}_+$ を非負関数とする。
     ある $c, \varepsilon > 0$ に対して
     \begin{equation*}
         \operatorname{dist}(x, X) \leq c(r_1(x) + r_2(x))
@@ -708,16 +762,17 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
 }
 
 \begin{proof}
+    教科書p.539の背理法に沿い、$\norm{x^k} \to \infty$ と比の収束を導く計算を補足する。
     結論が偽なら、各正整数 $k$ に対して
     \begin{equation*}
         \operatorname{dist}(x^k, X) > k(r_1(x^k) + r_2(x^k))
     \end{equation*}
     となる点を選べる。
     $k > c$ のとき $r_1(x^k) \leq \varepsilon$ では仮定の評価に矛盾するので、$r_1(x^k) > \varepsilon$ である。
-    $a \in X$ を一つ固定すると
+    $\bar x \in X$ を一つ固定すると
     \begin{equation*}
-        \norm{x^k} + \norm{a}
-        \geq \norm{x^k - a}
+        \norm{x^k} + \norm{\bar x}
+        \geq \norm{x^k - \bar x}
         \geq \operatorname{dist}(x^k, X)
         > k(\varepsilon + r_2(x^k)).
     \end{equation*}
@@ -725,15 +780,9 @@ $x^*$ が孤立解なら、その十分小さい近傍では $\operatorname{dist
     また、同じ不等式から
     \begin{equation*}
         0 \leq \frac{r_2(x^k)}{\norm{x^k}}
-        < \frac{1}{k}\left(1 + \frac{\norm{a}}{\norm{x^k}}\right) \to 0
+        < \frac{1}{k}\left(1 + \frac{\norm{\bar x}}{\norm{x^k}}\right) \to 0
     \end{equation*}
     となり、増大性の仮定に矛盾する。
 \end{proof}
-
-$r_1$ が小さい領域では最初の評価を使い、その外側では $r_2$ の増大条件によって反例となる非有界列の存在を否定している。
-例えば $r_1 = r$、$r_2(x) = \norm{x}r(x)$ とすれば、$r_1(x^k) > \varepsilon$ の領域では $r_2(x^k)/\norm{x^k} > \varepsilon$ となり、命題6.1.2の $(a) \Rightarrow (b)$ が得られる。
-
-Section 6.1では、残差による評価の成立範囲を明確にし、有界性・凸性・Slater条件・無限遠での増大性によって、その範囲を広げる方法を整理した。
-次のSection 6.2では、この枠組みをVIやKKT条件の解集合へ適用する。
 
 \end{document}
