@@ -734,6 +734,20 @@ $\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH
     最後に $r = \max(0, g)$ の凸性と命題6.1.3を使えば、globalな評価になる。
 \end{proof}
 
+\begin{center}
+    \begin{tikzpicture}[x=1cm, y=1cm, >=stealth, font=\small]
+        % For the affine example g(u,v)=v, the constructed feasible point lies on the boundary.
+        \fill[cA!12] (-2, -1.5) rectangle (2, 0);
+        \draw[thick] (-2, 0) -- (2, 0);
+        \node at (1.3, -0.5) {$X$};
+        \draw[thick] (-1, -1) -- (1, 2);
+        \fill[cD] (1, 2) circle (2pt) node[right] {$x$: $g(x) > 0$};
+        \fill[cA] (-1, -1) circle (2pt) node[left] {$\hat x$: $g(\hat x) < 0$};
+        \fill (-0.333333, 0) circle (2pt)
+            node[above left] {$x_\delta$: $g(x_\delta) \leq 0$};
+    \end{tikzpicture}
+\end{center}
+
 次の結果では、一方が局所的なerror boundを与え、他方が一定の増大条件を満たす二つの関数を使って、大域的なerror boundを導く。
 命題6.1.2の $(a) \Rightarrow (b)$ は、$r_2(x) = \norm{x}r_1(x)$ とすることで得られる(p.538)。
 
