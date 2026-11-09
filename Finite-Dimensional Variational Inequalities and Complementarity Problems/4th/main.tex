@@ -227,15 +227,15 @@
 
 \myBox{既出概念との関連: strong b-regularity (p.492)}{\\
 $\gamma \coloneqq \{i : x_i^* > 0\}$、$\beta \coloneqq \{i : x_i^* = F_i(x^*, \mathbf{p}^*) = 0\}$、$A \coloneqq J_x F(x^*, \mathbf{p}^*)$ とする。
-Nonlinear Complementarity Problem (NCP)の場合、SCOCはbasic matrixが正則である、つまり、$\det A_{\gamma\gamma} \ne 0$ かつ、対応するSchur complementが $P$ 行列である、つまり、$A_{\beta\beta} - A_{\beta\gamma} A_{\gamma\gamma}^{-1} A_{\gamma\beta}$ の全ての非空な主小行列式が正であることに同値。
+Nonlinear Complementarity Problem (NCP)の場合、SCOCは、basic matrixが正則であること($\det A_{\gamma\gamma} \ne 0$)と、対応するSchur complement $A_{\beta\beta} - A_{\beta\gamma} A_{\gamma\gamma}^{-1} A_{\gamma\beta}$ が $P$ 行列であること(全ての非空な主小行列式が正であること)の二条件がともに成立することに同値。
 
 これらはstrong b-regularityの定義条件そのものであり、系5.3.20によって解の強安定性とも同値である。
 }
 
 \bookBox{定理5.4.12: SCOCの二つの帰結}{\\
-    適切な設定とSCOCの下で、基準解 $x^*$ はstrongly stableであり、局所解写像 $x_{\mathcal{N}}$ はPC$^1$ (Piecewise Continuously Differentiable) となる($x^*$ の近傍 $\mathcal{N}$ 内にある、パラメータ $\mathbf{p}$ に対応する解が $x_{\mathcal{N}}(\mathbf{p})$)。
+    適切な設定とMFCQ・CRCQ・SCOCの下で、基準解 $x^*$ はstrongly stableであり、局所解写像 $x_{\mathcal{N}}$ はPC$^1$ (Piecewise Continuously Differentiable) となる($x^*$ の近傍 $\mathcal{N}$ 内にある、パラメータ $\mathbf{p}$ に対応する解が $x_{\mathcal{N}}(\mathbf{p})$)。
 
-    さらに各 $d\mathbf{p}$ と $\lambda \in \mathcal M^e(x^*, \mathbf{p}^*) \cap \mathcal M^c(x^*, \mathbf{p}^*; d\mathbf{p})$ について、\cref{eq:derivative-avi}の解は一意。
+    さらに各 $d\mathbf{p}$ と $\lambda \in \mathcal M^e(x^*, \mathbf{p}^*) \cap \mathcal M^c(x^*, \mathbf{p}^*; d\mathbf{p})$ について、\cref{eq:derivative-avi}の解は一意で、$x_{\mathcal N}'(\mathbf{p}^*; d\mathbf{p})$ に等しい。
 }
 
 証明はSCOCの行列族が各方向付き臨界集合に必要な行列族を含むことを確認し、系4.3.2と定理5.3.24を適用するものであり、詳細は省略する。
@@ -246,7 +246,7 @@ Nonlinear Complementarity Problem (NCP)の場合、SCOCはbasic matrixが正則�
 \bookBox{p.496}{\\
     $x^*$ においてLICQが成立するとき、乗数集合 $\mathcal{M}(x^*, \mathbf{p}^*)$ は一元集合である。
     さらに、$\mathbf{p}^*$ に十分近い全ての $\mathbf{p}$ に対して、$x_{\mathcal{N}}(\mathbf{p})$ においてもLICQが成立する。
-    したがって、VI $(K(\mathbf{p}), F(\cdot, \mathbf{p}))$ の陰的な解関数 $x_{\mathcal{N}}(\mathbf{p})$ に加えて、この解関数に対応する一価の乗数関数が存在する。
+    先の定理の仮定の下で得られた局所解関数 $x_{\mathcal{N}}(\mathbf{p})$ に対し、LICQによって対応する一価の乗数関数が存在する。
     さらにSCOCの下では、この乗数関数もPC$^1$ であり、AVI (5.4.21)を解く際に、その方向微分も副産物として得られる。
 }
 
@@ -432,13 +432,13 @@ VIでは、閉凸集合 $K$ と連続写像 $F$ に対するnatural residual
         \draw[cA, thick, domain=0:0.567143, samples=2] plot (\x, {\x});
         \draw[cA, thick, domain=0.567143:4.1, samples=100] plot (\x, {exp(-\x)});
         \node[cA, anchor=west] at (0.9, 0.75) {$r(x) = \min(x, e^{-x}) \quad (x \geq 0)$};
-        \fill[cA] (0, 0) circle (1.7pt) node[below left] {$0$: 唯一の解};
+        \fill[cA] (0, 0) circle (1.7pt) node[below left] {$0$: 唯一解};
         \draw[cD, dashed] (3, 0) -- (3, {exp(-3)});
         \fill[cA] (3, {exp(-3)}) circle (1.7pt);
         \node[above right] at (3, {exp(-3)}) {残差 $e^{-k} \to 0$};
         \node[below] at (3, 0) {$k$};
         \draw[cD, <->] (0, -0.4) -- (3, -0.4)
-            node[midway, below] {解までの距離 $k \to \infty$};
+            node[midway, below] {解までの距離};
         \draw[->] (3.2, -0.17) -- (4.1, -0.17) node[midway, below] {$k \to \infty$};
     \end{tikzpicture}
 \end{center}
@@ -672,6 +672,7 @@ $\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH
         \fill (0, 0) circle (2pt) node[below right] {$\bar x$};
         \fill[cD] (0, 2.8) circle (2pt) node[right] {$x$: $r(x) > \varepsilon$};
         \fill[cA] (0, 0.8) circle (2pt) node[right] {$y$: $r(y) \leq \varepsilon/2$};
+        \draw[dashed] (-2, 1.6) -- (2, 1.6);
     \end{tikzpicture}
 \end{center}
 
@@ -719,34 +720,39 @@ $\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH
     \end{equation*}
     これで前半が従う。
 
-    次に $X$ が有界なら、各 $\varepsilon_0 > 0$ に対する残差レベル集合 $\{x : r(x) \leq \varepsilon_0\}$ も有界になることを確認する。
+    \begin{center}
+        \begin{tikzpicture}[x=1cm, y=1cm, >=stealth, font=\small]
+            \fill[cA!12] (-2, -1.5) rectangle (2, 0);
+            \draw[thick] (-2, 0) -- (2, 0);
+            \node at (1.3, -0.5) {$X$};
+            \draw[thick] (-1, -1) -- (1, 2);
+            \fill[cD] (1, 2) circle (2pt) node[right] {$x$: $g(x) > 0$};
+            \fill[cA] (-1, -1) circle (2pt) node[left] {$\hat x$: $g(\hat x) < 0$};
+            \fill (-0.5, -0.25) circle (2pt)
+                node[left] {$x_\delta$: $g(x_\delta) \leq 0$};
+        \end{tikzpicture}
+    \end{center}
+
+    次に $X$ が有界なら、$1 + \norm{x}$ を除いたglobal Lipschitzian error boundが成立することを示す。
+    流れとして、とあるレベル集合上で $1 + \norm{x}$ を定数に吸収し、その後、命題6.1.3によって評価を全空間へ広げる。
+    まず、各 $\varepsilon_0 > 0$ に対する残差レベル集合 $\{x : r(x) \leq \varepsilon_0\}$ も有界になることを確認する。
     ある $\varepsilon_0 > 0$ のレベル集合が非有界だと仮定し、$r(x^k) \leq \varepsilon_0$、$\norm{x^k - \hat x} \to \infty$ となる列を取る。
     部分列に沿って $(x^k - \hat x)/\norm{x^k - \hat x} \to d$、$\norm{d} = 1$ とできる。
-    任意の固定した $t > 0$ に対して、十分大きい $k$ では凸性から
-    \begin{equation*}
+    任意の固定した $t > 0$ に対して、十分大きい $k$ では $0 < t/\norm{x^k - \hat x} \leq 1$ なので、凸性と $r(\hat x) = 0$ から
+    \begin{align*}
         r\left(\hat x + t\frac{x^k - \hat x}{\norm{x^k - \hat x}}\right)
-        \leq \frac{t}{\norm{x^k - \hat x}} r(x^k) \to 0.
-    \end{equation*}
+        &= r\left(\left(1 - \frac{t}{\norm{x^k - \hat x}}\right)\hat x
+        + \frac{t}{\norm{x^k - \hat x}}x^k\right)\\
+        &\leq \left(1 - \frac{t}{\norm{x^k - \hat x}}\right)r(\hat x)
+        + \frac{t}{\norm{x^k - \hat x}}r(x^k)\\
+        &= \frac{t}{\norm{x^k - \hat x}} r(x^k) \to 0.
+    \end{align*}
     有限値凸関数 $r$ は連続なので、$r(\hat x + td) = 0$ である。
     全ての $t > 0$ で $\hat x + td \in X$ となり、$X$ の有界性に矛盾する。
 
     有界なレベル集合上では、前半の $1 + \norm{x}$ を定数で抑えられるので、local Lipschitzian error boundを得る。
     最後に $r = \max(0, g)$ の凸性と命題6.1.3を使えば、globalな評価になる。
 \end{proof}
-
-\begin{center}
-    \begin{tikzpicture}[x=1cm, y=1cm, >=stealth, font=\small]
-        % For the affine example g(u,v)=v, the constructed feasible point lies on the boundary.
-        \fill[cA!12] (-2, -1.5) rectangle (2, 0);
-        \draw[thick] (-2, 0) -- (2, 0);
-        \node at (1.3, -0.5) {$X$};
-        \draw[thick] (-1, -1) -- (1, 2);
-        \fill[cD] (1, 2) circle (2pt) node[right] {$x$: $g(x) > 0$};
-        \fill[cA] (-1, -1) circle (2pt) node[left] {$\hat x$: $g(\hat x) < 0$};
-        \fill (-0.333333, 0) circle (2pt)
-            node[above left] {$x_\delta$: $g(x_\delta) \leq 0$};
-    \end{tikzpicture}
-\end{center}
 
 次の結果では、一方が局所的なerror boundを与え、他方が一定の増大条件を満たす二つの関数を使って、大域的なerror boundを導く。
 命題6.1.2の $(a) \Rightarrow (b)$ は、$r_2(x) = \norm{x}r_1(x)$ とすることで得られる(p.538)。
@@ -792,6 +798,10 @@ $\gamma = 1$ ならLipschitzian error bound、それ以外の正の指数ならH
     \end{equation*}
     特に $\norm{x^k} \to \infty$ である。
     また、同じ不等式から
+    \begin{equation*}
+        k r_2(x^k) < \norm{x^k} + \norm{\bar x}
+    \end{equation*}
+    なので、$k\norm{x^k}$ で割ると
     \begin{equation*}
         0 \leq \frac{r_2(x^k)}{\norm{x^k}}
         < \frac{1}{k}\left(1 + \frac{\norm{\bar x}}{\norm{x^k}}\right) \to 0
